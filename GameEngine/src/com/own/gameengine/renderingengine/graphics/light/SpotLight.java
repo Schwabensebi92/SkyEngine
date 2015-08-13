@@ -1,0 +1,40 @@
+package com.own.gameengine.renderingengine.graphics.light;
+
+import com.own.gameengine.coreengine.math.Vector3f;
+
+public class SpotLight extends Light {
+
+	private PointLight	pointLight;
+	private Vector3f	direction;
+	private float		cutoff;
+
+	public SpotLight(PointLight pointLight, Vector3f direction, float cutoff) {
+		this.pointLight = pointLight;
+		this.direction = direction.normalize();
+		this.cutoff = cutoff;
+	}
+
+	public PointLight getPointLight() {
+		return pointLight;
+	}
+
+	public void setPointLight(PointLight pointLight) {
+		this.pointLight = pointLight;
+	}
+
+	public Vector3f getDirection() {
+		return direction;
+	}
+
+	public void setDirection(Vector3f direction) {
+		this.direction = direction.normalize();
+	}
+
+	public float getCutoff() {
+		return cutoff;
+	}
+
+	public void setCutoff(float cutoff) {
+		this.cutoff = cutoff;
+	}
+}
