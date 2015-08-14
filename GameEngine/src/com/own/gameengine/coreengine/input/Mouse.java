@@ -1,64 +1,68 @@
 package com.own.gameengine.coreengine.input;
 
-import org.lwjgl.*;
 
-import com.own.gameengine.coreengine.math.*;
+import java.nio.DoubleBuffer;
 
-public class Mouse {
+import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
+import com.own.gameengine.coreengine.math.Vector2f;
+
+
+public class Mouse extends GLFWMouseButtonCallback {
+	
+	private static final int	GLFW_BUTTON_DOWN	= 1;
+	private static final int	GLFW_BUTTON_UP		= 0;
+	
 	private static final int NUM_MOUSEBUTTONS = 5;
-	private static boolean[] lastMouse = new boolean[NUM_MOUSEBUTTONS];
-
-	public static void initialize() {
-		try {
-			org.lwjgl.input.Mouse.create();
-		} catch (LWJGLException e) {
-			e.printStackTrace();
-		}
+	
+	private long		windowID;
+	private boolean[]	lastButtons	= new boolean[NUM_MOUSEBUTTONS];
+	
+	public void initialize(long windowID) {
+		this.windowID = windowID;
+		GLFW.glfwSetMouseButtonCallback(windowID, this);
 	}
-
-	public static boolean getMouseButton(final int mouseButton)
-	{
-		return org.lwjgl.input.Mouse.isButtonDown(mouseButton);
+	
+	public boolean getMouseButton(final int mouseButton) {
+		return GLFW.glfwGetMouseButton(windowID, mouseButton) == GLFW_BUTTON_DOWN;
 	}
-
-	public static boolean getMouseDown(final int mouseButton)
-	{
-		return getMouseButton(mouseButton) && !lastMouse[mouseButton];
+	
+	public boolean getMouseDown(final int mouseButton) {
+		return getMouseButton(mouseButton) && !lastButtons[mouseButton];
 	}
-
-	public static boolean getMouseUp(final int mouseButton)
-	{
-		return !getMouseButton(mouseButton) && lastMouse[mouseButton];
+	
+	public boolean getMouseUp(final int mouseButton) {
+		return !getMouseButton(mouseButton) && lastButtons[mouseButton];
 	}
-
-	public static Vector2f getMousePosition()
-	{
-		return new Vector2f(org.lwjgl.input.Mouse.getX(), org.lwjgl.input.Mouse.getY());
+	
+	public Vector2f getMousePosition() {
+		DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
+		DoubleBuffer y = BufferUtils.createDoubleBuffer(1);
+		GLFW.glfwGetCursorPos(windowID, x, y);
+		return new Vector2f((float) x.get(0), (float) y.get(0));
 	}
-
-	public static void setMousePosition(final Vector2f pos)
-	{
-		org.lwjgl.input.Mouse.setCursorPosition((int) pos.getX(), (int) pos.getY());
+	
+	public void setCursorEnabled(final boolean enabled) {
+		if (enabled)
+			GLFW.glfwSetInputMode(windowID, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+		else
+			GLFW.glfwSetInputMode(windowID, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
 	}
-
-	public static void setCursorEnabled(final boolean enabled)
-	{
-		org.lwjgl.input.Mouse.setGrabbed(!enabled);
-	}
-
-	public static Vector2f getPosition() {
-		return new Vector2f(org.lwjgl.input.Mouse.getX(), org.lwjgl.input.Mouse.getY());
-	}
-
-	public static void update()
-	{
+	
+	public void update() {
 		for (int i = 0; i < NUM_MOUSEBUTTONS; i++) {
-			lastMouse[i] = getMouseButton(i);
+			lastButtons[i] = getMouseButton(i);
 		}
 	}
-
-	public static void cleanUp() {
-		org.lwjgl.input.Mouse.destroy();
+	
+	public void cleanUp() {
+		release();
+	}
+	
+	@Override
+	public void invoke(long window, int button, int action, int mods) {
+	
 	}
 }
