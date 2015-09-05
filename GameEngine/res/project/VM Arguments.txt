@@ -1,0 +1,2 @@
+-XtartOnFirstThread
+-Djava.awt.headless=true
