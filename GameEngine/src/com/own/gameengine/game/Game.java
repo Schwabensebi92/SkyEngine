@@ -1,7 +1,7 @@
 package com.own.gameengine.game;
 
 
-import com.own.gameengine.coreengine.scenegraph.GameObject;
+import com.own.gameengine.coreengine.scenegraph.*;
 import com.own.gameengine.renderingengine.graphics.*;
 
 
@@ -11,12 +11,12 @@ public abstract class Game {
 	private final WindowSettings	windowSettings;
 	private Camera					camera;
 	
-	private final GameObject sceneGraph;
+	private final SceneGraph sceneGraph;
 	
 	public Game(final String name, final WindowSettings windowSettings) {
 		this.name = name;
 		this.windowSettings = windowSettings;
-		sceneGraph = new GameObject();
+		sceneGraph = new SceneGraph();
 	}
 	
 	public abstract void initialize();
@@ -47,7 +47,7 @@ public abstract class Game {
 		sceneGraph.removeChild(gameObject);
 	}
 	
-	public GameObject getSceneGraph() {
+	public SceneGraph getSceneGraph() {
 		return sceneGraph;
 	}
 	

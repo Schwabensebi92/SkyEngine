@@ -12,7 +12,7 @@ import com.own.gameengine.renderingengine.graphics.*;
 import com.own.gameengine.renderingengine.graphics.light.*;
 import com.own.gameengine.renderingengine.graphics.object.*;
 
-public abstract class RenderingPipeline {
+public abstract class Legacy_RenderingPipeline {
 
 	private RenderingEngine				renderingEngine;	// TODO: Phase out
 
@@ -20,7 +20,7 @@ public abstract class RenderingPipeline {
 	private Shader[]					shaders;
 	private HashMap<String, Integer>	uniforms;
 
-	public RenderingPipeline() {
+	public Legacy_RenderingPipeline() {
 		try {
 			id = glCreateProgram();
 			uniforms = new HashMap<String, Integer>();

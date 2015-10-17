@@ -1,16 +1,16 @@
 package com.own.gameengine.renderingengine.concept.pipeline;
 
 import com.own.gameengine.renderingengine.graphics.*;
-import com.own.gameengine.renderingengine.graphics.light.SpotLight;
+import com.own.gameengine.renderingengine.graphics.light.DirectionalLight;
 import com.own.gameengine.renderingengine.graphics.object.Material;
 
-public class ForwardSpotShader extends ForwardLightPipeline<SpotLight> {
+public class Legacy_ForwardDirectionalShader extends Legacy_ForwardLightPipeline<DirectionalLight> {
 
-	public ForwardSpotShader() {
+	public Legacy_ForwardDirectionalShader() {
 		super();
 
-		addVertexShaderFromFile("forward_spot.vs");
-		addFragmentShaderFromFile("forward_spot.fs");
+		addVertexShaderFromFile("forward_directional.vs");
+		addFragmentShaderFromFile("forward_directional.fs");
 
 		compileShader();
 
@@ -22,16 +22,9 @@ public class ForwardSpotShader extends ForwardLightPipeline<SpotLight> {
 		addUniform("specularIntensity");
 		addUniform("specularExponent");
 
-		addUniform("spotLight.pointLight.baseLight.color");
-		addUniform("spotLight.pointLight.baseLight.intensity");
-		addUniform("spotLight.pointLight.attenuation.constant");
-		addUniform("spotLight.pointLight.attenuation.linear");
-		addUniform("spotLight.pointLight.attenuation.exponent");
-		addUniform("spotLight.pointLight.position");
-		addUniform("spotLight.pointLight.range");
-
-		addUniform("spotLight.direction");
-		addUniform("spotLight.cutoff");
+		addUniform("directionalLight.baseLight.color");
+		addUniform("directionalLight.baseLight.intensity");
+		addUniform("directionalLight.direction");
 	}
 
 	public void updateUniforms(Transform transform, Camera camera, Material material) {
@@ -45,6 +38,6 @@ public class ForwardSpotShader extends ForwardLightPipeline<SpotLight> {
 		setUniformf("specularIntensity", material.getSpecularIntensity());
 		setUniformf("specularExponent", material.getSpecularExponent());
 
-		setUniform("spotLight", getCurrentLight());
+		setUniform("directionalLight", getCurrentLight());
 	}
 }

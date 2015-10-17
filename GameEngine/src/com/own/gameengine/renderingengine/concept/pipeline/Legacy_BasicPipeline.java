@@ -4,9 +4,9 @@ import com.own.gameengine.renderingengine.concept.shader.*;
 import com.own.gameengine.renderingengine.graphics.*;
 import com.own.gameengine.renderingengine.graphics.object.Material;
 
-public class BasicPipeline extends RenderingPipeline {
+public class Legacy_BasicPipeline extends Legacy_RenderingPipeline {
 
-	public BasicPipeline() {
+	public Legacy_BasicPipeline() {
 		super();
 
 		addUniform("transform");

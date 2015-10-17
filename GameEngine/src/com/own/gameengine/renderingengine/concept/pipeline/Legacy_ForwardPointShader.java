@@ -4,9 +4,9 @@ import com.own.gameengine.renderingengine.graphics.*;
 import com.own.gameengine.renderingengine.graphics.light.PointLight;
 import com.own.gameengine.renderingengine.graphics.object.Material;
 
-public class ForwardPointShader extends ForwardLightPipeline<PointLight> {
+public class Legacy_ForwardPointShader extends Legacy_ForwardLightPipeline<PointLight> {
 
-	public ForwardPointShader() {
+	public Legacy_ForwardPointShader() {
 		super();
 
 		addVertexShaderFromFile("forward_point.vs");

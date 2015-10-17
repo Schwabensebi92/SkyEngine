@@ -1,4 +1,4 @@
-package com.own.gameengine.renderingengine.graphics.light;
+package com.own.gameengine.physicsengine.physics;
 
 public class Attenuation {
 

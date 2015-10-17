@@ -1,16 +1,16 @@
 package com.own.gameengine.renderingengine.concept.pipeline;
 
 import com.own.gameengine.renderingengine.graphics.*;
-import com.own.gameengine.renderingengine.graphics.light.DirectionalLight;
+import com.own.gameengine.renderingengine.graphics.light.SpotLight;
 import com.own.gameengine.renderingengine.graphics.object.Material;
 
-public class ForwardDirectionalShader extends ForwardLightPipeline<DirectionalLight> {
+public class Legacy_ForwardSpotShader extends Legacy_ForwardLightPipeline<SpotLight> {
 
-	public ForwardDirectionalShader() {
+	public Legacy_ForwardSpotShader() {
 		super();
 
-		addVertexShaderFromFile("forward_directional.vs");
-		addFragmentShaderFromFile("forward_directional.fs");
+		addVertexShaderFromFile("forward_spot.vs");
+		addFragmentShaderFromFile("forward_spot.fs");
 
 		compileShader();
 
@@ -22,9 +22,16 @@ public class ForwardDirectionalShader extends ForwardLightPipeline<DirectionalLi
 		addUniform("specularIntensity");
 		addUniform("specularExponent");
 
-		addUniform("directionalLight.baseLight.color");
-		addUniform("directionalLight.baseLight.intensity");
-		addUniform("directionalLight.direction");
+		addUniform("spotLight.pointLight.baseLight.color");
+		addUniform("spotLight.pointLight.baseLight.intensity");
+		addUniform("spotLight.pointLight.attenuation.constant");
+		addUniform("spotLight.pointLight.attenuation.linear");
+		addUniform("spotLight.pointLight.attenuation.exponent");
+		addUniform("spotLight.pointLight.position");
+		addUniform("spotLight.pointLight.range");
+
+		addUniform("spotLight.direction");
+		addUniform("spotLight.cutoff");
 	}
 
 	public void updateUniforms(Transform transform, Camera camera, Material material) {
@@ -38,6 +45,6 @@ public class ForwardDirectionalShader extends ForwardLightPipeline<DirectionalLi
 		setUniformf("specularIntensity", material.getSpecularIntensity());
 		setUniformf("specularExponent", material.getSpecularExponent());
 
-		setUniform("directionalLight", getCurrentLight());
+		setUniform("spotLight", getCurrentLight());
 	}
 }

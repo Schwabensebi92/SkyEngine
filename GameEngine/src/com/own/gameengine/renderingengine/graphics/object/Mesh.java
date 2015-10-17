@@ -1,148 +1,94 @@
 package com.own.gameengine.renderingengine.graphics.object;
 
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
-import java.io.*;
-import java.util.ArrayList;
-
 import com.own.gameengine.coreengine.math.Vector3f;
 import com.own.gameengine.renderingengine.RenderingEngineUtil;
 
+
 public class Mesh {
-
-	private int vbo; // Vertex Buffer Object
-	private int vao; // Vertex Array Object
-	private int ibo; // Index Buffer Object
-	private int size;
-
-	public Mesh(String fileName) {
+	
+	private int	vbo;	// Vertex Buffer Object
+	private int	vao;	// Vertex Array Object
+	private int	ibo;	// Index Buffer Object
+	private int	size;
+	
+	public Mesh(final String fileName) {
 		this();
 		loadMesh(fileName);
 	}
-
-	public Mesh(Vertex[] vertices, int[] indices) {
-		this(vertices, indices, false);
-	}
-
-	public Mesh(Vertex[] vertices, int[] indices, boolean calculateNormals) {
+	
+	public Mesh(final Vertex[] vertices, final int[] indices, final boolean calculateNormals) {
 		this();
-		addVertices(vertices, indices, calculateNormals);
+		setVertices(vertices, indices, calculateNormals);
 	}
-
+	
 	private Mesh() {
 		vbo = glGenBuffers();
 		vao = glGenVertexArrays();
 		ibo = glGenBuffers();
 		size = 0;
 	}
-
-	private void addVertices(Vertex[] vertices, int[] indices, boolean calculateNormals) {
+	
+	public void setVertices(final Vertex[] vertices, final int[] indices, final boolean calculateNormals) {
 		if (calculateNormals) {
 			calculateNormals(vertices, indices);
 		}
-
+		
 		glBindVertexArray(vao);
 		size = indices.length;
-
+		
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, RenderingEngineUtil.createFlippedBuffer(vertices), GL_STATIC_DRAW);
-
+		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, RenderingEngineUtil.createFlippedBuffer(indices), GL_STATIC_DRAW);
 	}
-
+	
 	public void draw() {
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
-
+		
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.SIZE * 4, 0);
 		glVertexAttribPointer(1, 2, GL_FLOAT, false, Vertex.SIZE * 4, 12);
 		glVertexAttribPointer(2, 3, GL_FLOAT, false, Vertex.SIZE * 4, 20);
-
+		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, 0);
-
+		
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
 	}
-
-	private void calculateNormals(Vertex[] vertices, int[] indices) {
+	
+	private void calculateNormals(final Vertex[] vertices, final int[] indices) {
 		for (int i = 0; i < indices.length; i += 3) {
 			int i0 = indices[i];
 			int i1 = indices[i + 1];
 			int i2 = indices[i + 2];
-
+			
 			Vector3f v1 = new Vector3f(vertices[i1].getPosition()).sub(vertices[i0].getPosition());
 			Vector3f v2 = new Vector3f(vertices[i2].getPosition()).sub(vertices[i0].getPosition());
-
+			
 			Vector3f normal = v1.cross(v2).normalize();
-
+			
 			vertices[i0].getNormal().add(normal);
 			vertices[i1].getNormal().add(normal);
 			vertices[i2].getNormal().add(normal);
 		}
-
+		
 		for (int i = 0; i < vertices.length; i++) {
 			vertices[i].getNormal().normalize();
 		}
 	}
-
-	private void loadMesh(String fileName) {
-		String[] splitString = fileName.split("\\.");
-		String fileExtension = splitString[splitString.length - 1];
-
-		if (fileExtension.equals("obj")) {
-			ArrayList<Vertex> vertices = new ArrayList<Vertex>();
-			ArrayList<Integer> indices = new ArrayList<Integer>();
-
-			BufferedReader meshReader = null;
-
-			try {
-				meshReader = new BufferedReader(new FileReader("./res/models/" + fileName));
-
-				String line;
-				while ((line = meshReader.readLine()) != null) {
-					String[] tokens = line.split(" ");
-					tokens = RenderingEngineUtil.removeEmptyStrings(tokens);
-
-					if (tokens.length == 0 || tokens[0].equals("#")) {
-						continue;
-					} else if (tokens[0].equals("v")) {
-						vertices.add(new Vertex(new Vector3f(
-								Float.valueOf(tokens[1]),
-								Float.valueOf(tokens[2]),
-								Float.valueOf(tokens[3]))));
-					} else if (tokens[0].equals("f")) {
-						indices.add(Integer.parseInt(tokens[1]) - 1);
-						indices.add(Integer.parseInt(tokens[2]) - 1);
-						indices.add(Integer.parseInt(tokens[3]) - 1);
-					}
-				}
-
-				meshReader.close();
-
-				Vertex[] vertexArray = new Vertex[vertices.size()];
-				vertices.toArray(vertexArray);
-
-				Integer[] indexArray = new Integer[indices.size()];
-				indices.toArray(indexArray);
-
-				addVertices(vertexArray, RenderingEngineUtil.toIntArray(indexArray), true);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.exit(1);
-			}
-		} else {
-			System.err.println("Error: File format not supported for mesh format: " + fileExtension);
-			new Exception().printStackTrace();
-			System.exit(1);
-		}
+	
+	private void loadMesh(final String fileName) {
+		MeshLoader.loadMesh(fileName, this);
 	}
 }

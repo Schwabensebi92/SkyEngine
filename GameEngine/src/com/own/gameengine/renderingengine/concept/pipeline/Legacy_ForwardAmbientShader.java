@@ -4,9 +4,9 @@ import com.own.gameengine.renderingengine.graphics.*;
 import com.own.gameengine.renderingengine.graphics.light.AmbientLight;
 import com.own.gameengine.renderingengine.graphics.object.Material;
 
-public class ForwardAmbientShader extends ForwardLightPipeline<AmbientLight> {
+public class Legacy_ForwardAmbientShader extends Legacy_ForwardLightPipeline<AmbientLight> {
 
-	public ForwardAmbientShader() {
+	public Legacy_ForwardAmbientShader() {
 		super();
 
 		addVertexShaderFromFile("forward_ambient.vs");
