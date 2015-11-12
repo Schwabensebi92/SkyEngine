@@ -7,3 +7,4 @@ Rendering features:
 http://www.tomdalling.com/blog/modern-opengl/08-even-more-lighting-directional-lights-spotlights-multiple-lights/
 http://www.mbsoftworks.sk/index.php?page=tutorials&series=1
 https://en.wikipedia.org/wiki/Wire-frame_model
+http://www.gamedev.net/page/resources/_/technical/opengl/glsl-40-discarding-fragments-to-create-a-perforated-look-r2873
