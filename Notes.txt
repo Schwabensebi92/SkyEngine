@@ -2,3 +2,6 @@ Notes:
 
 Game ideas:
 http://gamedevelopment.tutsplus.com
+
+Rendering features:
+http://www.tomdalling.com/blog/modern-opengl/08-even-more-lighting-directional-lights-spotlights-multiple-lights/
