@@ -76,7 +76,9 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 	}
 	
 	private void updateUniforms(final Transform transform, final Camera camera, final Material material) {
-		material.getTexture().bind();
+		if (material.getTexture() != null) {
+			material.getTexture().bind();
+		}
 		
 		program.setUniform("eyePosition", camera.getPosition());
 		
@@ -84,12 +86,16 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 		program.setUniform("transformProjected", transform.getProjectedTransformation(camera));
 		program.setUniform("baseColor", material.getColor());
 		
-		program.setUniform("ambientLight", ambientLight);
+		if (ambientLight != null) {
+			program.setUniform("ambientLight", ambientLight);
+		}
 		
 		program.setUniformf("specularIntensity", material.getSpecularIntensity());
 		program.setUniformf("specularExponent", material.getSpecularExponent());
 		
-		program.setUniform("directionalLight", directionalLight);
+		if (directionalLight != null) {
+			program.setUniform("directionalLight", directionalLight);
+		}
 		
 		for (int i = 0; i < Math.min(pointLights.length, RENDERING_CONCEPT_SINGLE_MAX_POINT_LIGHTS); i++) {
 			program.setUniform("pointLights[" + i + "]", pointLights[i]);

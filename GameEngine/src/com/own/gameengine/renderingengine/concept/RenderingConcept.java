@@ -20,6 +20,10 @@ public abstract class RenderingConcept {
 	
 	public RenderingConcept(final RenderingConcepts type) {
 		this.type = type;
+		ambientLight = null;
+		directionalLight = null;
+		pointLights = new PointLight[] {};
+		spotLights = new SpotLight[] {};
 	}
 	
 	public abstract void render(ArrayList<GameComponent> renderableGameComponents);
