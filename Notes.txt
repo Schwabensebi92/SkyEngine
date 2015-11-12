@@ -1,0 +1,16 @@
+Notes:
+
+Game ideas:
+http://gamedevelopment.tutsplus.com
+
+Rendering features:
+http://www.tomdalling.com/blog/modern-opengl/08-even-more-lighting-directional-lights-spotlights-multiple-lights/
+http://www.mbsoftworks.sk/index.php?page=tutorials&series=1
+https://en.wikipedia.org/wiki/Wire-frame_model
+
+GLSL 4.0:
+http://www.gamedev.net/page/resources/_/technical/opengl/glsl-40-discarding-fragments-to-create-a-perforated-look-r2873
+http://www.gamedev.net/page/resources/_/technical/opengl/opengl-instancing-demystified-r3226
+http://www.gamedev.net/page/resources/_/technical/opengl/opengl-40-using-uniform-blocks-and-uniform-buffer-objects-r2860
+http://www.gamedev.net/page/resources/_/technical/opengl/glsl-40-using-subroutines-to-select-shader-functionality-r2872
+http://www.gamedev.net/page/resources/_/technical/opengl/the-basics-of-glsl-40-shaders-r2861
