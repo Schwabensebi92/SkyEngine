@@ -23,6 +23,30 @@ public class SpotLight extends Light {
 		this.cutoff = cutoff;
 	}
 	
+	public Attenuation getAttenuation() {
+		return attenuation;
+	}
+	
+	public void setAttenuation(final Attenuation attenuation) {
+		this.attenuation = attenuation;
+	}
+	
+	public Vector3f getPosition() {
+		return position;
+	}
+	
+	public void setPosition(final Vector3f position) {
+		this.position = position;
+	}
+	
+	public float getRange() {
+		return range;
+	}
+	
+	public void setRange(final float range) {
+		this.range = range;
+	}
+	
 	public Vector3f getDirection() {
 		return direction;
 	}

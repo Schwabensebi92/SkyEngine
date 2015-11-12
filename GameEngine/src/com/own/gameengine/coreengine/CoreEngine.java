@@ -20,13 +20,13 @@ public class CoreEngine {
 	private Keyboard	keyboard;
 	
 	private boolean				isRunning;
-	private final CoreTiming	coreTiming;
+	private CoreTiming			coreTiming;
 	private final FPSCounter	fpsCounter;
 	
 	public CoreEngine(final Game game) {
 		this.game = game;
 		isRunning = false;
-		coreTiming = CoreTiming.instance(1.0 / game.getWindowSettings().getFrameRate().value());
+		coreTiming = null;
 		fpsCounter = new FPSCounter();
 	}
 	
@@ -88,31 +88,39 @@ public class CoreEngine {
 	}
 	
 	private void initialize() throws LWJGLLibraryException {
-		timingEngine = TimingEngine.instance();
-		
-		renderingEngine = new RenderingEngine();
-		
+		// Initialization order is very important
 		// ProgramContext.setIcon("icon.jpg"); TODO: Correct Implementation
 		
-		OpenGL.initializeLWJGL();
+		// Initialize TimingEngine
+		timingEngine = TimingEngine.instance();
 		
+		// Initialize LWJGL
+		OpenGL.initializeLWJGL();
 		window = new Window(game.getWindowSettings());
 		window.initialize();
 		
+		// Initialize OpenGL
 		OpenGL.initializeOpenGL();
 		
+		// Initialize Game
+		game.initialize();
+		
+		// Initialize RenderingEngine
+		renderingEngine = new RenderingEngine();
+		renderingEngine.initialize();
+		renderingEngine.setMainCamera(game.getCamera());
+		CoreObjectRegister.set(CoreObject.RENDERING_ENGINE, renderingEngine);
+		
+		// Initialize InputEngine
 		mouse = new Mouse();
 		mouse.initialize(window.getWindowID());
 		keyboard = new Keyboard();
 		keyboard.initialize(window.getWindowID());
 		
-		game.initialize();
-		
-		renderingEngine.setMainCamera(game.getCamera());
-		
+		// Initialize CoreEngine
 		fpsCounter.start();
-		
-		coreTiming.init();
+		coreTiming = new CoreTiming(1.0 / game.getWindowSettings().getFrameRate().value());
+		coreTiming.initialize();
 	}
 	
 	private void input() {

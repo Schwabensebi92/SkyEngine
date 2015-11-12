@@ -4,6 +4,7 @@ package com.own.gameengine.renderingengine.graphics.object;
 import java.io.*;
 import java.util.ArrayList;
 
+import com.own.gameengine.coreengine.Debug;
 import com.own.gameengine.coreengine.math.Vector3f;
 import com.own.gameengine.renderingengine.RenderingEngineUtil;
 
@@ -48,6 +49,7 @@ public class MeshLoader {
 				Integer[] indexArray = new Integer[indices.size()];
 				indices.toArray(indexArray);
 				
+				Debug.out("Set Vertices");
 				mesh.setVertices(vertexArray, RenderingEngineUtil.toIntArray(indexArray), true);
 				
 			} catch (Exception e) {
@@ -56,8 +58,7 @@ public class MeshLoader {
 			}
 			
 		} else {
-			System.err.println("Error: File format not supported for mesh format: " + fileExtension);
-			new Exception().printStackTrace();
+			new Exception("Error: File format not supported for mesh format: " + fileExtension).printStackTrace();
 			System.exit(1);
 		}
 	}

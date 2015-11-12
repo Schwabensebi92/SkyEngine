@@ -2,9 +2,11 @@ package com.own.gameengine.test;
 
 
 import com.own.gameengine.coreengine.math.*;
+import com.own.gameengine.coreengine.scenegraph.*;
 import com.own.gameengine.game.Game;
 import com.own.gameengine.renderingengine.graphics.*;
 import com.own.gameengine.renderingengine.graphics.object.*;
+import com.own.gameengine.renderingengine.graphics.projection.PerspectiveProjection;
 
 
 public class TestGame extends Game {
@@ -26,15 +28,15 @@ public class TestGame extends Game {
 		int indices[] = { 0, 1, 2, 2, 1, 3 };
 		
 		Mesh mesh = new Mesh(vertices, indices, true);
-		Material material = new Material(new Texture("res/textures/checkerboard.png"), new Vector3f(1, 1, 1), 1, 8);
-		//
-		// final GameObject planeObject = new GameObject();
-		// planeObject.addComponent(new MeshRenderer(mesh, material));
-		// planeObject.getTransform().setTranslation(new Vector3f(0, -1, 5));
+		Material material = new Material(new Vector3f(1, 1, 1), 1, 8);
 		
-		// addObject(planeObject);
+		GameObject planeObject = new GameObject();
+		planeObject.addComponent(new MeshRenderer(mesh, material));
+		planeObject.getTransform().setTranslation(new Vector3f(0, -1, 5));
 		
-		// setCamera(new Camera(new PerspectiveProjection(getWindowSettings().getAspectRatio())));
+		addObject(planeObject);
+		
+		setCamera(new Camera(new PerspectiveProjection(getWindowSettings().getAspectRatio())));
 	}
 	
 	@Override

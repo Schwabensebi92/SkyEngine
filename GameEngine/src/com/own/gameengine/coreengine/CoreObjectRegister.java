@@ -2,14 +2,14 @@ package com.own.gameengine.coreengine;
 
 import java.util.HashMap;
 
-public class CoreRegister {
+public class CoreObjectRegister {
 
 	private static HashMap<CoreObject, Object>	register	= new HashMap<>();
 	static {
 		initializeRegister();
 	}
 
-	private CoreRegister() {
+	private CoreObjectRegister() {
 	}
 
 	private static void initializeRegister() {

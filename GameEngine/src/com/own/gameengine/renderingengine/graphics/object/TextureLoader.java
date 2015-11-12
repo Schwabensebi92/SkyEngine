@@ -4,15 +4,11 @@ package com.own.gameengine.renderingengine.graphics.object;
 import static org.lwjgl.opengl.GL11.*;
 
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.IOException;
 import java.nio.ByteBuffer;
-
-import javax.imageio.ImageIO;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL12;
-
-import com.own.gameengine.coreengine.Debug;
 
 
 public class TextureLoader {
@@ -54,10 +50,8 @@ public class TextureLoader {
 	}
 	
 	private static BufferedImage loadImage(final String fileName) throws IOException {
-		System.out.println("Hi");
-		Debug.disableOutput();
-		BufferedImage image = ImageIO.read(new File(fileName));
-		Debug.enableOutput();
+		// TODO: Fix ImageIO reading on OS X
+		BufferedImage image = null;// ImageIO.read(new File(fileName));
 		return image;
 	}
 }

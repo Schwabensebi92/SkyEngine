@@ -56,13 +56,12 @@ public class GameObject {
 		}
 	}
 	
-	public void render() {
-		for (GameComponent component : components) {
-			component.render();
-		}
-		for (GameObject child : children) {
-			child.render();
-		}
+	protected ArrayList<GameObject> getChildren() {
+		return children;
+	}
+	
+	protected ArrayList<GameComponent> getComponents() {
+		return components;
 	}
 	
 	public Transform getTransform() {

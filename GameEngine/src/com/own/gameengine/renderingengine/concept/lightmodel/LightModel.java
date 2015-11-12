@@ -1,7 +1,7 @@
 package com.own.gameengine.renderingengine.concept.lightmodel;
 
 
-public class LightModel {
+public abstract class LightModel {
 	
 	private LightModels type;
 	
