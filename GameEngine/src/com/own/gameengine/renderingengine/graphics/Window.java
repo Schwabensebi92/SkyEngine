@@ -58,17 +58,17 @@ public class Window {
 		glfwShowWindow(windowID);
 	}
 	
+	public void dispose() {
+		glfwDestroyWindow(windowID);
+	}
+	
 	public boolean isCloseRequested() {
 		return glfwWindowShouldClose(windowID) == GL_TRUE;
 	}
 	
-	public void render() {
+	public void refresh() {
 		glfwSwapBuffers(windowID);
 		glfwPollEvents();
-	}
-	
-	public void dispose() {
-		glfwDestroyWindow(windowID);
 	}
 	
 	public long getWindowID() {

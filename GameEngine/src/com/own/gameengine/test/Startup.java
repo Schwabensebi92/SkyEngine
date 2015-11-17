@@ -8,6 +8,6 @@ public class Startup {
 	
 	public static void main(final String[] args) {
 		final CoreEngine engine = new CoreEngine(new TestGame());
-		engine.start();
+		engine.run();
 	}
 }

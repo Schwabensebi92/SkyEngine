@@ -47,6 +47,14 @@ public class OpenGL {
 		Debug.out("Powered by Open Graphics Library " + OpenGL.getOpenGLVersion());
 	}
 	
+	public static void cleanUpLWJGL() {
+		glfwTerminate();
+	}
+	
+	public static void cleanUpOpenGL() {
+	
+	}
+	
 	public static void setClearColor(final Vector3f color) {
 		glClearColor(color.getX(), color.getY(), color.getZ(), 1.0f);
 	}
@@ -83,13 +91,5 @@ public class OpenGL {
 	
 	public static String getOpenGLVersion() {
 		return glGetString(GL_VERSION);
-	}
-	
-	public static void cleanUpLWJGL() {
-		glfwTerminate();
-	}
-	
-	public static void cleanUpOpenGL() {
-	
 	}
 }

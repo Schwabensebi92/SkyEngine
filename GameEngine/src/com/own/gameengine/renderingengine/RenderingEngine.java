@@ -3,7 +3,7 @@ package com.own.gameengine.renderingengine;
 
 import java.util.ArrayList;
 
-import com.own.gameengine.coreengine.scenegraph.*;
+import com.own.gameengine.coreengine.scenegraph.SceneGraph;
 import com.own.gameengine.renderingengine.concept.RenderingConcepts;
 import com.own.gameengine.renderingengine.concept.lightmodel.LightModels;
 import com.own.gameengine.renderingengine.graphics.Camera;
@@ -28,10 +28,12 @@ public class RenderingEngine {
 		lightModel.getLightModel();
 	}
 	
-	public void render(final SceneGraph sceneGraph) {
-		ArrayList<GameComponent> renderableGameComponents = new ArrayList<>();
-		sceneGraph.collectRenderableGameComponents(renderableGameComponents);
-		renderingConcept.getRenderingConcept().render(renderableGameComponents);
+	public void cleanUp() {
+	
+	}
+	
+	public void run(final SceneGraph sceneGraph) {
+		renderingConcept.getRenderingConcept().render(sceneGraph.collectGameComponentsRenderEnabled());
 	}
 	
 	public Camera getMainCamera() {

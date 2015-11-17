@@ -21,15 +21,11 @@ public abstract class Game {
 	
 	public abstract void initialize();
 	
-	public void input() {
-		sceneGraph.input();
-	}
+	public abstract void cleanUp();
 	
 	public void update() {
 		sceneGraph.update();
 	}
-	
-	public abstract void cleanUp();
 	
 	public Camera getCamera() {
 		return camera;

@@ -24,10 +24,6 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 		program.addShader(new SinglePassPhongVertexShader());
 		program.addShader(new SinglePassPhongFragmentShader());
 		
-		program.setAttributeLocation("position", 0);
-		program.setAttributeLocation("textureCoordinate", 1);
-		program.setAttributeLocation("normal", 2);
-		
 		program.compile();
 		
 		program.addUniform("eyePosition");

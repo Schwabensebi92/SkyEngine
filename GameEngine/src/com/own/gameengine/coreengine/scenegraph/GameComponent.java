@@ -1,6 +1,9 @@
 package com.own.gameengine.coreengine.scenegraph;
 
+
+import com.own.gameengine.inputengine.*;
 import com.own.gameengine.renderingengine.concept.RenderingConcept;
+
 
 public abstract class GameComponent {
 	
@@ -15,7 +18,7 @@ public abstract class GameComponent {
 		this.enableRender = enableRender;
 	}
 	
-	public abstract void input();
+	public abstract void input(final Mouse mouse, final Keyboard keyboard);
 	
 	public abstract void update();
 	

@@ -13,6 +13,10 @@ import com.own.gameengine.renderingengine.graphics.light.*;
 
 public class OpenGLProgram {
 	
+	/*
+	 * http://stackoverflow.com/a/24425436
+	 */
+	
 	private int							id;
 	private ArrayList<Shader>			shaders;
 	private HashMap<String, Integer>	uniforms;
@@ -51,7 +55,7 @@ public class OpenGLProgram {
 		}
 	}
 	
-	public void setAttributeLocation(final String attributeName, final int location) {
+	public void bindAttributeLocation(final String attributeName, final int location) {
 		glBindAttribLocation(id, location, attributeName);
 	}
 	

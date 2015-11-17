@@ -24,33 +24,69 @@ public class SceneGraph {
 		gameObjects.clear();
 	}
 	
-	public void input() {
-		for (GameObject gameObject : gameObjects) {
-			gameObject.input();
-		}
-	}
-	
 	public void update() {
 		for (GameObject gameObject : gameObjects) {
 			gameObject.update();
 		}
 	}
 	
-	public void collectRenderableGameComponents(final ArrayList<GameComponent> renderableGameComponents) {
+	public ArrayList<GameComponent> collectGameComponentsInputEnabled() {
+		ArrayList<GameComponent> gameComponents = new ArrayList<>();
 		for (GameObject object : gameObjects) {
-			collectRenderableGameComponents(renderableGameComponents, object);
+			collectGameComponentsInputEnabled(gameComponents, object);
 		}
+		return gameComponents;
 	}
 	
-	private void collectRenderableGameComponents(final ArrayList<GameComponent> renderableGameComponents, final GameObject object) {
+	private void collectGameComponentsInputEnabled(final ArrayList<GameComponent> gameComponents, final GameObject object) {
 		for (GameComponent component : object.getComponents()) {
-			if (component.isRenderEnabled()) {
-				renderableGameComponents.add(component);
+			if (component.isInputEnabled()) {
+				gameComponents.add(component);
 			}
 		}
 		
 		for (GameObject child : object.getChildren()) {
-			collectRenderableGameComponents(renderableGameComponents, child);
+			collectGameComponentsInputEnabled(gameComponents, child);
+		}
+	}
+	
+	public ArrayList<GameComponent> collectGameComponentsUpdateEnabled() {
+		ArrayList<GameComponent> gameComponents = new ArrayList<>();
+		for (GameObject object : gameObjects) {
+			collectGameComponentsUpdateEnabled(gameComponents, object);
+		}
+		return gameComponents;
+	}
+	
+	private void collectGameComponentsUpdateEnabled(final ArrayList<GameComponent> gameComponents, final GameObject object) {
+		for (GameComponent component : object.getComponents()) {
+			if (component.isUpdateEnabled()) {
+				gameComponents.add(component);
+			}
+		}
+		
+		for (GameObject child : object.getChildren()) {
+			collectGameComponentsUpdateEnabled(gameComponents, child);
+		}
+	}
+	
+	public ArrayList<GameComponent> collectGameComponentsRenderEnabled() {
+		ArrayList<GameComponent> gameComponents = new ArrayList<>();
+		for (GameObject object : gameObjects) {
+			collectGameComponentsRenderEnabled(gameComponents, object);
+		}
+		return gameComponents;
+	}
+	
+	private void collectGameComponentsRenderEnabled(final ArrayList<GameComponent> gameComponents, final GameObject object) {
+		for (GameComponent component : object.getComponents()) {
+			if (component.isRenderEnabled()) {
+				gameComponents.add(component);
+			}
+		}
+		
+		for (GameObject child : object.getChildren()) {
+			collectGameComponentsRenderEnabled(gameComponents, child);
 		}
 	}
 }

@@ -39,34 +39,31 @@ public class TestGame extends Game {
 		setCamera(new Camera(new PerspectiveProjection(getWindowSettings().getAspectRatio())));
 	}
 	
-	@Override
-	public void input() {
-		// if (Keyboard.getKeyDown(Keyboard.KEY_W)) {
-		// getCamera().move(getCamera().getForward(), 0.2f);
-		// }
-		// if (Keyboard.getKeyDown(Keyboard.KEY_S)) {
-		// getCamera().move(getCamera().getForward(), -0.2f);
-		// }
-		// if (Keyboard.getKeyDown(Keyboard.KEY_A)) {
-		// getCamera().move(getCamera().getLeft(), 0.2f);
-		// }
-		// if (Keyboard.getKeyDown(Keyboard.KEY_D)) {
-		// getCamera().move(getCamera().getRight(), 0.2f);
-		// }
-		//
-		// if (Keyboard.getKeyDown(Keyboard.KEY_UP)) {
-		// getCamera().rotateX(-1);
-		// }
-		// if (Keyboard.getKeyDown(Keyboard.KEY_DOWN)) {
-		// getCamera().rotateX(1);
-		// }
-		// if (Keyboard.getKeyDown(Keyboard.KEY_LEFT)) {
-		// getCamera().rotateY(-1);
-		// }
-		// if (Keyboard.getKeyDown(Keyboard.KEY_RIGHT)) {
-		// getCamera().rotateY(1);
-		// }
-	}
+	// if (Keyboard.getKeyDown(Keyboard.KEY_W)) {
+	// getCamera().move(getCamera().getForward(), 0.2f);
+	// }
+	// if (Keyboard.getKeyDown(Keyboard.KEY_S)) {
+	// getCamera().move(getCamera().getForward(), -0.2f);
+	// }
+	// if (Keyboard.getKeyDown(Keyboard.KEY_A)) {
+	// getCamera().move(getCamera().getLeft(), 0.2f);
+	// }
+	// if (Keyboard.getKeyDown(Keyboard.KEY_D)) {
+	// getCamera().move(getCamera().getRight(), 0.2f);
+	// }
+	//
+	// if (Keyboard.getKeyDown(Keyboard.KEY_UP)) {
+	// getCamera().rotateX(-1);
+	// }
+	// if (Keyboard.getKeyDown(Keyboard.KEY_DOWN)) {
+	// getCamera().rotateX(1);
+	// }
+	// if (Keyboard.getKeyDown(Keyboard.KEY_LEFT)) {
+	// getCamera().rotateY(-1);
+	// }
+	// if (Keyboard.getKeyDown(Keyboard.KEY_RIGHT)) {
+	// getCamera().rotateY(1);
+	// }
 	
 	@Override
 	public void cleanUp() {

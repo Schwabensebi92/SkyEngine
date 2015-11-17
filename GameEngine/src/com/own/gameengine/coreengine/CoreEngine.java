@@ -1,8 +1,8 @@
 package com.own.gameengine.coreengine;
 
 
-import com.own.gameengine.coreengine.input.*;
 import com.own.gameengine.game.Game;
+import com.own.gameengine.inputengine.InputEngine;
 import com.own.gameengine.physicsengine.physics.TimingEngine;
 import com.own.gameengine.renderingengine.RenderingEngine;
 import com.own.gameengine.renderingengine.graphics.*;
@@ -12,12 +12,11 @@ public class CoreEngine {
 	
 	private TimingEngine	timingEngine;
 	private RenderingEngine	renderingEngine;
+	private InputEngine		inputEngine;
 	
 	private final Game game;
 	
-	private Window		window;
-	private Mouse		mouse;
-	private Keyboard	keyboard;
+	private Window window;
 	
 	private boolean				isRunning;
 	private CoreTiming			coreTiming;
@@ -30,12 +29,12 @@ public class CoreEngine {
 		fpsCounter = new FPSCounter();
 	}
 	
-	public void start() {
+	public void run() {
 		if (isRunning)
 			return;
 			
 		isRunning = true;
-		run();
+		runScheduler();
 	}
 	
 	public void stop() {
@@ -45,7 +44,7 @@ public class CoreEngine {
 		isRunning = false;
 	}
 	
-	private void run() {
+	private void runScheduler() {
 		try {
 			initialize();
 		} catch (final LWJGLLibraryException e) {
@@ -112,10 +111,8 @@ public class CoreEngine {
 		CoreObjectRegister.set(CoreObject.RENDERING_ENGINE, renderingEngine);
 		
 		// Initialize InputEngine
-		mouse = new Mouse();
-		mouse.initialize(window.getWindowID());
-		keyboard = new Keyboard();
-		keyboard.initialize(window.getWindowID());
+		inputEngine = new InputEngine();
+		inputEngine.initialize(window.getWindowID());
 		
 		// Initialize CoreEngine
 		fpsCounter.start();
@@ -124,7 +121,7 @@ public class CoreEngine {
 	}
 	
 	private void input() {
-		game.input();
+		inputEngine.run(game.getSceneGraph());
 	}
 	
 	private void update() {
@@ -133,16 +130,31 @@ public class CoreEngine {
 	
 	private void render() {
 		OpenGL.clearScreen();
-		renderingEngine.render(game.getSceneGraph());
-		window.render();
+		renderingEngine.run(game.getSceneGraph());
+		window.refresh();
 	}
 	
 	private void cleanUp() {
+		// CleanUp CoreEngine
 		fpsCounter.stop();
+		
+		// CleanUp InputEngine
+		inputEngine.cleanUp();
+		
+		// CleanUp RenderingEngine
+		renderingEngine.cleanUp();
+		
+		// CleanUp Game
 		game.cleanUp();
 		
-		mouse.cleanUp();
-		keyboard.cleanUp();
+		// CleanUp OpenGL
+		OpenGL.cleanUpOpenGL();
+		
+		// CleanUp LWJGL
+		window.dispose();
+		OpenGL.cleanUpLWJGL();
+		
+		// CleanUp TimingEngine
 	}
 	
 	public boolean isRunning() {

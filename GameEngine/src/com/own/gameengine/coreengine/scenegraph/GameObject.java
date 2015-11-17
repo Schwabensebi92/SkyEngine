@@ -38,15 +38,6 @@ public class GameObject {
 		component.setGameObject(null);
 	}
 	
-	public void input() {
-		for (GameComponent component : components) {
-			component.input();
-		}
-		for (GameObject child : children) {
-			child.input();
-		}
-	}
-	
 	public void update() {
 		for (GameComponent component : components) {
 			component.update();

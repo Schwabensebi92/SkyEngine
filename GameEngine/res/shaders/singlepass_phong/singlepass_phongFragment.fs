@@ -3,11 +3,11 @@
 const int MAX_POINT_LIGHTS = 4;
 const int MAX_SPOT_LIGHTS = 4;
 
-in vec2 textureCoordinate0;
-in vec3 normal0;
-in vec3 worldPosition0;
+in vec2 vsout_textureCoordinate;
+in vec3 vsout_normal;
+in vec3 vsout_worldPosition;
 
-out vec4 fragColor;
+out vec4 fsout_fragColor;
 
 struct DirectionalLight
 {
@@ -46,12 +46,12 @@ struct SpotLight
 uniform vec3 eyePosition;
 
 uniform vec3 baseColor;
-uniform vec3 ambientLight;
 uniform sampler2D sampler;
 
 uniform float specularIntensity;
 uniform float specularExponent;
 
+uniform vec3 ambientLight;
 uniform DirectionalLight directionalLight;
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
 uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
@@ -67,7 +67,7 @@ vec4 calculateLight(vec3 color, float intensity, vec3 direction, vec3 normal)
     {
         diffuseColor = vec4(color, 1.0) * intensity * diffuseFactor;
         
-        vec3 directionToEye = normalize(eyePosition - worldPosition0);
+        vec3 directionToEye = normalize(eyePosition - vsout_worldPosition);
         vec3 reflectDirection = normalize(reflect(direction, normal));
         
         float specularFactor = dot(directionToEye, reflectDirection);
@@ -89,7 +89,7 @@ vec4 calculateDirectionalLight(DirectionalLight directionalLight, vec3 normal)
 
 vec4 calculatePointLight(vec3 color, float intensity, Attenuation attenuation, vec3 position, float range, vec3 normal)
 {
-    vec3 lightDirection = worldPosition0 - position;
+    vec3 lightDirection = vsout_worldPosition - position;
     float distanceToPoint = length(lightDirection);
     
     if (distanceToPoint > range)
@@ -115,7 +115,7 @@ vec4 calculatePointLight(vec3 color, float intensity, Attenuation attenuation, v
 
 vec4 calculateSpotLight(vec3 color, float intensity, Attenuation attenuation, vec3 position, float range, vec3 direction, float cutoff, vec3 normal)
 {
-    vec3 lightDirection = normalize(worldPosition0 - position);
+    vec3 lightDirection = normalize(vsout_worldPosition - position);
     float spotFactor = dot(lightDirection, direction);
     
     vec4 colorResult = vec4(0, 0, 0, 0);
@@ -131,15 +131,16 @@ vec4 calculateSpotLight(vec3 color, float intensity, Attenuation attenuation, ve
 
 void main()
 {
-    vec4 textureColor = texture(sampler, textureCoordinate0.xy);
-    
-    vec4 totalLight = vec4(ambientLight, 1);
     vec4 color = vec4(baseColor, 1);
+
+    vec4 textureColor = texture(sampler, vsout_textureCoordinate.xy);
     
     if (textureColor != vec4(0, 0, 0, 0))
         color *= textureColor;
     
-    vec3 normal = normalize(normal0);
+    vec4 totalLight = vec4(ambientLight, 1);
+    
+    vec3 normal = normalize(vsout_normal);
     
     totalLight += calculateDirectionalLight(directionalLight, normal);
     
@@ -159,5 +160,5 @@ void main()
         }
     }
     
-    fragColor = color * totalLight;
+    fsout_fragColor = color * totalLight;
 }
