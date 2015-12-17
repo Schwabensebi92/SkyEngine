@@ -3,6 +3,7 @@ package com.own.gameengine.renderingengine.graphics;
 
 import com.own.gameengine.coreengine.*;
 import com.own.gameengine.coreengine.math.*;
+import com.own.gameengine.coreengine.math.matrix.RotationMatrix4f;
 import com.own.gameengine.coreengine.scenegraph.GameComponent;
 import com.own.gameengine.inputengine.*;
 import com.own.gameengine.renderingengine.concept.RenderingConcept;
@@ -48,22 +49,35 @@ public class Camera extends GameComponent {
 			move(getGameObject().getTransform().getRotation().getRightVector(), moveAmount);
 		}
 		
-		float sensitivity = 1.0f;
+		float rotationAmount = 30f * (float) ((CoreTiming) CoreObjectRegister.get(CoreObject.CORE_TIMING)).getDelta();
 		
-		Vector2f deltaPosition = mouse.getMousePositionDelta();
+		if (keyboard.isKeyDown(KeyboardKeys.KEY_UP)) {
+			rotate(getGameObject().getTransform().getRotation().getRightVector(), rotationAmount);
+		}
+		if (keyboard.isKeyDown(KeyboardKeys.KEY_DOWN)) {
+			rotate(getGameObject().getTransform().getRotation().getLeftVector(), rotationAmount);
+		}
+		// Debug.out("Right 1: " + getGameObject().getTransform().getRotation().getRightVector());
+		if (keyboard.isKeyDown(KeyboardKeys.KEY_LEFT)) {
+			rotate(CoordinateSystem.Y_AXIS, rotationAmount);
+		}
+		if (keyboard.isKeyDown(KeyboardKeys.KEY_RIGHT)) {
+			rotate(CoordinateSystem.Y_AXIS, -rotationAmount);
+		}
 		
-		if (deltaPosition.getX() != 0.0f) {
-			getGameObject().getTransform().getRotation().rotate(CoordinateSystem.Y_AXIS,
-					(float) Math.toRadians(deltaPosition.getX() * sensitivity));
-		}
-		if (deltaPosition.getY() != 0.0f) {
-			getGameObject().getTransform().getRotation().rotate(getGameObject().getTransform().getRotation().getRightVector(),
-					(float) Math.toRadians(-deltaPosition.getY() * sensitivity));
-		}
+		Debug.out(new RotationMatrix4f(getGameObject().getTransform().getRotation()));
+		
+		// Debug.out("Forward: " + getGameObject().getTransform().getRotation().getForwardVector());
+		// Debug.out("Up: " + getGameObject().getTransform().getRotation().getUpVector());
+		// Debug.out("Right 2: " + getGameObject().getTransform().getRotation().getRightVector());
 	}
 	
 	private void move(final Vector3f direction, final float moveAmount) {
 		getGameObject().getTransform().getTranslation().add(direction.mul(moveAmount));
+	}
+	
+	private void rotate(final Vector3f axis, final float rotationAmount) {
+		getGameObject().getTransform().getRotation().rotate(axis, (float) Math.toRadians(rotationAmount));
 	}
 	
 	@Override

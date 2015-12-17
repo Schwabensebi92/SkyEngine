@@ -6,7 +6,7 @@ package com.own.gameengine.coreengine.math.matrix;
  * 
  * @see <a href="https://en.wikipedia.org/wiki/Matrix_(mathematics)"> wikipedia.org/Matrix</a>
  * @author Sebastian Utz
- * 		
+ * 
  */
 public class Matrix4f {
 	
@@ -100,5 +100,17 @@ public class Matrix4f {
 	 */
 	public void set(final int m, final int n, final float value) {
 		elements[m][n] = value;
+	}
+	
+	@Override
+	public String toString() {
+		String returnString = "";
+		for (int n = 0; n < AMOUNT_ELEMENTS_N; n++) {
+			for (int m = 0; m < AMOUNT_ELEMENTS_M; m++) {
+				returnString += "[" + elements[m][n] + "]";
+			}
+			returnString += "\n";
+		}
+		return returnString;
 	}
 }

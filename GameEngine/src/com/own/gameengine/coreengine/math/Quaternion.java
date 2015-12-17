@@ -24,15 +24,25 @@ public class Quaternion {
 		this.w = w;
 	}
 	
+	/**
+	 * Constructor of a rotation.<br>
+	 * <br>
+	 * <b>E.g.:</b><br>
+	 * <u>Rotation of PI/2 around y-axis(0.0, 1.0, 0.0).</u><br>
+	 * <i>Before rotation:</i> Forward(0.0, 0.0, 1.0), Up(0.0, 1.0, 0.0), Right(1.0, 0.0, 0.0)<br>
+	 * <i>After rotation:</i> Forward(-1.0, 0.0, 0.0), Up(0.0, 1.0, 0.0), Right(0.0, 0.0, 1.0)
+	 * 
+	 * @param axis The axis around which the rotation is defined.
+	 * @param angle Angle of rotation around <code>axis</code>.
+	 */
 	public Quaternion(final Vector3f axis, final float angle) {
-		//@formatter:off
-		this(
-				axis.getX() * (float) Math.sin(angle / 2.0f),
-				axis.getY() * (float) Math.sin(angle / 2.0f),
-				axis.getZ() * (float) Math.sin(angle / 2.0f),
-				(float) Math.cos(angle / 2.0f)
-			);
-		//@formatter:on
+		float sinHalfAngle = (float) Math.sin(angle / 2.0f);
+		float cosHalfAngle = (float) Math.cos(angle / 2.0f);
+
+		x = axis.getX() * sinHalfAngle;
+		y = axis.getY() * sinHalfAngle;
+		z = axis.getZ() * sinHalfAngle;
+		w = cosHalfAngle;
 	}
 	
 	public Quaternion(final Quaternion source) {
@@ -106,13 +116,7 @@ public class Quaternion {
 	}
 	
 	public Vector3f getForwardVector() {
-		//@formatter:off
-		return new Vector3f(
-					2.0f * (getX() * getZ() - getW() * getY()),
-					2.0f * (getY() * getZ() + getW() * getX()),
-					1.0f - 2.0f * (getX() * getX() + getY() * getY())
-				);
-		//@formatter:on
+		return new Vector3f(CoordinateSystem.Z_AXIS).rotate(new Quaternion(this));
 	}
 	
 	public Vector3f getBackVector() {
@@ -120,13 +124,7 @@ public class Quaternion {
 	}
 	
 	public Vector3f getUpVector() {
-		//@formatter:off
-		return new Vector3f(
-					2.0f * (getX() * getY() + getW() * getZ()),
-					1.0f - 2.0f * (getX() * getX() + getZ() * getZ()),
-					2.0f * (getY() * getZ() - getW() * getX())
-				);
-		//@formatter:on
+		return new Vector3f(CoordinateSystem.Y_AXIS).rotate(new Quaternion(this));
 	}
 	
 	public Vector3f getDownVector() {
@@ -134,13 +132,7 @@ public class Quaternion {
 	}
 	
 	public Vector3f getRightVector() {
-		//@formatter:off
-		return new Vector3f(
-					1.0f - 2.0f * (getY() * getY() + getZ() * getZ()),
-					2.0f * (getX() * getY() - getW() * getZ()),
-					2.0f * (getX() * getZ() + getW() * getY())
-				);
-		//@formatter:on
+		return new Vector3f(CoordinateSystem.X_AXIS).rotate(new Quaternion(this));
 	}
 	
 	public Vector3f getLeftVector() {

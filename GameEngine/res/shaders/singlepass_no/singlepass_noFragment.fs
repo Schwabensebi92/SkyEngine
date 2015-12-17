@@ -160,5 +160,5 @@ void main()
         }
     }
     
-    fsout_fragColor = color;
+    fsout_fragColor = vec4(1.0, 0.0, 0.0, 0.5); //color;
 }
