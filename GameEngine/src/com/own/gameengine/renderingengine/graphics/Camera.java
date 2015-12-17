@@ -1,88 +1,80 @@
 package com.own.gameengine.renderingengine.graphics;
 
-import com.own.gameengine.coreengine.math.Vector3f;
+
+import com.own.gameengine.coreengine.*;
+import com.own.gameengine.coreengine.math.*;
+import com.own.gameengine.coreengine.scenegraph.GameComponent;
+import com.own.gameengine.inputengine.*;
+import com.own.gameengine.renderingengine.concept.RenderingConcept;
 import com.own.gameengine.renderingengine.graphics.projection.Projection;
 
-public class Camera {
 
-	public final static Vector3f	xAxis	= new Vector3f(1, 0, 0);
-	public final static Vector3f	yAxis	= new Vector3f(0, 1, 0);
-	public final static Vector3f	zAxis	= new Vector3f(0, 0, 1);
-
-	private Projection				projection;
-
-	private Vector3f				position;
-	private Vector3f				forward;
-	private Vector3f				up;
-
-	public Camera(Projection projection, Vector3f position, Vector3f forward, Vector3f up) {
+public class Camera extends GameComponent {
+	
+	private Projection projection;
+	
+	public Camera(final Projection projection) {
+		super(true, false, false);
+		
 		this.projection = projection;
-
-		this.position = position;
-		this.forward = forward;
-		this.up = up;
-
-		forward.normalize();
-		up.normalize();
 	}
-
-	public Camera(Projection projection) {
-		this(projection, new Vector3f(), new Vector3f(zAxis), new Vector3f(yAxis));
-	}
-
-	public void move(Vector3f direction, float amount) {
-		position.add(new Vector3f(direction).mul(amount));
-	}
-
-	public void rotateX(float degree) {
-		Vector3f hAxis = new Vector3f(yAxis).cross(forward).normalize();
-
-		forward.rotate(degree, hAxis).normalize();
-
-		up = new Vector3f(forward).cross(hAxis).normalize();
-	}
-
-	public void rotateY(float angle) {
-		Vector3f hAxis = new Vector3f(yAxis).cross(forward).normalize();
-
-		forward.rotate(angle, yAxis).normalize();
-
-		up = new Vector3f(forward).cross(hAxis).normalize();
-	}
-
+	
 	public Projection getProjection() {
 		return projection;
 	}
-
-	public Vector3f getLeft() {
-		return new Vector3f(forward).cross(up).normalize();
+	
+	public void activate() {
+		((CameraEngine) CoreObjectRegister.get(CoreObject.CAMERA_ENGINE)).activateCamera(this);
 	}
-
-	public Vector3f getRight() {
-		return new Vector3f(up).cross(forward).normalize();
+	
+	public void deactivate() {
+		((CameraEngine) CoreObjectRegister.get(CoreObject.CAMERA_ENGINE)).deactivateCamera(this);
 	}
-
-	public Vector3f getPosition() {
-		return position;
+	
+	@Override
+	public void input(final Mouse mouse, final Keyboard keyboard) {
+		float moveAmount = 1.0f * (float) ((CoreTiming) CoreObjectRegister.get(CoreObject.CORE_TIMING)).getDelta();
+		
+		if (keyboard.isKeyDown(KeyboardKeys.KEY_W)) {
+			move(getGameObject().getTransform().getRotation().getForwardVector(), moveAmount);
+		}
+		if (keyboard.isKeyDown(KeyboardKeys.KEY_S)) {
+			move(getGameObject().getTransform().getRotation().getBackVector(), moveAmount);
+		}
+		if (keyboard.isKeyDown(KeyboardKeys.KEY_A)) {
+			move(getGameObject().getTransform().getRotation().getLeftVector(), moveAmount);
+		}
+		if (keyboard.isKeyDown(KeyboardKeys.KEY_D)) {
+			move(getGameObject().getTransform().getRotation().getRightVector(), moveAmount);
+		}
+		
+		float sensitivity = 1.0f;
+		
+		Vector2f deltaPosition = mouse.getMousePositionDelta();
+		
+		if (deltaPosition.getX() != 0.0f) {
+			getGameObject().getTransform().getRotation().rotate(CoordinateSystem.Y_AXIS,
+					(float) Math.toRadians(deltaPosition.getX() * sensitivity));
+		}
+		if (deltaPosition.getY() != 0.0f) {
+			getGameObject().getTransform().getRotation().rotate(getGameObject().getTransform().getRotation().getRightVector(),
+					(float) Math.toRadians(-deltaPosition.getY() * sensitivity));
+		}
 	}
-
-	public void setPosition(Vector3f position) {
-		this.position = position;
+	
+	private void move(final Vector3f direction, final float moveAmount) {
+		getGameObject().getTransform().getTranslation().add(direction.mul(moveAmount));
 	}
-
-	public Vector3f getForward() {
-		return forward;
+	
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
-
-	public void setForward(Vector3f forward) {
-		this.forward = forward.normalize();
-	}
-
-	public Vector3f getUp() {
-		return up;
-	}
-
-	public void setUp(Vector3f up) {
-		this.up = up.normalize();
+	
+	@Override
+	public void render(final RenderingConcept renderingConcept) {
+		// TODO Auto-generated method stub
+		
 	}
 }

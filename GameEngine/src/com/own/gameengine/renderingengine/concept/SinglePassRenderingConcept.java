@@ -76,7 +76,7 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 			material.getTexture().bind();
 		}
 		
-		program.setUniform("eyePosition", camera.getPosition());
+		program.setUniform("eyePosition", camera.getGameObject().getTransform().getTranslation());
 		
 		program.setUniform("transform", transform.getTransformation());
 		program.setUniform("transformProjected", transform.getProjectedTransformation(camera));

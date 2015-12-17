@@ -7,10 +7,10 @@ import com.own.gameengine.renderingengine.concept.RenderingConcept;
 
 public abstract class GameComponent {
 	
-	private boolean			enableInput;
-	private boolean			enableUpdate;
-	private boolean			enableRender;
-	protected GameObject	gameObject;
+	private boolean		enableInput;
+	private boolean		enableUpdate;
+	private boolean		enableRender;
+	private GameObject	gameObject;
 	
 	public GameComponent(final boolean enableInput, final boolean enableUpdate, final boolean enableRender) {
 		this.enableInput = enableInput;
@@ -24,7 +24,11 @@ public abstract class GameComponent {
 	
 	public abstract void render(RenderingConcept renderingConcept);
 	
-	public void setGameObject(final GameObject gameObject) {
+	public GameObject getGameObject() {
+		return gameObject;
+	}
+	
+	protected void setGameObject(final GameObject gameObject) {
 		this.gameObject = gameObject;
 	}
 	

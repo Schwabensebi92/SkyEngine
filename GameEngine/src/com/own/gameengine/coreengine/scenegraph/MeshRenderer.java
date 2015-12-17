@@ -3,8 +3,8 @@ package com.own.gameengine.coreengine.scenegraph;
 
 import com.own.gameengine.coreengine.*;
 import com.own.gameengine.inputengine.*;
-import com.own.gameengine.renderingengine.RenderingEngine;
 import com.own.gameengine.renderingengine.concept.RenderingConcept;
+import com.own.gameengine.renderingengine.graphics.CameraEngine;
 import com.own.gameengine.renderingengine.graphics.object.*;
 
 
@@ -29,7 +29,7 @@ public class MeshRenderer extends GameComponent {
 	
 	@Override
 	public void render(final RenderingConcept renderingConcept) {
-		renderingConcept.renderMesh(gameObject.getTransform(),
-				((RenderingEngine) CoreObjectRegister.get(CoreObject.RENDERING_ENGINE)).getMainCamera(), material, mesh);
+		renderingConcept.renderMesh(getGameObject().getTransform(),
+				((CameraEngine) CoreObjectRegister.get(CoreObject.CAMERA_ENGINE)).getActiveCamera(), material, mesh);
 	}
 }

@@ -1,35 +1,40 @@
 package com.own.gameengine.physicsengine.physics;
 
-public class Timekeeper implements Timeable {
 
+import com.own.gameengine.coreengine.*;
+
+
+public class Timekeeper implements Timeable {
+	
 	private double			startTime;
 	private double			pauseStartTime;
 	private double			totalPauseTime;
 	private double			stopTime;
 	private TimekeeperState	state;
-
+	
 	public Timekeeper() {
 		this(true);
 	}
-
-	public Timekeeper(boolean register) {
-		if (register)
-			TimingEngine.instance().register(this);
+	
+	public Timekeeper(final boolean register) {
+		if (register) {
+			((TimingEngine) CoreObjectRegister.get(CoreObject.TIMING_ENGINE)).register(this);
+		}
 		reset();
 	}
-
+	
 	public void reset() {
 		resetWithOffset(0.0);
 	}
-
-	public void resetWithOffset(double offset) {
-		this.startTime = 0.0;
-		this.pauseStartTime = 0.0;
-		this.totalPauseTime = -offset;
-		this.stopTime = 0.0;
-		this.state = TimekeeperState.NOT_STARTED;
+	
+	public void resetWithOffset(final double offset) {
+		startTime = 0.0;
+		pauseStartTime = 0.0;
+		totalPauseTime = -offset;
+		stopTime = 0.0;
+		state = TimekeeperState.NOT_STARTED;
 	}
-
+	
 	@Override
 	public void refresh() {
 		// double currentTime = Time.getTime();
@@ -51,7 +56,7 @@ public class Timekeeper implements Timeable {
 			}
 		}
 	}
-
+	
 	@Override
 	public void start() {
 		double currentTime = Time.getTime();
@@ -83,7 +88,7 @@ public class Timekeeper implements Timeable {
 			}
 		}
 	}
-
+	
 	@Override
 	public void pause() {
 		double currentTime = Time.getTime();
@@ -107,7 +112,7 @@ public class Timekeeper implements Timeable {
 			}
 		}
 	}
-
+	
 	public void stop() {
 		double currentTime = Time.getTime();
 		switch (state) {
@@ -133,7 +138,7 @@ public class Timekeeper implements Timeable {
 			}
 		}
 	}
-
+	
 	public double getPassedTime() {
 		double currentTime = Time.getTime();
 		switch (state) {
@@ -154,7 +159,7 @@ public class Timekeeper implements Timeable {
 			}
 		}
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Timekeeper: Time[" + getPassedTime() + "], State[" + state.name() + "]";

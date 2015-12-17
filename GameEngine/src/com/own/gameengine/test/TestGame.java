@@ -28,7 +28,7 @@ public class TestGame extends Game {
 		int indices[] = { 0, 1, 2, 2, 1, 3 };
 		
 		Mesh mesh = new Mesh(vertices, indices, true);
-		Material material = new Material(new Vector3f(1, 1, 1), 1, 8);
+		Material material = new Material(new Vector3f(0.5f, 0.5f, 0.5f), 1, 8);
 		
 		GameObject planeObject = new GameObject();
 		planeObject.addComponent(new MeshRenderer(mesh, material));
@@ -36,7 +36,11 @@ public class TestGame extends Game {
 		
 		addObject(planeObject);
 		
-		setCamera(new Camera(new PerspectiveProjection(getWindowSettings().getAspectRatio())));
+		GameObject player = new GameObject();
+		Camera camera = new Camera(new PerspectiveProjection(getWindowSettings().getAspectRatio()));
+		player.addComponent(camera);
+		camera.activate();
+		addObject(player);
 	}
 	
 	// if (Keyboard.getKeyDown(Keyboard.KEY_W)) {

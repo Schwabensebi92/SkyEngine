@@ -11,6 +11,7 @@ import com.own.gameengine.renderingengine.graphics.*;
 public class CoreEngine {
 	
 	private TimingEngine	timingEngine;
+	private CameraEngine	cameraEngine;
 	private RenderingEngine	renderingEngine;
 	private InputEngine		inputEngine;
 	
@@ -91,7 +92,14 @@ public class CoreEngine {
 		// ProgramContext.setIcon("icon.jpg"); TODO: Correct Implementation
 		
 		// Initialize TimingEngine
-		timingEngine = TimingEngine.instance();
+		timingEngine = new TimingEngine();
+		timingEngine.initialize();
+		CoreObjectRegister.set(CoreObject.TIMING_ENGINE, timingEngine);
+		
+		// Initialize CameraEngine
+		cameraEngine = new CameraEngine();
+		cameraEngine.initialize();
+		CoreObjectRegister.set(CoreObject.CAMERA_ENGINE, cameraEngine);
 		
 		// Initialize LWJGL
 		OpenGL.initializeLWJGL();
@@ -107,7 +115,6 @@ public class CoreEngine {
 		// Initialize RenderingEngine
 		renderingEngine = new RenderingEngine();
 		renderingEngine.initialize();
-		renderingEngine.setMainCamera(game.getCamera());
 		CoreObjectRegister.set(CoreObject.RENDERING_ENGINE, renderingEngine);
 		
 		// Initialize InputEngine
@@ -118,6 +125,7 @@ public class CoreEngine {
 		fpsCounter.start();
 		coreTiming = new CoreTiming(1.0 / game.getWindowSettings().getFrameRate().value());
 		coreTiming.initialize();
+		CoreObjectRegister.set(CoreObject.CORE_TIMING, coreTiming);
 	}
 	
 	private void input() {
@@ -154,7 +162,11 @@ public class CoreEngine {
 		window.dispose();
 		OpenGL.cleanUpLWJGL();
 		
+		// CleanUp CameraEngine
+		cameraEngine.cleanUp();
+		
 		// CleanUp TimingEngine
+		timingEngine.cleanUp();
 	}
 	
 	public boolean isRunning() {
