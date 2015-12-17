@@ -1,6 +1,6 @@
 package com.own.gameengine.renderingengine.concept.lightmodel;
 
 
-public interface PhongShader {
+public interface NoLightShader {
 
 }

@@ -21,8 +21,8 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 		super(RenderingConcepts.SINGLE_PASS_RENDERINGCONCEPT);
 		
 		program = new OpenGLProgram();
-		program.addShader(new SinglePassPhongVertexShader());
-		program.addShader(new SinglePassPhongFragmentShader());
+		program.addShader(new SinglePassNoVertexShader());
+		program.addShader(new SinglePassNoFragmentShader());
 		
 		program.compile();
 		
