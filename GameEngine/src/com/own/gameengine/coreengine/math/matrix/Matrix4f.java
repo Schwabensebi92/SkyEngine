@@ -6,16 +6,16 @@ package com.own.gameengine.coreengine.math.matrix;
  * 
  * @see <a href="https://en.wikipedia.org/wiki/Matrix_(mathematics)"> wikipedia.org/Matrix</a>
  * @author Sebastian Utz
- * 
+ * 		
  */
 public class Matrix4f {
 	
 	/**
-	 * Amount of columns in this Matrix.
+	 * Amount of rows in this Matrix.
 	 */
 	private final static int	AMOUNT_ELEMENTS_M	= 4;
 	/**
-	 * Amount of rows in this Matrix.
+	 * Amount of columns in this Matrix.
 	 */
 	private final static int	AMOUNT_ELEMENTS_N	= 4;
 	
@@ -23,9 +23,9 @@ public class Matrix4f {
 	/*
 	 * matrix[m][n]
 	 * 
-	 *   → m
+	 *   → n
 	 * ↓ [][][][]
-	 * n [][][][]
+	 * m [][][][]
 	 *   [][][][]
 	 *   [][][][]
 	 */
@@ -66,10 +66,10 @@ public class Matrix4f {
 	 */
 	public Matrix4f mul(final Matrix4f other) {
 		float[][] newElements = new float[AMOUNT_ELEMENTS_M][AMOUNT_ELEMENTS_N];
-		for (int n = 0; n < AMOUNT_ELEMENTS_N; n++) {
-			for (int m = 0; m < AMOUNT_ELEMENTS_M; m++) {
+		for (int m = 0; m < AMOUNT_ELEMENTS_M; m++) {
+			for (int n = 0; n < AMOUNT_ELEMENTS_N; n++) {
 				//formatter:off
-				newElements[m][n] =
+				newElements[m][n] = // Row m * Column n
 						  elements[m][0] * other.get(0, n)
 						+ elements[m][1] * other.get(1, n)
 						+ elements[m][2] * other.get(2, n)
@@ -83,19 +83,19 @@ public class Matrix4f {
 	}
 
 	/**
-	 * Gets the element in column {@code m} and row {@code n}.
-	 * @param m The column of the element.
-	 * @param n The row of the element.
-	 * @return Gets the element in column {@code m} and row {@code n}.
+	 * Gets the element in row {@code m} and column {@code n}.
+	 * @param m The row of the element.
+	 * @param n The column of the element.
+	 * @return Gets the element in row {@code m} and column {@code n}.
 	 */
 	public float get(final int m, final int n) {
 		return elements[m][n];
 	}
 
 	/**
-	 * Sets the element in column {@code m} and row {@code n} to {@code value}.
-	 * @param m The column of the element.
-	 * @param n The row of the element.
+	 * Sets the element in row {@code m} and column {@code n} to {@code value}.
+	 * @param m The row of the element.
+	 * @param n The column of the element.
 	 * @param value The new value of the element.
 	 */
 	public void set(final int m, final int n, final float value) {
@@ -105,8 +105,8 @@ public class Matrix4f {
 	@Override
 	public String toString() {
 		String returnString = "";
-		for (int n = 0; n < AMOUNT_ELEMENTS_N; n++) {
-			for (int m = 0; m < AMOUNT_ELEMENTS_M; m++) {
+		for (int m = 0; m < AMOUNT_ELEMENTS_M; m++) {
+			for (int n = 0; n < AMOUNT_ELEMENTS_N; n++) {
 				returnString += "[" + elements[m][n] + "]";
 			}
 			returnString += "\n";

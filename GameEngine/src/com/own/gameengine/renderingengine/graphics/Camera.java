@@ -73,11 +73,11 @@ public class Camera extends GameComponent {
 	}
 	
 	private void move(final Vector3f direction, final float moveAmount) {
-		getGameObject().getTransform().getTranslation().add(direction.mul(moveAmount));
+		getGameObject().getTransform().translate(direction.mul(moveAmount));
 	}
 	
 	private void rotate(final Vector3f axis, final float rotationAmount) {
-		getGameObject().getTransform().getRotation().rotate(axis, (float) Math.toRadians(rotationAmount));
+		getGameObject().getTransform().rotate(axis, (float) Math.toRadians(rotationAmount));
 	}
 	
 	@Override
