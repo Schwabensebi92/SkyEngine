@@ -5,7 +5,7 @@ package com.own.gameengine.coreengine.math.matrix;
  * Represents a 4-by-4 Perspective Projection Matrix.
  * 
  * @author Sebastian Utz
- * 
+ * 		
  */
 public class PerspectiveProjectionMatrix4f extends Matrix4f {
 	

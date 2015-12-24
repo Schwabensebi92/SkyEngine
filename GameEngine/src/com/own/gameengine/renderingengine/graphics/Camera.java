@@ -3,7 +3,6 @@ package com.own.gameengine.renderingengine.graphics;
 
 import com.own.gameengine.coreengine.*;
 import com.own.gameengine.coreengine.math.*;
-import com.own.gameengine.coreengine.math.matrix.RotationMatrix4f;
 import com.own.gameengine.coreengine.scenegraph.GameComponent;
 import com.own.gameengine.inputengine.*;
 import com.own.gameengine.renderingengine.concept.RenderingConcept;
@@ -49,7 +48,7 @@ public class Camera extends GameComponent {
 			move(getGameObject().getTransform().getRotation().getRightVector(), moveAmount);
 		}
 		
-		float rotationAmount = 30f * (float) ((CoreTiming) CoreObjectRegister.get(CoreObject.CORE_TIMING)).getDelta();
+		float rotationAmount = 60f * (float) ((CoreTiming) CoreObjectRegister.get(CoreObject.CORE_TIMING)).getDelta();
 		
 		if (keyboard.isKeyDown(KeyboardKeys.KEY_UP)) {
 			rotate(getGameObject().getTransform().getRotation().getRightVector(), rotationAmount);
@@ -57,19 +56,12 @@ public class Camera extends GameComponent {
 		if (keyboard.isKeyDown(KeyboardKeys.KEY_DOWN)) {
 			rotate(getGameObject().getTransform().getRotation().getLeftVector(), rotationAmount);
 		}
-		// Debug.out("Right 1: " + getGameObject().getTransform().getRotation().getRightVector());
 		if (keyboard.isKeyDown(KeyboardKeys.KEY_LEFT)) {
 			rotate(CoordinateSystem.Y_AXIS, rotationAmount);
 		}
 		if (keyboard.isKeyDown(KeyboardKeys.KEY_RIGHT)) {
 			rotate(CoordinateSystem.Y_AXIS, -rotationAmount);
 		}
-		
-		Debug.out(new RotationMatrix4f(getGameObject().getTransform().getRotation()));
-		
-		// Debug.out("Forward: " + getGameObject().getTransform().getRotation().getForwardVector());
-		// Debug.out("Up: " + getGameObject().getTransform().getRotation().getUpVector());
-		// Debug.out("Right 2: " + getGameObject().getTransform().getRotation().getRightVector());
 	}
 	
 	private void move(final Vector3f direction, final float moveAmount) {

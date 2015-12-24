@@ -135,8 +135,8 @@ void main()
 
     vec4 textureColor = texture(sampler, vsout_textureCoordinate.xy);
     
-    if (textureColor != vec4(0, 0, 0, 0))
-        color *= textureColor;
+    //if (textureColor != vec4(0, 0, 0, 0))
+    //    color *= textureColor;
     
     vec4 totalLight = vec4(ambientLight, 1);
     
@@ -160,5 +160,6 @@ void main()
         }
     }
     
-    fsout_fragColor = vec4(1.0, 0.0, 0.0, 0.5); //color;
+    //fsout_fragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    fsout_fragColor = color;
 }

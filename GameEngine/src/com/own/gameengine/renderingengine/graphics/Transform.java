@@ -13,7 +13,7 @@ public class Transform {
 	
 	public Transform() {
 		translation = new Vector3f();
-		rotation = new Quaternion(new Vector3f(CoordinateSystem.Y_AXIS), 0.0f);
+		rotation = new Quaternion();
 		scale = new Vector3f(1.0f, 1.0f, 1.0f);
 	}
 	
@@ -31,7 +31,7 @@ public class Transform {
 		// Get camera projection matrix
 		Matrix4f projectionMatrix = camera.getProjection().getProjectionMatrix();
 		// Get camera rotation matrix and negate it
-		Matrix4f cameraRotationMatrix = new RotationMatrix4f(new Quaternion(camera.getGameObject().getTransform().getRotation()));
+		Matrix4f cameraRotationMatrix = new RotationMatrix4f(camera.getGameObject().getTransform().getRotation());
 		// Get camera translation matrix and negate it
 		Matrix4f cameraTranslationMatrix = new TranslationMatrix4f(
 				new Vector3f(camera.getGameObject().getTransform().getTranslation()).mul(-1));
@@ -44,7 +44,9 @@ public class Transform {
 	}
 	
 	public void rotate(final Vector3f rotationAxis, final float angle) {
-		rotation = new Quaternion(rotationAxis, angle).mul(rotation).normalize();
+		Quaternion additionalRotation = new Quaternion(rotationAxis, angle);
+		additionalRotation.normalize();
+		rotation = additionalRotation.mul(rotation).normalize();
 	}
 	
 	public void scale(final Vector3f scaleVector) {

@@ -52,9 +52,10 @@ public class Vector3f {
 	}
 	
 	public Vector3f rotate(final Quaternion rotation) {
+		rotation.normalize();
 		Quaternion conjugate = new Quaternion(rotation).conjugate();
-		
-		rotation.mul(this).mul(conjugate);
+		rotation.mul(this);
+		rotation.mul(conjugate);
 		
 		x = rotation.getX();
 		y = rotation.getY();
@@ -181,7 +182,7 @@ public class Vector3f {
 	
 	@Override
 	public String toString() {
-		return "(" + x + "/" + y + "/" + z + ")";
+		return "(x: " + x + "/y: " + y + "/z: " + z + ")";
 	}
 	
 	@Override

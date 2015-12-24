@@ -58,7 +58,15 @@ public class Quaternion {
 	}
 	
 	/**
+	 * Default constructor for a Quaternion.
+	 */
+	public Quaternion() {
+		this(1.0f, 0.0f, 0.0f, 0.0f);
+	}
+	
+	/**
 	 * Constructor of a rotation.<br>
+	 * The rotation happens in clockwise-direction looking in the direction of the <code>axis</code>.<br>
 	 * <br>
 	 * <b>E.g.:</b><br>
 	 * <ul>
@@ -73,14 +81,22 @@ public class Quaternion {
 	 * @param angle
 	 *            Angle of rotation around <code>axis</code>.
 	 */
-	public Quaternion(final Vector3f axis, final float angle) {
+	public Quaternion(final Vector3f axis, float angle) {
+		// Invert angle to rotate anti-clockwise. The default rotation direction is clockwise
+		// (https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Using_quaternion_rotations)
+		angle = -angle;
+		
+		// Normalize axis
+		axis.normalize();
+		// Calculate sine and cosine of half the angle
 		float sinHalfAngle = (float) Math.sin(angle / 2.0f);
 		float cosHalfAngle = (float) Math.cos(angle / 2.0f);
 		
+		// Apply the values to the components of the quaternion
+		w = cosHalfAngle;
 		x = axis.getX() * sinHalfAngle;
 		y = axis.getY() * sinHalfAngle;
 		z = axis.getZ() * sinHalfAngle;
-		w = cosHalfAngle;
 	}
 	
 	/**
@@ -133,7 +149,9 @@ public class Quaternion {
 	
 	/**
 	 * Multiplies this Quaternion with Quaternion <code>other</code> in the following order:<br>
-	 * <code>this'</code> = <code>this</<code> * <code>other</code>
+	 * <code>this'</code> = <code>this</code> * <code>other</code><br>
+	 * <br>
+	 * The result is called the <b>Hamilton product</b>.
 	 * 
 	 * @param other
 	 *            The Quaternion, with which this Quaternion is multiplied.
@@ -172,54 +190,93 @@ public class Quaternion {
 	}
 	
 	/**
-	 * Calculates the forward vector of the rotation represented by this Quaternion in the <code>CoordinateSystem</code>.
+	 * Calculates the forward vector of the rotation represented by this Quaternion in the <b>global</b> <code>CoordinateSystem</code>.
 	 * 
 	 * @return Returns the forward direction.
+	 * @see <a href="http://nic-gamedev.blogspot.de/2011/11/quaternion-math-getting-local-axis.html">nic-gamedev.blogspot.de/quaternion-math
+	 *      -getting-local-axis.html</a>
 	 */
 	public Vector3f getForwardVector() {
-		return new Vector3f(CoordinateSystem.Z_AXIS).rotate(new Quaternion(this));
+		//@formatter:off
+		return new Vector3f(
+				2 * (x * z + w * y),
+				2 * (y * x - w * x),
+				1 - 2 * (x * x + y * y)
+		);
+		//@formatter:on
+		
+		// Alternative:
+		// return new Vector3f(CoordinateSystem.Z_AXIS).rotate(new Quaternion(this));
 	}
 	
 	/**
-	 * Calculates the back vector of the rotation represented by this Quaternion in the <code>CoordinateSystem</code>.
+	 * Calculates the back vector of the rotation represented by this Quaternion in the <b>global</b> <code>CoordinateSystem</code>.
 	 * 
 	 * @return Returns the back direction.
+	 * @see <a href="http://nic-gamedev.blogspot.de/2011/11/quaternion-math-getting-local-axis.html">nic-gamedev.blogspot.de/quaternion-math
+	 *      -getting-local-axis.html</a>
 	 */
 	public Vector3f getBackVector() {
 		return getForwardVector().mul(-1.0f);
 	}
 	
 	/**
-	 * Calculates the up vector of the rotation represented by this Quaternion in the <code>CoordinateSystem</code>.
+	 * Calculates the up vector of the rotation represented by this Quaternion in the <b>global</b> <code>CoordinateSystem</code>.
 	 * 
 	 * @return Returns the up direction.
+	 * @see <a href="http://nic-gamedev.blogspot.de/2011/11/quaternion-math-getting-local-axis.html">nic-gamedev.blogspot.de/quaternion-math
+	 *      -getting-local-axis.html</a>
 	 */
 	public Vector3f getUpVector() {
-		return new Vector3f(CoordinateSystem.Y_AXIS).rotate(new Quaternion(this));
+		//@formatter:off
+		return new Vector3f(
+				2 * (x * y - w * z),
+                1 - 2 * (x * x + z * z),
+                2 * (y * z + w * x)
+		);
+		//@formatter:on
+		
+		// Alternative:
+		// return new Vector3f(CoordinateSystem.Y_AXIS).rotate(new Quaternion(this));
 	}
 	
 	/**
-	 * Calculates the down vector of the rotation represented by this Quaternion in the <code>CoordinateSystem</code>.
+	 * Calculates the down vector of the rotation represented by this Quaternion in the <b>global</b> <code>CoordinateSystem</code>.
 	 * 
 	 * @return Returns the down direction.
+	 * @see <a href="http://nic-gamedev.blogspot.de/2011/11/quaternion-math-getting-local-axis.html">nic-gamedev.blogspot.de/quaternion-math
+	 *      -getting-local-axis.html</a>
 	 */
 	public Vector3f getDownVector() {
 		return getUpVector().mul(-1.0f);
 	}
 	
 	/**
-	 * Calculates the right vector of the rotation represented by this Quaternion in the <code>CoordinateSystem</code>.
+	 * Calculates the right vector of the rotation represented by this Quaternion in the <b>global</b> <code>CoordinateSystem</code>.
 	 * 
 	 * @return Returns the right direction.
+	 * @see <a href="http://nic-gamedev.blogspot.de/2011/11/quaternion-math-getting-local-axis.html">nic-gamedev.blogspot.de/quaternion-math
+	 *      -getting-local-axis.html</a>
 	 */
 	public Vector3f getRightVector() {
-		return new Vector3f(CoordinateSystem.X_AXIS).rotate(new Quaternion(this));
+		//@formatter:off
+		return new Vector3f(
+				1 - 2 * (y * y + z * z),
+                2 * (x * y + w * z),
+                2 * (x * z - w * y)
+		);
+		//@formatter:on
+		
+		// Alternative:
+		// return new Vector3f(CoordinateSystem.X_AXIS).rotate(new Quaternion(this));
 	}
 	
 	/**
-	 * Calculates the left vector of the rotation represented by this Quaternion in the <code>CoordinateSystem</code>.
+	 * Calculates the left vector of the rotation represented by this Quaternion in the <b>global</b> <code>CoordinateSystem</code>.
 	 * 
 	 * @return Returns the left direction.
+	 * @see <a href="http://nic-gamedev.blogspot.de/2011/11/quaternion-math-getting-local-axis.html">nic-gamedev.blogspot.de/quaternion-math
+	 *      -getting-local-axis.html</a>
 	 */
 	public Vector3f getLeftVector() {
 		return getRightVector().mul(-1.0f);
@@ -303,7 +360,7 @@ public class Quaternion {
 	
 	@Override
 	public String toString() {
-		return "(" + x + "/" + y + "/" + z + "/" + w + ")";
+		return "(w: " + w + "/x: " + x + "/y: " + y + "/z: " + z + ")";
 	}
 	
 	@Override
