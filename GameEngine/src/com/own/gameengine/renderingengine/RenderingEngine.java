@@ -17,7 +17,7 @@ public class RenderingEngine {
 	private ArrayList<Light> lights;
 	
 	public RenderingEngine() {
-		// TODO: Do some meaningful stuff
+		// TODO Do some meaningful stuff
 	}
 	
 	public void initialize() {

@@ -8,8 +8,8 @@ import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
-import com.own.gameengine.coreengine.Debug;
 import com.own.gameengine.coreengine.math.Vector3f;
+import com.own.gameengine.error.Debug;
 
 
 public class OpenGL {
@@ -60,7 +60,7 @@ public class OpenGL {
 	}
 	
 	public static void clearScreen() {
-		// TODO: Stencil Buffer
+		// TODO Stencil Buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 	

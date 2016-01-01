@@ -51,8 +51,16 @@ public class Vector3f {
 		return this;
 	}
 	
+	/**
+	 * Rotates this vector by the rotation given by the quaternion <code>rotation</code>.
+	 * 
+	 * @param rotation
+	 *            The axis and angle by which this vector is rotated.
+	 * @return Returns this vector.
+	 * @see <a href="http://gamedev.stackexchange.com/questions/16212/quaternions-and-rotation-around-world-axis">gamedev.stackexchange.com/
+	 *      quaternions-and-rotation-around-world-axis</a>
+	 */
 	public Vector3f rotate(final Quaternion rotation) {
-		rotation.normalize();
 		Quaternion conjugate = new Quaternion(rotation).conjugate();
 		rotation.mul(this);
 		rotation.mul(conjugate);

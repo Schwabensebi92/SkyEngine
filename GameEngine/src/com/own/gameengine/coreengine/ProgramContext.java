@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 public class ProgramContext {
 	
 	public static void setIcon(final String fileName) {
-		// TODO: Uncomment the ByteBuffer and insert GLFW setWindowIcon method
+		// TODO Uncomment the ByteBuffer and insert GLFW setWindowIcon method
 		// ByteBuffer[] list = load(new File("./res/icon/" + fileName));
 	}
 	

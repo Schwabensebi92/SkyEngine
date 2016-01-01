@@ -21,11 +21,11 @@ public class ForwardRenderingConcept extends RenderingConcept {
 	
 	@Override
 	public void render(final ArrayList<GameComponent> renderableGameComponents) {
-		// TODO Auto-generated method stub
+		// TODO Implement
 	}
 	
 	@Override
 	public void renderMesh(final Transform transform, final Camera camera, final Material material, final Mesh mesh) {
-		// TODO Auto-generated method stub
+		// TODO Implement
 	}
 }

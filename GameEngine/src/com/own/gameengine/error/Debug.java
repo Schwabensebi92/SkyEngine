@@ -1,4 +1,4 @@
-package com.own.gameengine.coreengine;
+package com.own.gameengine.error;
 
 
 public class Debug {
@@ -9,13 +9,5 @@ public class Debug {
 		if (enable) {
 			System.out.println(out);
 		}
-	}
-	
-	public static void enableOutput() {
-		enable = true;
-	}
-	
-	public static void disableOutput() {
-		enable = false;
 	}
 }

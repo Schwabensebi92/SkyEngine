@@ -9,7 +9,7 @@ public class CameraEngine {
 	private Stack<Camera> cameraStack;
 	
 	public CameraEngine() {
-		// TODO: Do some meaningful stuff
+		// TODO Do some meaningful stuff
 	}
 	
 	public void initialize() {

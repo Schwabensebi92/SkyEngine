@@ -50,7 +50,7 @@ public class TextureLoader {
 	}
 	
 	private static BufferedImage loadImage(final String fileName) throws IOException {
-		// TODO: Fix ImageIO reading on OS X
+		// TODO Fix ImageIO reading on OS X
 		BufferedImage image = null;// ImageIO.read(new File(fileName));
 		return image;
 	}

@@ -45,8 +45,34 @@ public class Transform {
 	
 	public void rotate(final Vector3f rotationAxis, final float angle) {
 		Quaternion additionalRotation = new Quaternion(rotationAxis, angle);
-		additionalRotation.normalize();
-		rotation = additionalRotation.mul(rotation).normalize();
+		rotation = additionalRotation.mul(rotation); // Invers: rotation.mul(additionalRotation);
+	}
+	
+	/**
+	 * Sets the rotation to face the direction given by <code>direction</code> and keep the upwards orientation to the <code>up</code>
+	 * -vector.
+	 * 
+	 * @param direction
+	 *            The direction to look at.
+	 * @param up
+	 *            The upwards direction in which the transform should be oriented.
+	 * 			
+	 * @see <a href="http://lolengine.net/blog/2013/09/18/beautiful-maths-quaternion-from-vectors">lolengine.net/beautiful-maths-quaternion-
+	 *      from-vectors</a>
+	 * @see <a href="http://gamedev.stackexchange.com/a/15078">gamedev.stackexchange.com/15078</a>
+	 * @see <a href="http://gamedev.stackexchange.com/questions/53129/quaternion-look-at-with-up-vector">gamedev.stackexchange.com/
+	 *      quaternion-look-at-with-up-vector</a>
+	 */
+	public void lookAt(final Vector3f direction, final Vector3f up) {
+		// TODO Use up vector
+		
+		Vector3f destinationForwardNormalized = new Vector3f(direction).normalize();
+		Vector3f currentForwardNormalized = getRotation().getForwardVector().normalize();
+		
+		Vector3f rotationAxis = new Vector3f(currentForwardNormalized).cross(destinationForwardNormalized);
+		float rotationAngle = (float) Math.acos(currentForwardNormalized.dot(destinationForwardNormalized));
+		
+		rotate(rotationAxis, rotationAngle);
 	}
 	
 	public void scale(final Vector3f scaleVector) {

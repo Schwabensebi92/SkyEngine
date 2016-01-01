@@ -9,7 +9,7 @@ public class TimingEngine implements Timeable {
 	private ArrayList<Timeable> timingObjects;
 	
 	public TimingEngine() {
-		// TODO: Do some meaningful stuff
+		// TODO Do some meaningful stuff
 	}
 	
 	public void initialize() {

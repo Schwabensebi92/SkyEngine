@@ -31,8 +31,6 @@ public class RotationMatrix4f extends Matrix4f {
 	public RotationMatrix4f(final Quaternion rotation) {
 		super();
 		
-		rotation.normalize();
-		
 		Vector3f right = rotation.getRightVector().normalize();
 		Vector3f up = rotation.getUpVector().normalize();
 		Vector3f forward = rotation.getForwardVector().normalize();

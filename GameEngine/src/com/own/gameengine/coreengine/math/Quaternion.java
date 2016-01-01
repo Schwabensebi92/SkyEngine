@@ -61,12 +61,13 @@ public class Quaternion {
 	 * Default constructor for a Quaternion.
 	 */
 	public Quaternion() {
+		// Derived from the Axis-Angle-Constructor, where an angle of 0 leads to cos(0) = 1 and sin(0) = 0
 		this(1.0f, 0.0f, 0.0f, 0.0f);
 	}
 	
 	/**
 	 * Constructor of a rotation.<br>
-	 * The rotation happens in clockwise-direction looking in the direction of the <code>axis</code>.<br>
+	 * The rotation happens in anti-clockwise-direction looking in the direction of the <code>axis</code>.<br>
 	 * <br>
 	 * <b>E.g.:</b><br>
 	 * <ul>
@@ -74,7 +75,7 @@ public class Quaternion {
 	 * </ul>
 	 * <br>
 	 * <i>Before rotation:</i> Forward(0.0, 0.0, 1.0), Up(0.0, 1.0, 0.0), Right(1.0, 0.0, 0.0)<br>
-	 * <i>After rotation:</i> Forward(-1.0, 0.0, 0.0), Up(0.0, 1.0, 0.0), Right(0.0, 0.0, 1.0)
+	 * <i>After rotation:</i> Forward(1.0, 0.0, 0.0), Up(0.0, 1.0, 0.0), Right(0.0, 0.0, -1.0)
 	 * 
 	 * @param axis
 	 *            The axis around which the rotation is defined.
@@ -86,8 +87,6 @@ public class Quaternion {
 		// (https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Using_quaternion_rotations)
 		angle = -angle;
 		
-		// Normalize axis
-		axis.normalize();
 		// Calculate sine and cosine of half the angle
 		float sinHalfAngle = (float) Math.sin(angle / 2.0f);
 		float cosHalfAngle = (float) Math.cos(angle / 2.0f);
@@ -97,6 +96,8 @@ public class Quaternion {
 		x = axis.getX() * sinHalfAngle;
 		y = axis.getY() * sinHalfAngle;
 		z = axis.getZ() * sinHalfAngle;
+		
+		normalize();
 	}
 	
 	/**
@@ -161,10 +162,12 @@ public class Quaternion {
 	 * @return Returns this Quaternion.
 	 */
 	public Quaternion mul(final Quaternion other) {
-		float newW = w * other.w - x * other.x - y * other.y - z * other.z;
-		float newX = x * other.w + w * other.x + y * other.z - z * other.y;
-		float newY = w * other.y - x * other.z + y * other.w + z * other.x;
-		float newZ = w * other.z + x * other.y - y * other.x + z * other.w;
+		Quaternion o = other;
+		
+		float newW = w * o.w - x * o.x - y * o.y - z * o.z;
+		float newX = x * o.w + w * o.x + y * o.z - z * o.y;
+		float newY = w * o.y - x * o.z + y * o.w + z * o.x;
+		float newZ = w * o.z + x * o.y - y * o.x + z * o.w;
 		
 		w = newW;
 		x = newX;
@@ -190,38 +193,38 @@ public class Quaternion {
 	}
 	
 	/**
-	 * Calculates the forward vector of the rotation represented by this Quaternion in the <b>global</b> <code>CoordinateSystem</code>.
+	 * Calculates the right vector of the rotation represented by this Quaternion in the <code>GLOBAL</code> <code>CoordinateSpace</code>.
 	 * 
-	 * @return Returns the forward direction.
+	 * @return Returns the right direction.
 	 * @see <a href="http://nic-gamedev.blogspot.de/2011/11/quaternion-math-getting-local-axis.html">nic-gamedev.blogspot.de/quaternion-math
 	 *      -getting-local-axis.html</a>
 	 */
-	public Vector3f getForwardVector() {
+	public Vector3f getRightVector() {
 		//@formatter:off
-		return new Vector3f(
-				2 * (x * z + w * y),
-				2 * (y * x - w * x),
-				1 - 2 * (x * x + y * y)
-		);
+//		return new Vector3f(
+//				1 - 2 * (y * y + z * z),
+//				2 * (x * y + w * z),
+//				2 * (x * z - w * y)
+//		);
 		//@formatter:on
 		
 		// Alternative:
-		// return new Vector3f(CoordinateSystem.Z_AXIS).rotate(new Quaternion(this));
+		return CoordinateSystem.CoordinateAxis.X_AXIS.getVector().rotate(new Quaternion(this));
 	}
 	
 	/**
-	 * Calculates the back vector of the rotation represented by this Quaternion in the <b>global</b> <code>CoordinateSystem</code>.
+	 * Calculates the left vector of the rotation represented by this Quaternion in the <code>GLOBAL</code> <code>CoordinateSpace</code>.
 	 * 
-	 * @return Returns the back direction.
+	 * @return Returns the left direction.
 	 * @see <a href="http://nic-gamedev.blogspot.de/2011/11/quaternion-math-getting-local-axis.html">nic-gamedev.blogspot.de/quaternion-math
 	 *      -getting-local-axis.html</a>
 	 */
-	public Vector3f getBackVector() {
-		return getForwardVector().mul(-1.0f);
+	public Vector3f getLeftVector() {
+		return getRightVector().mul(-1.0f);
 	}
 	
 	/**
-	 * Calculates the up vector of the rotation represented by this Quaternion in the <b>global</b> <code>CoordinateSystem</code>.
+	 * Calculates the up vector of the rotation represented by this Quaternion in the <code>GLOBAL</code> <code>CoordinateSpace</code>.
 	 * 
 	 * @return Returns the up direction.
 	 * @see <a href="http://nic-gamedev.blogspot.de/2011/11/quaternion-math-getting-local-axis.html">nic-gamedev.blogspot.de/quaternion-math
@@ -229,19 +232,19 @@ public class Quaternion {
 	 */
 	public Vector3f getUpVector() {
 		//@formatter:off
-		return new Vector3f(
-				2 * (x * y - w * z),
-                1 - 2 * (x * x + z * z),
-                2 * (y * z + w * x)
-		);
+//		return new Vector3f(
+//				2 * (x * y - w * z),
+//				1 - 2 * (x * x + z * z),
+//				2 * (y * z + w * x)
+//		);
 		//@formatter:on
 		
 		// Alternative:
-		// return new Vector3f(CoordinateSystem.Y_AXIS).rotate(new Quaternion(this));
+		return CoordinateSystem.CoordinateAxis.Y_AXIS.getVector().rotate(new Quaternion(this));
 	}
 	
 	/**
-	 * Calculates the down vector of the rotation represented by this Quaternion in the <b>global</b> <code>CoordinateSystem</code>.
+	 * Calculates the down vector of the rotation represented by this Quaternion in the <code>GLOBAL</code> <code>CoordinateSpace</code>.
 	 * 
 	 * @return Returns the down direction.
 	 * @see <a href="http://nic-gamedev.blogspot.de/2011/11/quaternion-math-getting-local-axis.html">nic-gamedev.blogspot.de/quaternion-math
@@ -252,34 +255,34 @@ public class Quaternion {
 	}
 	
 	/**
-	 * Calculates the right vector of the rotation represented by this Quaternion in the <b>global</b> <code>CoordinateSystem</code>.
+	 * Calculates the forward vector of the rotation represented by this Quaternion in the <code>GLOBAL</code> <code>CoordinateSpace</code>.
 	 * 
-	 * @return Returns the right direction.
+	 * @return Returns the forward direction.
 	 * @see <a href="http://nic-gamedev.blogspot.de/2011/11/quaternion-math-getting-local-axis.html">nic-gamedev.blogspot.de/quaternion-math
 	 *      -getting-local-axis.html</a>
 	 */
-	public Vector3f getRightVector() {
+	public Vector3f getForwardVector() {
 		//@formatter:off
-		return new Vector3f(
-				1 - 2 * (y * y + z * z),
-                2 * (x * y + w * z),
-                2 * (x * z - w * y)
-		);
+//		return new Vector3f(
+//				2 * (x * z + w * y),
+//				2 * (y * x - w * x),
+//				1 - 2 * (x * x + y * y)
+//		);
 		//@formatter:on
 		
 		// Alternative:
-		// return new Vector3f(CoordinateSystem.X_AXIS).rotate(new Quaternion(this));
+		return CoordinateSystem.CoordinateAxis.Z_AXIS.getVector().rotate(new Quaternion(this));
 	}
 	
 	/**
-	 * Calculates the left vector of the rotation represented by this Quaternion in the <b>global</b> <code>CoordinateSystem</code>.
+	 * Calculates the back vector of the rotation represented by this Quaternion in the <code>GLOBAL</code> <code>CoordinateSpace</code>.
 	 * 
-	 * @return Returns the left direction.
+	 * @return Returns the back direction.
 	 * @see <a href="http://nic-gamedev.blogspot.de/2011/11/quaternion-math-getting-local-axis.html">nic-gamedev.blogspot.de/quaternion-math
 	 *      -getting-local-axis.html</a>
 	 */
-	public Vector3f getLeftVector() {
-		return getRightVector().mul(-1.0f);
+	public Vector3f getBackVector() {
+		return getForwardVector().mul(-1.0f);
 	}
 	
 	/**
@@ -372,7 +375,7 @@ public class Quaternion {
 		if (!(other instanceof Quaternion))
 			return false;
 		Quaternion otherQuaternion = (Quaternion) other;
-		return (x == otherQuaternion.x) && (y == otherQuaternion.y) && (z == otherQuaternion.z) && (w == otherQuaternion.w);
+		return (w == otherQuaternion.w) && (x == otherQuaternion.x) && (y == otherQuaternion.y) && (z == otherQuaternion.z);
 	}
 	
 	@Override

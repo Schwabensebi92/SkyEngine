@@ -33,34 +33,36 @@ public class Camera extends GameComponent {
 	
 	@Override
 	public void input(final Mouse mouse, final Keyboard keyboard) {
+		Transform transform = getGameObject().getTransform();
+		
 		float moveAmount = 1.0f * (float) ((CoreTiming) CoreObjectRegister.get(CoreObject.CORE_TIMING)).getDelta();
 		
 		if (keyboard.isKeyDown(KeyboardKeys.KEY_W)) {
-			move(getGameObject().getTransform().getRotation().getForwardVector(), moveAmount);
+			move(transform.getRotation().getForwardVector(), moveAmount);
 		}
 		if (keyboard.isKeyDown(KeyboardKeys.KEY_S)) {
-			move(getGameObject().getTransform().getRotation().getBackVector(), moveAmount);
+			move(transform.getRotation().getBackVector(), moveAmount);
 		}
 		if (keyboard.isKeyDown(KeyboardKeys.KEY_A)) {
-			move(getGameObject().getTransform().getRotation().getLeftVector(), moveAmount);
+			move(transform.getRotation().getLeftVector(), moveAmount);
 		}
 		if (keyboard.isKeyDown(KeyboardKeys.KEY_D)) {
-			move(getGameObject().getTransform().getRotation().getRightVector(), moveAmount);
+			move(transform.getRotation().getRightVector(), moveAmount);
 		}
 		
 		float rotationAmount = 60f * (float) ((CoreTiming) CoreObjectRegister.get(CoreObject.CORE_TIMING)).getDelta();
 		
 		if (keyboard.isKeyDown(KeyboardKeys.KEY_UP)) {
-			rotate(getGameObject().getTransform().getRotation().getRightVector(), rotationAmount);
+			rotate(transform.getRotation().getRightVector(), rotationAmount);
 		}
 		if (keyboard.isKeyDown(KeyboardKeys.KEY_DOWN)) {
-			rotate(getGameObject().getTransform().getRotation().getLeftVector(), rotationAmount);
+			rotate(transform.getRotation().getLeftVector(), rotationAmount);
 		}
 		if (keyboard.isKeyDown(KeyboardKeys.KEY_LEFT)) {
-			rotate(CoordinateSystem.Y_AXIS, rotationAmount);
+			rotate(CoordinateSystem.CoordinateAxis.Y_AXIS.getVector(), rotationAmount);
 		}
 		if (keyboard.isKeyDown(KeyboardKeys.KEY_RIGHT)) {
-			rotate(CoordinateSystem.Y_AXIS, -rotationAmount);
+			rotate(CoordinateSystem.CoordinateAxis.Y_AXIS.getVector(), -rotationAmount);
 		}
 	}
 	
@@ -74,13 +76,11 @@ public class Camera extends GameComponent {
 	
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
+	
 	}
 	
 	@Override
 	public void render(final RenderingConcept renderingConcept) {
-		// TODO Auto-generated method stub
-		
+	
 	}
 }

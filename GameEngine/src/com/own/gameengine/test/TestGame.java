@@ -1,7 +1,7 @@
 package com.own.gameengine.test;
 
 
-import com.own.gameengine.coreengine.math.*;
+import com.own.gameengine.coreengine.math.Vector3f;
 import com.own.gameengine.coreengine.scenegraph.*;
 import com.own.gameengine.game.Game;
 import com.own.gameengine.renderingengine.graphics.*;
@@ -21,13 +21,56 @@ public class TestGame extends Game {
 		float l = 1.0f; // arrow length
 		float ht = 0.02f; // arrow head thickness
 		float hl = 0.04f; // arrow head length
+		
 		//@formatter:off
-		Vertex[] vertices = new Vertex[] {
+		Vertex[] verticesXAxis = new Vertex[] {
+			new Vertex(new Vector3f(  -l,    t,    t)),
+			new Vertex(new Vector3f(l-hl,    t,    t)),
+			new Vertex(new Vector3f(l-hl,    t,   -t)),
+			new Vertex(new Vector3f(  -l,    t,   -t)),
+			
+			new Vertex(new Vector3f(  -l,   -t,    t)),
+			new Vertex(new Vector3f(l-hl,   -t,    t)),
+			new Vertex(new Vector3f(l-hl,   -t,   -t)),
+			new Vertex(new Vector3f(  -l,   -t,   -t)),
+			
+			new Vertex(new Vector3f(l-hl,  -ht,   ht)),
+			new Vertex(new Vector3f(l-hl,   ht,   ht)),
+			new Vertex(new Vector3f(l-hl,   ht,  -ht)),
+			new Vertex(new Vector3f(l-hl,  -ht,  -ht)),
+			
+			new Vertex(new Vector3f(   l, 0.0f, 0.0f))
+		};
+		//@formatter:on
+		
+		//@formatter:off
+		Vertex[] verticesYAxis = new Vertex[] {
+			new Vertex(new Vector3f(-t,  -l, -t)),
+			new Vertex(new Vector3f(-t,  l-hl, -t)),
+			new Vertex(new Vector3f( t,  l-hl, -t)),
+			new Vertex(new Vector3f( t,  -l, -t)),
+			
+			new Vertex(new Vector3f(-t, -l, t)),
+			new Vertex(new Vector3f(-t, l-hl, t)),
+			new Vertex(new Vector3f( t, l-hl, t)),
+			new Vertex(new Vector3f( t, -l, t)),
+			
+			new Vertex(new Vector3f(-ht, l-hl, ht)),
+			new Vertex(new Vector3f(-ht,  l-hl, -ht)),
+			new Vertex(new Vector3f( ht,  l-hl, -ht)),
+			new Vertex(new Vector3f( ht, l-hl, ht)),
+			
+			new Vertex(new Vector3f(0.0f, l, 0.0f))
+		};
+		//@formatter:on
+		
+		//@formatter:off
+		Vertex[] verticesZAxis = new Vertex[] {
 			new Vertex(new Vector3f(-t,  t, -l)),
 			new Vertex(new Vector3f(-t,  t, l-hl)),
 			new Vertex(new Vector3f( t,  t, l-hl)),
 			new Vertex(new Vector3f( t,  t, -l)),
-
+			
 			new Vertex(new Vector3f(-t, -t, -l)),
 			new Vertex(new Vector3f(-t, -t, l-hl)),
 			new Vertex(new Vector3f( t, -t, l-hl)),
@@ -65,30 +108,32 @@ public class TestGame extends Game {
 		};
 		//@formatter:on
 		
-		Mesh mesh = new Mesh(vertices, indices, true);
+		Mesh meshXAxis = new Mesh(verticesXAxis, indices, true);
+		Mesh meshYAxis = new Mesh(verticesYAxis, indices, true);
+		Mesh meshZAxis = new Mesh(verticesZAxis, indices, true);
 		Material materialXAxis = new Material(new Vector3f(1.0f, 0.0f, 0.0f), 1, 8);
 		Material materialYAxis = new Material(new Vector3f(0.0f, 1.0f, 0.0f), 1, 8);
 		Material materialZAxis = new Material(new Vector3f(0.0f, 0.0f, 1.0f), 1, 8);
-		Material materialFreeVector = new Material(new Vector3f(1.0f, 1.0f, 1.0f), 1, 8);
+		Material materialFreeVector = new Material(new Vector3f(1.0f, 1.0f, 0.0f), 1, 8);
 		
-		GameObject xAxis = new GameObject();
-		xAxis.getTransform().rotate(new Vector3f(CoordinateSystem.Y_AXIS), (float) Math.toRadians(90));
-		xAxis.addComponent(new MeshRenderer(mesh, materialXAxis));
+		GameObject referenceAxis = new GameObject();
+		referenceAxis.addComponent(new MeshRenderer(meshXAxis, materialXAxis));
+		referenceAxis.addComponent(new MeshRenderer(meshYAxis, materialYAxis));
+		referenceAxis.addComponent(new MeshRenderer(meshZAxis, materialZAxis));
 		
-		GameObject yAxis = new GameObject();
-		yAxis.getTransform().rotate(new Vector3f(CoordinateSystem.X_AXIS), (float) Math.toRadians(270));
-		yAxis.addComponent(new MeshRenderer(mesh, materialYAxis));
-		
-		GameObject zAxis = new GameObject();
-		zAxis.addComponent(new MeshRenderer(mesh, materialZAxis));
+		GameObject freeAxis = new GameObject();
+		freeAxis.getTransform().setScale(new Vector3f(0.5f, 0.5f, 0.5f));
+		freeAxis.addComponent(new MeshRenderer(meshXAxis, materialXAxis));
+		freeAxis.addComponent(new MeshRenderer(meshYAxis, materialYAxis));
+		freeAxis.addComponent(new MeshRenderer(meshZAxis, materialZAxis));
+		freeAxis.addComponent(new TestComponent());
 		
 		GameObject freeVector = new GameObject();
-		freeVector.addComponent(new MeshRenderer(mesh, materialFreeVector));
-		freeVector.addComponent(new TestComponent());
+		freeVector.getTransform().scale(new Vector3f(0.2f, 0.2f, 1.5f));
+		freeVector.addComponent(new MeshRenderer(meshZAxis, materialFreeVector));
 		
-		addObject(xAxis);
-		addObject(yAxis);
-		addObject(zAxis);
+		addObject(referenceAxis);
+		addObject(freeAxis);
 		addObject(freeVector);
 		
 		GameObject player = new GameObject();
@@ -97,10 +142,6 @@ public class TestGame extends Game {
 		player.addComponent(camera);
 		camera.activate();
 		addObject(player);
-		
-		Quaternion Q = new Quaternion(new Vector3f(1, 1, 1), (float) Math.toRadians(360.0f));
-		Vector3f P = new Vector3f(1.0f, 0.0f, 0.0f);
-		P.rotate(new Quaternion(Q));
 	}
 	
 	@Override

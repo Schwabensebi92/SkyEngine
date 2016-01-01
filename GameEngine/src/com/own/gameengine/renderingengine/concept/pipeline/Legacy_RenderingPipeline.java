@@ -16,7 +16,7 @@ import com.own.gameengine.renderingengine.graphics.object.*;
 
 public abstract class Legacy_RenderingPipeline {
 	
-	private RenderingEngine renderingEngine; // TODO: Phase out
+	private RenderingEngine renderingEngine; // TODO Phase out
 	
 	private int							id;
 	private Shader[]					shaders;

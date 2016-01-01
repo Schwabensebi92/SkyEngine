@@ -1,6 +1,7 @@
 package com.own.gameengine.coreengine;
 
 
+import com.own.gameengine.error.Debug;
 import com.own.gameengine.game.Game;
 import com.own.gameengine.inputengine.InputEngine;
 import com.own.gameengine.physicsengine.physics.TimingEngine;
@@ -89,7 +90,7 @@ public class CoreEngine {
 	
 	private void initialize() throws LWJGLLibraryException {
 		// Initialization order is very important
-		// ProgramContext.setIcon("icon.jpg"); TODO: Correct Implementation
+		// ProgramContext.setIcon("icon.jpg"); // TODO Correct Implementation
 		
 		// Initialize TimingEngine
 		timingEngine = new TimingEngine();
