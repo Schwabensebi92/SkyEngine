@@ -10,4 +10,12 @@ public class Debug {
 			System.out.println(out);
 		}
 	}
+	
+	public static void enable() {
+		enable = true;
+	}
+	
+	public static void disable() {
+		enable = false;
+	}
 }

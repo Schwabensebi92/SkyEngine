@@ -37,7 +37,7 @@ public class PerspectiveProjectionMatrix4f extends Matrix4f {
 		//@formatter:off
 		elements[0][0] = 1.0f / (tanHalfFov * aspectRatio);	elements[0][1] = 0;					elements[0][2] = 0;							elements[0][3] = 0;
 		elements[1][0] = 0;									elements[1][1] = 1.0f / tanHalfFov;	elements[1][2] = 0;							elements[1][3] = 0;
-		elements[2][0] = 0;									elements[2][1] = 0;					elements[2][2] = (-zNear - zFar) / zRange;	elements[2][3] = 2 * zFar * zNear / zRange;
+		elements[2][0] = 0;									elements[2][1] = 0;					elements[2][2] = -(zNear + zFar) / zRange;	elements[2][3] = 2 * zFar * zNear / zRange;
 		elements[3][0] = 0;									elements[3][1] = 0;					elements[3][2] = 1;							elements[3][3] = 0;
 		//@formatter:on
 	}

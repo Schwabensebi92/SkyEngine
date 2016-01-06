@@ -61,13 +61,14 @@ public class Vector3f {
 	 *      quaternions-and-rotation-around-world-axis</a>
 	 */
 	public Vector3f rotate(final Quaternion rotation) {
-		Quaternion conjugate = new Quaternion(rotation).conjugate();
-		rotation.mul(this);
-		rotation.mul(conjugate);
+		Quaternion rotationCopy = new Quaternion(rotation);
+		Quaternion conjugate = new Quaternion(rotationCopy).conjugate();
+		rotationCopy.mul(this);
+		rotationCopy.mul(conjugate);
 		
-		x = rotation.getX();
-		y = rotation.getY();
-		z = rotation.getZ();
+		x = rotationCopy.getX();
+		y = rotationCopy.getY();
+		z = rotationCopy.getZ();
 		
 		return this;
 	}

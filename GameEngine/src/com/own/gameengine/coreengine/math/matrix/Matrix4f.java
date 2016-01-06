@@ -5,8 +5,10 @@ package com.own.gameengine.coreengine.math.matrix;
  * Represents a 4-by-4 Matrix.
  * 
  * @see <a href="https://en.wikipedia.org/wiki/Matrix_(mathematics)"> wikipedia.org/Matrix</a>
+ * @see <a href="http://www.learnopengles.com/wordpress/wp-content/uploads/2012/10/left_right_hand.gif">learnopengles.com/left_right_hand.
+ *      gif</a>
  * @author Sebastian Utz
- * 		
+ * 
  */
 public class Matrix4f {
 	

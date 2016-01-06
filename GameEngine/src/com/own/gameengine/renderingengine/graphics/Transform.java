@@ -17,6 +17,12 @@ public class Transform {
 		scale = new Vector3f(1.0f, 1.0f, 1.0f);
 	}
 	
+	public Transform(final Transform transform) {
+		translation = new Vector3f(transform.getTranslation());
+		rotation = new Quaternion(transform.getRotation());
+		scale = new Vector3f(transform.getScale());
+	}
+	
 	public Matrix4f getTransformation() {
 		Matrix4f translationMatrix = new TranslationMatrix4f(translation);
 		Matrix4f rotationMatrix = new RotationMatrix4f(rotation);
@@ -45,7 +51,9 @@ public class Transform {
 	
 	public void rotate(final Vector3f rotationAxis, final float angle) {
 		Quaternion additionalRotation = new Quaternion(rotationAxis, angle);
-		rotation = additionalRotation.mul(rotation); // Invers: rotation.mul(additionalRotation);
+		rotation = additionalRotation.mul(rotation);
+		// Invers:
+		// rotation.mul(additionalRotation);
 	}
 	
 	/**
@@ -56,7 +64,7 @@ public class Transform {
 	 *            The direction to look at.
 	 * @param up
 	 *            The upwards direction in which the transform should be oriented.
-	 * 			
+	 * 
 	 * @see <a href="http://lolengine.net/blog/2013/09/18/beautiful-maths-quaternion-from-vectors">lolengine.net/beautiful-maths-quaternion-
 	 *      from-vectors</a>
 	 * @see <a href="http://gamedev.stackexchange.com/a/15078">gamedev.stackexchange.com/15078</a>
@@ -67,7 +75,7 @@ public class Transform {
 		// TODO Use up vector
 		
 		Vector3f destinationForwardNormalized = new Vector3f(direction).normalize();
-		Vector3f currentForwardNormalized = getRotation().getForwardVector().normalize();
+		Vector3f currentForwardNormalized = getRotation().getLocalZAxis().normalize();
 		
 		Vector3f rotationAxis = new Vector3f(currentForwardNormalized).cross(destinationForwardNormalized);
 		float rotationAngle = (float) Math.acos(currentForwardNormalized.dot(destinationForwardNormalized));

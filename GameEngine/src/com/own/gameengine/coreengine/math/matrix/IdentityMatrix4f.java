@@ -1,8 +1,28 @@
 package com.own.gameengine.coreengine.math.matrix;
 
 
+/**
+ * Represents an 4-by-4 Identity Matrix.
+ * 
+ * @author Sebastian Utz
+ * 		
+ */
 public class IdentityMatrix4f extends Matrix4f {
 	
+	/**
+	 * Constructor for an identity matrix.<br>
+	 * <br>
+	 * <b>E.g.:</b><br>
+	 * <i>Vector a</i><br>
+	 * <i>Identity Matrix T</i><br>
+	 * <i>Vector a'</i><br>
+	 * <br>
+	 * <u>a' = T * a</u><br>
+	 * a'.x = a.x<br>
+	 * a'.y = a.y<br>
+	 * a'.z = a.z<br>
+	 * 
+	 */
 	public IdentityMatrix4f() {
 		super();
 		

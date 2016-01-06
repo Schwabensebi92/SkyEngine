@@ -8,12 +8,12 @@ import com.own.gameengine.renderingengine.graphics.CameraEngine;
 import com.own.gameengine.renderingengine.graphics.object.*;
 
 
-public class MeshRenderer extends GameComponent {
+public class MeshRenderComponent extends GameComponent {
 	
 	private Mesh		mesh;
 	private Material	material;
 	
-	public MeshRenderer(final Mesh mesh, final Material material) {
+	public MeshRenderComponent(final Mesh mesh, final Material material) {
 		super(false, false, true);
 		this.mesh = mesh;
 		this.material = material;

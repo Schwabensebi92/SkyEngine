@@ -22,27 +22,22 @@ public class TestComponent extends GameComponent {
 	public void input(final Mouse mouse, final Keyboard keyboard) {
 		Transform t = getGameObject().getTransform();
 		
-		// t.rotate(new Vector3f(CoordinateSystem.Y_AXIS),
-		// (float) ((CoreTiming) CoreObjectRegister.get(CoreObject.CORE_TIMING)).getDelta());
-		// t.rotate(getGameObject().getTransform().getRotation().getUpVector(),
-		// (float) ((CoreTiming) CoreObjectRegister.get(CoreObject.CORE_TIMING)).getDelta());
-		
 		float angleDegree = 90.0f;
 		
 		if (keyboard.isKeyPressed(KeyboardKeys.KEY_1)) {
-			t.rotate(t.getRotation().getRightVector(), (float) Math.toRadians(angleDegree));
+			t.rotate(t.getRotation().getLocalXAxis(), (float) Math.toRadians(angleDegree));
 		}
 		if (keyboard.isKeyPressed(KeyboardKeys.KEY_2)) {
 			t.rotate(CoordinateSystem.CoordinateAxis.X_AXIS.getVector(), (float) Math.toRadians(angleDegree));
 		}
 		if (keyboard.isKeyPressed(KeyboardKeys.KEY_3)) {
-			t.rotate(t.getRotation().getUpVector(), (float) Math.toRadians(angleDegree));
+			t.rotate(t.getRotation().getLocalYAxis(), (float) Math.toRadians(angleDegree));
 		}
 		if (keyboard.isKeyPressed(KeyboardKeys.KEY_4)) {
 			t.rotate(CoordinateSystem.CoordinateAxis.Y_AXIS.getVector(), (float) Math.toRadians(angleDegree));
 		}
 		if (keyboard.isKeyPressed(KeyboardKeys.KEY_5)) {
-			t.rotate(t.getRotation().getForwardVector(), (float) Math.toRadians(angleDegree));
+			t.rotate(t.getRotation().getLocalZAxis(), (float) Math.toRadians(angleDegree));
 		}
 		if (keyboard.isKeyPressed(KeyboardKeys.KEY_6)) {
 			t.rotate(CoordinateSystem.CoordinateAxis.Z_AXIS.getVector(), (float) Math.toRadians(angleDegree));
@@ -54,13 +49,13 @@ public class TestComponent extends GameComponent {
 			Debug.out("Current rotation: " + t.getRotation());
 			Debug.out("--------------------------------");
 			Debug.out("global xAxis: " + CoordinateSystem.CoordinateAxis.X_AXIS.getVector());
-			Debug.out("local xAxis: " + t.getRotation().getRightVector());
+			Debug.out("local xAxis: " + t.getRotation().getLocalXAxis());
 			Debug.out("--------------------------------");
 			Debug.out("global yAxis: " + CoordinateSystem.CoordinateAxis.Y_AXIS.getVector());
-			Debug.out("local yAxis: " + t.getRotation().getUpVector());
+			Debug.out("local yAxis: " + t.getRotation().getLocalYAxis());
 			Debug.out("--------------------------------");
 			Debug.out("global zAxis: " + CoordinateSystem.CoordinateAxis.Z_AXIS.getVector());
-			Debug.out("local zAxis: " + t.getRotation().getForwardVector());
+			Debug.out("local zAxis: " + t.getRotation().getLocalZAxis());
 			Debug.out("--------------------------------");
 			Debug.out("--------------------------------");
 		}
