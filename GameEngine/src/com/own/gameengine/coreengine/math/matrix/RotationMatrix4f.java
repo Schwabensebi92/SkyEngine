@@ -1,8 +1,8 @@
 package com.own.gameengine.coreengine.math.matrix;
 
 
-import com.own.gameengine.coreengine.math.*;
-import com.own.gameengine.error.Debug;
+import com.own.gameengine.coreengine.math.Quaternion;
+import com.own.gameengine.coreengine.math.Vector3f;
 
 
 /**
@@ -32,13 +32,9 @@ public class RotationMatrix4f extends Matrix4f {
 	public RotationMatrix4f(final Quaternion rotation) {
 		super();
 		
-		Debug.disable();
-		
 		Vector3f r = rotation.getLocalXAxis().normalize();
 		Vector3f u = rotation.getLocalYAxis().normalize();
 		Vector3f f = rotation.getLocalZAxis().normalize();
-		
-		Debug.enable();
 		
 		//@formatter:off
 		elements[0][0] = r.getX();	elements[0][1] = r.getY();	elements[0][2] = r.getZ();	elements[0][3] = 0;

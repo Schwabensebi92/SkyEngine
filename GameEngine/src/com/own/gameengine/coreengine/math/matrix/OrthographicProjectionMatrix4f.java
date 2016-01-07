@@ -5,7 +5,7 @@ package com.own.gameengine.coreengine.math.matrix;
  * Represents a 4-by-4 Orthographic Projection Matrix.
  * 
  * @author Sebastian Utz
- * 
+ * 		
  */
 public class OrthographicProjectionMatrix4f extends Matrix4f {
 	

@@ -8,7 +8,7 @@ package com.own.gameengine.coreengine.math.matrix;
  * @see <a href="http://www.learnopengles.com/wordpress/wp-content/uploads/2012/10/left_right_hand.gif">learnopengles.com/left_right_hand.
  *      gif</a>
  * @author Sebastian Utz
- * 
+ * 		
  */
 public class Matrix4f {
 	
@@ -81,6 +81,18 @@ public class Matrix4f {
 		}
 		elements = newElements;
 
+		return this;
+	}
+	
+	public Matrix4f transpose() {
+		float[][] newElements = new float[AMOUNT_ELEMENTS_N][AMOUNT_ELEMENTS_M];
+		for (int m = 0; m < AMOUNT_ELEMENTS_M; m++) {
+			for (int n = 0; n < AMOUNT_ELEMENTS_N; n++) {
+				newElements[n][m] =  elements[m][n];
+			}
+		}
+		elements = newElements;
+		
 		return this;
 	}
 

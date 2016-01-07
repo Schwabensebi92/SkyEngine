@@ -3,8 +3,9 @@ package com.own.gameengine.test;
 
 import com.own.gameengine.coreengine.math.CoordinateSystem;
 import com.own.gameengine.coreengine.scenegraph.GameComponent;
-import com.own.gameengine.error.Debug;
-import com.own.gameengine.inputengine.*;
+import com.own.gameengine.inputengine.Keyboard;
+import com.own.gameengine.inputengine.KeyboardKeys;
+import com.own.gameengine.inputengine.Mouse;
 import com.own.gameengine.renderingengine.concept.RenderingConcept;
 import com.own.gameengine.renderingengine.graphics.Transform;
 
@@ -41,23 +42,6 @@ public class TestComponent extends GameComponent {
 		}
 		if (keyboard.isKeyPressed(KeyboardKeys.KEY_6)) {
 			t.rotate(CoordinateSystem.CoordinateAxis.Z_AXIS.getVector(), (float) Math.toRadians(angleDegree));
-		}
-		
-		if (keyboard.isKeyPressed(KeyboardKeys.KEY_ENTER)) {
-			Debug.out("--------------------------------");
-			Debug.out("--------------------------------");
-			Debug.out("Current rotation: " + t.getRotation());
-			Debug.out("--------------------------------");
-			Debug.out("global xAxis: " + CoordinateSystem.CoordinateAxis.X_AXIS.getVector());
-			Debug.out("local xAxis: " + t.getRotation().getLocalXAxis());
-			Debug.out("--------------------------------");
-			Debug.out("global yAxis: " + CoordinateSystem.CoordinateAxis.Y_AXIS.getVector());
-			Debug.out("local yAxis: " + t.getRotation().getLocalYAxis());
-			Debug.out("--------------------------------");
-			Debug.out("global zAxis: " + CoordinateSystem.CoordinateAxis.Z_AXIS.getVector());
-			Debug.out("local zAxis: " + t.getRotation().getLocalZAxis());
-			Debug.out("--------------------------------");
-			Debug.out("--------------------------------");
 		}
 		
 		// if (keyboard.isKeyPressed(KeyboardKeys.KEY_7)) {

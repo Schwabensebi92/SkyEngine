@@ -1,8 +1,13 @@
 package com.own.gameengine.renderingengine.graphics;
 
 
-import com.own.gameengine.coreengine.math.*;
-import com.own.gameengine.coreengine.math.matrix.*;
+import com.own.gameengine.coreengine.math.Quaternion;
+import com.own.gameengine.coreengine.math.Vector3f;
+import com.own.gameengine.coreengine.math.matrix.Matrix4f;
+import com.own.gameengine.coreengine.math.matrix.OpenGLWrapperMatrix4f;
+import com.own.gameengine.coreengine.math.matrix.RotationMatrix4f;
+import com.own.gameengine.coreengine.math.matrix.ScaleMatrix4f;
+import com.own.gameengine.coreengine.math.matrix.TranslationMatrix4f;
 
 
 public class Transform {
@@ -27,8 +32,10 @@ public class Transform {
 		Matrix4f translationMatrix = new TranslationMatrix4f(translation);
 		Matrix4f rotationMatrix = new RotationMatrix4f(rotation);
 		Matrix4f scaleMatrix = new ScaleMatrix4f(scale);
+		// Get OpenGLWrapper matrix
+		Matrix4f openGLWrapperMatrix = new OpenGLWrapperMatrix4f();
 		
-		return translationMatrix.mul(rotationMatrix.mul(scaleMatrix));
+		return openGLWrapperMatrix.mul(translationMatrix.mul(rotationMatrix.mul(scaleMatrix)));
 	}
 	
 	public Matrix4f getProjectedTransformation(final Camera camera) {
@@ -64,7 +71,7 @@ public class Transform {
 	 *            The direction to look at.
 	 * @param up
 	 *            The upwards direction in which the transform should be oriented.
-	 * 
+	 * 			
 	 * @see <a href="http://lolengine.net/blog/2013/09/18/beautiful-maths-quaternion-from-vectors">lolengine.net/beautiful-maths-quaternion-
 	 *      from-vectors</a>
 	 * @see <a href="http://gamedev.stackexchange.com/a/15078">gamedev.stackexchange.com/15078</a>

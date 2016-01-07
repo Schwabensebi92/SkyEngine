@@ -1,13 +1,20 @@
 package com.own.gameengine.test;
 
 
-import com.own.gameengine.coreengine.math.CoordinateSystem.CoordinateAxis;
 import com.own.gameengine.coreengine.math.Vector3f;
-import com.own.gameengine.coreengine.scenegraph.*;
+import com.own.gameengine.coreengine.scenegraph.GameObject;
+import com.own.gameengine.coreengine.scenegraph.KeyboardRotationComponent;
+import com.own.gameengine.coreengine.scenegraph.KeyboardTranslationComponent;
+import com.own.gameengine.coreengine.scenegraph.MeshRenderComponent;
 import com.own.gameengine.game.Game;
 import com.own.gameengine.inputengine.KeyboardKeys;
-import com.own.gameengine.renderingengine.graphics.*;
-import com.own.gameengine.renderingengine.graphics.object.*;
+import com.own.gameengine.renderingengine.graphics.Camera;
+import com.own.gameengine.renderingengine.graphics.FrameRate;
+import com.own.gameengine.renderingengine.graphics.Resolution;
+import com.own.gameengine.renderingengine.graphics.WindowSettings;
+import com.own.gameengine.renderingengine.graphics.object.Material;
+import com.own.gameengine.renderingengine.graphics.object.Mesh;
+import com.own.gameengine.renderingengine.graphics.object.Vertex;
 import com.own.gameengine.renderingengine.graphics.projection.PerspectiveProjection;
 
 
@@ -223,25 +230,31 @@ public class TestGame extends Game {
 		freeAxis.addComponent(new MeshRenderComponent(meshYAxis, materialFreeYAxis));
 		freeAxis.addComponent(new MeshRenderComponent(meshZAxis, materialFreeZAxis));
 		freeAxis.addComponent(new TestComponent());
+		freeAxis.addComponent(new DebugTransformComponent(KeyboardKeys.KEY_F));
 		
 		// Free Camera
 		GameObject freeCameraObject = new GameObject();
 		Camera freeCamera = new Camera(new PerspectiveProjection(getWindowSettings().getAspectRatio()));
-		// freeCameraObject.addComponent(freeCamera);
-		freeCameraObject.addComponent(
-				new KeyboardTranslationComponent(KeyboardKeys.KEY_W, KeyboardKeys.KEY_S, KeyboardKeys.KEY_D, KeyboardKeys.KEY_A, 1.0f));
-		freeCameraObject.addComponent(new KeyboardRotationComponent(KeyboardKeys.KEY_UP, KeyboardKeys.KEY_DOWN, KeyboardKeys.KEY_RIGHT,
-				KeyboardKeys.KEY_LEFT, (float) Math.toRadians(60.0f)));
+		freeCameraObject.addComponent(freeCamera);
+		// freeCameraObject.addComponent(
+		// new KeyboardTranslationComponent(KeyboardKeys.KEY_W, KeyboardKeys.KEY_S, KeyboardKeys.KEY_D, KeyboardKeys.KEY_A, 1.0f));
+		// freeCameraObject.addComponent(new KeyboardRotationComponent(KeyboardKeys.KEY_UP, KeyboardKeys.KEY_DOWN, KeyboardKeys.KEY_RIGHT,
+		// KeyboardKeys.KEY_LEFT, (float) Math.toRadians(60.0f)));
 		freeCameraObject.addComponent(new MeshRenderComponent(meshCamera, materialCamera));
 		
 		// Global Camera
 		GameObject globalCameraObject = new GameObject();
-		globalCameraObject.getTransform().translate(new Vector3f(1.5f, 1.5f, -1.5f));
-		globalCameraObject.getTransform().rotate(CoordinateAxis.Y_AXIS.getVector(), (float) Math.toRadians(45.0f));
-		globalCameraObject.getTransform().rotate(globalCameraObject.getTransform().getRotation().getLocalXAxis(),
-				(float) Math.toRadians(-30.0f));
+		// globalCameraObject.getTransform().translate(new Vector3f(1.5f, 1.5f, -1.5f));
+		// globalCameraObject.getTransform().rotate(CoordinateAxis.Y_AXIS.getVector(), (float) Math.toRadians(45.0f));
+		// globalCameraObject.getTransform().rotate(globalCameraObject.getTransform().getRotation().getLocalXAxis(), (float)
+		// Math.toRadians(-30.0f));
 		Camera globalCamera = new Camera(new PerspectiveProjection(getWindowSettings().getAspectRatio()));
 		globalCameraObject.addComponent(globalCamera);
+		globalCameraObject.addComponent(new DebugTransformComponent(KeyboardKeys.KEY_G));
+		globalCameraObject.addComponent(
+				new KeyboardTranslationComponent(KeyboardKeys.KEY_W, KeyboardKeys.KEY_S, KeyboardKeys.KEY_D, KeyboardKeys.KEY_A, 1.0f));
+		globalCameraObject.addComponent(new KeyboardRotationComponent(KeyboardKeys.KEY_UP, KeyboardKeys.KEY_DOWN, KeyboardKeys.KEY_RIGHT,
+				KeyboardKeys.KEY_LEFT, (float) Math.toRadians(60.0f)));
 		globalCamera.activate();
 		
 		// Add objects to scene graph
