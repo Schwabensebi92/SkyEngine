@@ -68,7 +68,7 @@ public class Quaternion {
 	}
 	
 	/**
-	 * Constructor of a rotation.<br>
+	 * Constructor of a rotation quaternion.<br>
 	 * The rotation happens in anti-clockwise-direction looking in the direction of the <code>axis</code>.<br>
 	 * <br>
 	 * <b>E.g.:</b><br>
@@ -84,10 +84,10 @@ public class Quaternion {
 	 * @param angle
 	 *            Angle of rotation around <code>axis</code>.
 	 */
-	public Quaternion(final Vector3f axis, final float angle) {
+	public Quaternion(final Vector3f axis, float angle) {
 		// Invert angle to rotate anti-clockwise. The default rotation direction is clockwise
 		// (https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Using_quaternion_rotations)
-		// angle = -angle; // Not necessary if multiplication is done for left-handed coordinate system
+		angle = -angle;
 		
 		// Calculate sine and cosine of half the angle
 		float sinHalfAngle = (float) Math.sin(angle / 2.0f);
@@ -211,15 +211,15 @@ public class Quaternion {
 	 */
 	public Vector3f getLocalXAxis() {
 		//@formatter:off
-		return new Vector3f(
-				1 - 2 * (y * y + z * z),
-				2 * (x * y - w * z),
-				2 * (x * z + w * y)
-		);
+//		return new Vector3f(
+//				1 - 2 * (y * y + z * z),
+//				2 * (x * y - w * z),
+//				2 * (x * z + w * y)
+//		);
 		//@formatter:on
 		
 		// Alternative:
-		// return CoordinateSystem.CoordinateAxis.X_AXIS.getVector().rotate(new Quaternion(this));
+		return CoordinateSystem.CoordinateAxis.X_AXIS.getVector().rotate(new Quaternion(this));
 	}
 	
 	/**
@@ -232,15 +232,15 @@ public class Quaternion {
 	 */
 	public Vector3f getLocalYAxis() {
 		//@formatter:off
-		return new Vector3f(
-				2 * (x * y + w * z),
-				1 - 2 * (x * x + z * z),
-				2 * (y * z - w * x)
-		);
+//		return new Vector3f(
+//				2 * (x * y + w * z),
+//				1 - 2 * (x * x + z * z),
+//				2 * (y * z - w * x)
+//		);
 		//@formatter:on
 		
 		// Alternative:
-		// return CoordinateSystem.CoordinateAxis.Y_AXIS.getVector().rotate(new Quaternion(this));
+		return CoordinateSystem.CoordinateAxis.Y_AXIS.getVector().rotate(new Quaternion(this));
 	}
 	
 	/**
@@ -253,15 +253,15 @@ public class Quaternion {
 	 */
 	public Vector3f getLocalZAxis() {
 		//@formatter:off
-		return new Vector3f(
-				2 * (x * z - w * y),
-				2 * (y * z + w * x),
-				1 - 2 * (x * x + y * y)
-		);
+//		return new Vector3f(
+//				2 * (x * z - w * y),
+//				2 * (y * z + w * x),
+//				1 - 2 * (x * x + y * y)
+//		);
 		//@formatter:on
 		
 		// Alternative:
-		// return CoordinateSystem.CoordinateAxis.Z_AXIS.getVector().rotate(new Quaternion(this));
+		return CoordinateSystem.CoordinateAxis.Z_AXIS.getVector().rotate(new Quaternion(this));
 	}
 	
 	/**
