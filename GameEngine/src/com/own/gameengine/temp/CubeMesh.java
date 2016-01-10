@@ -1,7 +1,7 @@
 package com.own.gameengine.temp;
 
 
-import com.own.gameengine.coreengine.math.Vector3f;
+import com.own.gameengine.coreengine.math.*;
 import com.own.gameengine.renderingengine.graphics.object.*;
 
 
@@ -28,15 +28,15 @@ public class CubeMesh extends Mesh {
 		super(
 				//@formatter:off
 				new Vertex[] {
-					new Vertex(new Vector3f(-w,  h,  l)),
-					new Vertex(new Vector3f( w,  h,  l)),
-					new Vertex(new Vector3f( w,  h, -l)),
-					new Vertex(new Vector3f(-w,  h, -l)),
+					new Vertex(new Vector3f(-w,  h,  l), new Vector2f(0.25f, 1.0f)),
+					new Vertex(new Vector3f( w,  h,  l), new Vector2f(0.5f, 1.0f)),
+					new Vertex(new Vector3f( w,  h, -l), new Vector2f(0.5f, 0.75f)),
+					new Vertex(new Vector3f(-w,  h, -l), new Vector2f(0.25f, 0.75f)),
 					
-					new Vertex(new Vector3f(-w, -h,  l)),
-					new Vertex(new Vector3f( w, -h,  l)),
-					new Vertex(new Vector3f( w, -h, -l)),
-					new Vertex(new Vector3f(-w, -h, -l))
+					new Vertex(new Vector3f(-w, -h,  l), new Vector2f(0.25f, 0.25f)),
+					new Vertex(new Vector3f( w, -h,  l), new Vector2f(0.5f, 0.25f)),
+					new Vertex(new Vector3f( w, -h, -l), new Vector2f(0.5f, 0.5f)),
+					new Vertex(new Vector3f(-w, -h, -l), new Vector2f(0.25f, 0.5f))
 				},
 				new int[] {
 					0, 1, 2, // arrow top

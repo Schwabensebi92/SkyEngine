@@ -3,37 +3,46 @@ package com.own.gameengine.renderingengine.graphics.object;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.nio.ByteBuffer;
+import java.io.*;
+import java.nio.*;
+import java.nio.channels.FileChannel;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL12;
+import org.lwjgl.stb.STBImage;
 
 
 public class TextureLoader {
 	
 	private final static int BYTE_PER_PIXEL = 4;
 	
+	/**
+	 * Creates an openGL texture from the image specified by <code>fileName</code>.
+	 * 
+	 * @param fileName
+	 *            File name relative to the game engines texture resource folder.
+	 * @return Returns the texture id for the newly created texture.
+	 * @throws IOException
+	 *             If loading the texture fails.
+	 * 
+	 * @see <a href="http://stackoverflow.com/a/33858800">stackoverflow.com/33858800</a>
+	 */
 	public static int loadTexture(final String fileName) throws IOException {
-		BufferedImage image = loadImage(fileName);
+		ByteBuffer imageRaw = loadImageFile("./res/textures/" + fileName);
 		
-		int[] pixels = new int[image.getWidth() * image.getHeight()];
-		image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
+		IntBuffer imageWidthBuffer = BufferUtils.createIntBuffer(1);
+		IntBuffer imageHeightBuffer = BufferUtils.createIntBuffer(1);
+		IntBuffer numComponentsBuffer = BufferUtils.createIntBuffer(1);
 		
-		ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * BYTE_PER_PIXEL);
-		
-		for (int y = 0; y < image.getHeight(); y++) {
-			for (int x = 0; x < image.getWidth(); x++) {
-				int pixel = pixels[y * image.getWidth() + x];
-				buffer.put((byte) ((pixel >> 16) & 0xFF));
-				buffer.put((byte) ((pixel >> 8) & 0xFF));
-				buffer.put((byte) (pixel & 0xFF));
-				buffer.put((byte) ((pixel >> 24) & 0xFF));
-			}
-		}
-		
-		buffer.flip();
+		ByteBuffer image = STBImage.stbi_load_from_memory(imageRaw, imageWidthBuffer, imageHeightBuffer, numComponentsBuffer,
+				BYTE_PER_PIXEL);
+		if (image == null)
+			throw new RuntimeException("Failed to load texture: " + STBImage.stbi_failure_reason());
+			
+		int imageWidth = imageWidthBuffer.get(0);
+		int imageHeight = imageHeightBuffer.get(0);
+		int numComponents = numComponentsBuffer.get(0);
+		System.out.println("Tex NumComp: " + numComponents);
 		
 		int textureID = glGenTextures();
 		glBindTexture(GL_TEXTURE_2D, textureID);
@@ -44,14 +53,27 @@ public class TextureLoader {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 		
 		return textureID;
 	}
 	
-	private static BufferedImage loadImage(final String fileName) throws IOException {
-		// TODO Fix ImageIO reading on OS X
-		BufferedImage image = null;// ImageIO.read(new File(fileName));
-		return image;
+	private static ByteBuffer loadImageFile(final String fileName) throws IOException {
+		File file = new File(fileName);
+		
+		FileInputStream fileInputStream = new FileInputStream(file);
+		FileChannel fileChannel = fileInputStream.getChannel();
+		
+		ByteBuffer buffer = BufferUtils.createByteBuffer((int) fileChannel.size() + 1);
+		
+		while (fileChannel.read(buffer) != -1) {
+			;
+		}
+		
+		fileInputStream.close();
+		fileChannel.close();
+		buffer.flip();
+		
+		return buffer;
 	}
 }

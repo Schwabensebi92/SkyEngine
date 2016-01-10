@@ -23,7 +23,7 @@ public class TestGame extends Game {
 		Mesh meshCube = new CubeMesh();
 		
 		// Materials
-		Material materialCube = new Material(new Vector3f(0.7f, 0.7f, 0.7f), 1, 8);
+		Material materialCube = new Material(new Texture("checkerboard.png")); // (new Vector3f(0.7f, 0.7f, 0.7f), 1, 8);
 		
 		// Cube
 		GameObject cube = new GameObject();
