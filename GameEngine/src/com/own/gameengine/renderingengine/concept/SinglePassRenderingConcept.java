@@ -26,12 +26,14 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 		
 		program.compile();
 		
-		program.addUniform("eyePosition");
-		
 		program.addUniform("worldMatrix");
 		program.addUniform("worldViewProjectionMatrix");
-		program.addUniform("baseColor");
 		
+		program.addUniform("baseColor");
+		program.addUniform("useTexture");
+		
+		// program.addUniform("eyePosition");
+		//
 		// program.addUniform("ambientLight");
 		//
 		// program.addUniform("specularIntensity");
@@ -72,16 +74,20 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 	}
 	
 	private void updateUniforms(final Transform transform, final Camera camera, final Material material) {
-		if (material.getTexture() != null) {
-			material.getTexture().bind();
-		}
-		
-		program.setUniform("eyePosition", camera.getGameObject().getTransform().getTranslation());
-		
 		program.setUniform("worldMatrix", transform.getWorldMatrix());
 		program.setUniform("worldViewProjectionMatrix", transform.getWorldViewProjectionMatrix(camera));
+		
 		program.setUniform("baseColor", material.getColor());
 		
+		if (material.getTexture() != null) {
+			material.getTexture().bind();
+			program.setUniformi("useTexture", 1);
+		} else {
+			program.setUniformi("useTexture", 0);
+		}
+		
+		// program.setUniform("eyePosition", camera.getGameObject().getTransform().getTranslation());
+		//
 		// if (ambientLight != null) {
 		// program.setUniform("ambientLight", ambientLight);
 		// }

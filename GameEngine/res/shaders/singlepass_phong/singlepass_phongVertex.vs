@@ -1,5 +1,7 @@
 #version 330
 
+// https://www.opengl.org/wiki/Built-in_Variable_(GLSL)
+
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec2 textureCoordinate;
 layout(location = 2) in vec3 normal;

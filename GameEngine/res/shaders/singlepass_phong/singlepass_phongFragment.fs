@@ -47,6 +47,7 @@ uniform vec3 eyePosition;
 
 uniform vec3 baseColor;
 uniform sampler2D sampler;
+uniform int useTexture;
 
 uniform float specularIntensity;
 uniform float specularExponent;
@@ -135,7 +136,7 @@ void main()
 
     vec4 textureColor = texture(sampler, vsout_textureCoordinate.xy);
     
-    if (textureColor != vec4(0, 0, 0, 0))
+    if (useTexture == 1)
         color *= textureColor;
     
     vec4 totalLight = vec4(ambientLight, 1);
