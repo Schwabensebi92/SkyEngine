@@ -73,9 +73,8 @@ public class Transform {
 		translation.add(translationVector);
 	}
 	
-	public void rotate(final Vector3f rotationAxis, final float angle) {
-		Quaternion additionalRotation = new Quaternion(rotationAxis, angle);
-		rotation = additionalRotation.mul(rotation);
+	public void rotate(final Quaternion additionalRotation) {
+		rotation = new Quaternion(additionalRotation).mul(rotation);
 	}
 	
 	public void scale(final Vector3f scaleVector) {
@@ -90,7 +89,7 @@ public class Transform {
 	 *            The direction to look at.
 	 * @param up
 	 *            The upwards direction in which the transform should be oriented.
-	 * 
+	 * 			
 	 * @see <a href="http://lolengine.net/blog/2013/09/18/beautiful-maths-quaternion-from-vectors">lolengine.net/beautiful-maths-quaternion-
 	 *      from-vectors</a>
 	 * @see <a href="http://gamedev.stackexchange.com/a/15078">gamedev.stackexchange.com/15078</a>
@@ -98,15 +97,51 @@ public class Transform {
 	 *      quaternion-look-at-with-up-vector</a>
 	 */
 	public void lookAt(final Vector3f direction, final Vector3f up) {
-		// TODO Use up vector
+		Quaternion rotationQuaternion = null;
+		
+		// Forward direction
 		
 		Vector3f destinationForwardNormalized = new Vector3f(direction).normalize();
 		Vector3f currentForwardNormalized = getRotation().getLocalZAxis().normalize();
 		
-		Vector3f rotationAxis = new Vector3f(currentForwardNormalized).cross(destinationForwardNormalized);
-		float rotationAngle = (float) Math.acos(currentForwardNormalized.dot(destinationForwardNormalized));
+		float dotProduct = currentForwardNormalized.dot(destinationForwardNormalized);
 		
-		rotate(rotationAxis, rotationAngle);
+		if (MathUtil.floatNearlyEquals(dotProduct, 1.0f, 0.000001f)) {
+			// destination and current forward are nearly equal, rotate by identity quaternion
+			rotationQuaternion = new Quaternion();
+		} else if (MathUtil.floatNearlyEquals(dotProduct, -1.0f, 0.000001f)) {
+			// destination and current forward point exactly in the opposite direction, rotate by PI
+			rotationQuaternion = new Quaternion(getRotation().getLocalYAxis(), (float) Math.PI);
+		} else {
+			// normal case
+			Vector3f rotationAxis = new Vector3f(currentForwardNormalized).cross(destinationForwardNormalized).normalize();
+			float rotationAngle = (float) Math.acos(dotProduct);
+			rotationQuaternion = new Quaternion(rotationAxis, rotationAngle);
+		}
+		
+		rotate(rotationQuaternion);
+		
+		// Up direction
+		
+		Vector3f destinationUpNormalized = new Vector3f(up).normalize();
+		Vector3f currentUpNormalized = getRotation().getLocalYAxis().normalize();
+		
+		dotProduct = currentUpNormalized.dot(destinationUpNormalized);
+		
+		if (MathUtil.floatNearlyEquals(dotProduct, 1.0f, 0.000001f)) {
+			// destination and current up are nearly equal, rotate by identity quaternion
+			rotationQuaternion = new Quaternion();
+		} else if (MathUtil.floatNearlyEquals(dotProduct, -1.0f, 0.000001f)) {
+			// destination and current up point exactly in the opposite direction, rotate by PI
+			rotationQuaternion = new Quaternion(getRotation().getLocalZAxis(), (float) Math.PI);
+		} else {
+			// normal case
+			Vector3f rotationAxis = new Vector3f(currentUpNormalized).cross(destinationUpNormalized).normalize();
+			float rotationAngle = (float) Math.acos(dotProduct);
+			rotationQuaternion = new Quaternion(rotationAxis, rotationAngle);
+		}
+		
+		rotate(rotationQuaternion);
 	}
 	
 	public Vector3f getTranslation() {

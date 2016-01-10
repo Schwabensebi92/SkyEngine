@@ -238,7 +238,7 @@ public class TestGame extends Game {
 		
 		// Global Camera
 		GameObject globalCameraObject = new GameObject();
-		globalCameraObject.getTransform().translate(new Vector3f(0.0f, 0.25f, -2.5f));
+		globalCameraObject.getTransform().translate(new Vector3f(1.5f, 0.5f, -1.5f));
 		Camera globalCamera = new Camera(new PerspectiveProjection(getWindowSettings().getAspectRatio()));
 		globalCameraObject.addComponent(globalCamera);
 		globalCameraObject.addComponent(new DebugTransformComponent(KeyboardKeys.KEY_G));

@@ -3,6 +3,7 @@ package com.own.gameengine.coreengine.scenegraph;
 
 import com.own.gameengine.coreengine.*;
 import com.own.gameengine.coreengine.math.CoordinateSystem.CoordinateAxis;
+import com.own.gameengine.coreengine.math.Quaternion;
 import com.own.gameengine.inputengine.*;
 import com.own.gameengine.renderingengine.concept.RenderingConcept;
 import com.own.gameengine.renderingengine.graphics.Transform;
@@ -50,8 +51,8 @@ public class KeyboardRotationComponent extends GameComponent {
 		Transform t = getGameObject().getTransform();
 		float timeDelta = (float) ((CoreTiming) CoreObjectRegister.get(CoreObject.CORE_TIMING)).getDelta();
 		
-		t.rotate(t.getRotation().getLocalXAxis(), upRotationAmount * timeDelta);
-		t.rotate(CoordinateAxis.Y_AXIS.getVector(), rightRotationAmount * timeDelta);
+		t.rotate(new Quaternion(t.getRotation().getLocalXAxis(), upRotationAmount * timeDelta));
+		t.rotate(new Quaternion(CoordinateAxis.Y_AXIS.getVector(), rightRotationAmount * timeDelta));
 		
 		upRotationAmount = 0.0f;
 		rightRotationAmount = 0.0f;
