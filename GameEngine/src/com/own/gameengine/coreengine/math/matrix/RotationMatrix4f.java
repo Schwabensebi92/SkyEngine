@@ -1,15 +1,14 @@
 package com.own.gameengine.coreengine.math.matrix;
 
 
-import com.own.gameengine.coreengine.math.Quaternion;
-import com.own.gameengine.coreengine.math.Vector3f;
+import com.own.gameengine.coreengine.math.*;
 
 
 /**
  * Represents a 4-by-4 Rotation Matrix.
  * 
  * @author Sebastian Utz
- * 		
+ * 
  */
 public class RotationMatrix4f extends Matrix4f {
 	
@@ -22,9 +21,9 @@ public class RotationMatrix4f extends Matrix4f {
 	 * <i>Rotated Vector a'</i><br>
 	 * <br>
 	 * <u>a' = R * a</u><br>
-	 * a'.x = a.x * r.right.x + a.y * r.right.y + a.z * r.right.z<br>
-	 * a'.y = a.x * r.up.x + a.y * r.up.y + a.z * r.up.z<br>
-	 * a'.z = a.x * r.forward.x + a.y * r.forward.y + a.z * r.forward.z
+	 * a'.x = a.x * r.right.x + a.y * r.up.x + a.z * r.forward.x<br>
+	 * a'.y = a.x * r.right.y + a.y * r.up.y + a.z * r.forward.y<br>
+	 * a'.z = a.x * r.right.z + a.y * r.up.z + a.z * r.forward.z
 	 * 
 	 * @param rotation
 	 *            The rotation, which shall be represented by the matrix.
@@ -37,9 +36,9 @@ public class RotationMatrix4f extends Matrix4f {
 		Vector3f f = rotation.getLocalZAxis().normalize();
 		
 		//@formatter:off
-		elements[0][0] = r.getX();	elements[0][1] = r.getY();	elements[0][2] = r.getZ();	elements[0][3] = 0;
-		elements[1][0] = u.getX();	elements[1][1] = u.getY();	elements[1][2] = u.getZ();	elements[1][3] = 0;
-		elements[2][0] = f.getX();	elements[2][1] = f.getY();	elements[2][2] = f.getZ();	elements[2][3] = 0;
+		elements[0][0] = r.getX();	elements[0][1] = u.getX();	elements[0][2] = f.getX();	elements[0][3] = 0;
+		elements[1][0] = r.getY();	elements[1][1] = u.getY();	elements[1][2] = f.getY();	elements[1][3] = 0;
+		elements[2][0] = r.getZ();	elements[2][1] = u.getZ();	elements[2][2] = f.getZ();	elements[2][3] = 0;
 		elements[3][0] = 0;			elements[3][1] = 0;			elements[3][2] = 0;			elements[3][3] = 1;
 		//@formatter:on
 	}

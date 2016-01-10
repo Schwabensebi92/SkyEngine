@@ -8,13 +8,13 @@ out vec2 vsout_textureCoordinate;
 out vec3 vsout_normal;
 out vec3 vsout_worldPosition;
 
-uniform mat4 transform;
-uniform mat4 transformProjected;
+uniform mat4 worldMatrix;
+uniform mat4 worldViewProjectionMatrix;
 
 void main()
 {
-    gl_Position = transformProjected * vec4(position, 1.0);
+    gl_Position = worldViewProjectionMatrix * vec4(position, 1.0);
     vsout_textureCoordinate = textureCoordinate;
-    vsout_normal = (transform * vec4(normal, 0.0)).xyz;
-    vsout_worldPosition = (transform * vec4(position, 1.0)).xyz;
+    vsout_normal = (worldMatrix * vec4(normal, 0.0)).xyz;
+    vsout_worldPosition = (worldMatrix * vec4(position, 1.0)).xyz;
 }

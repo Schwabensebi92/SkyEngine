@@ -21,7 +21,7 @@ public class Legacy_ForwardAmbientShader extends Legacy_ForwardLightPipeline<Amb
 	public void updateUniforms(Transform transform, Camera camera, Material material) {
 		material.getTexture().bind();
 
-		setUniform("transformProjected", transform.getProjectedTransformation(camera));
+		setUniform("transformProjected", transform.getWorldViewProjectionMatrix(camera));
 		setUniform("ambientIntensity", getCurrentLight());
 	}
 }

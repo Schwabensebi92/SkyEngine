@@ -36,8 +36,8 @@ public class Legacy_ForwardPointShader extends Legacy_ForwardLightPipeline<Point
 
 		setUniform("eyePosition", camera.getPosition());
 
-		setUniform("transform", transform.getTransformation());
-		setUniform("transformProjected", transform.getProjectedTransformation(camera));
+		setUniform("transform", transform.getWorldMatrix());
+		setUniform("transformProjected", transform.getWorldViewProjectionMatrix(camera));
 
 		setUniformf("specularIntensity", material.getSpecularIntensity());
 		setUniformf("specularExponent", material.getSpecularExponent());

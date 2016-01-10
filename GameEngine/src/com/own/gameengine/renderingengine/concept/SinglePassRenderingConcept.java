@@ -5,12 +5,9 @@ import java.util.ArrayList;
 
 import com.own.gameengine.coreengine.scenegraph.GameComponent;
 import com.own.gameengine.renderingengine.concept.shader.OpenGLProgram;
-import com.own.gameengine.renderingengine.concept.shader.singlepass.SinglePassNoFragmentShader;
-import com.own.gameengine.renderingengine.concept.shader.singlepass.SinglePassNoVertexShader;
-import com.own.gameengine.renderingengine.graphics.Camera;
-import com.own.gameengine.renderingengine.graphics.Transform;
-import com.own.gameengine.renderingengine.graphics.object.Material;
-import com.own.gameengine.renderingengine.graphics.object.Mesh;
+import com.own.gameengine.renderingengine.concept.shader.singlepass.*;
+import com.own.gameengine.renderingengine.graphics.*;
+import com.own.gameengine.renderingengine.graphics.object.*;
 
 
 public class SinglePassRenderingConcept extends RenderingConcept {
@@ -31,8 +28,8 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 		
 		program.addUniform("eyePosition");
 		
-		program.addUniform("transform");
-		program.addUniform("transformProjected");
+		program.addUniform("worldMatrix");
+		program.addUniform("worldViewProjectionMatrix");
 		program.addUniform("baseColor");
 		
 		// program.addUniform("ambientLight");
@@ -81,8 +78,8 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 		
 		program.setUniform("eyePosition", camera.getGameObject().getTransform().getTranslation());
 		
-		program.setUniform("transform", transform.getTransformation());
-		program.setUniform("transformProjected", transform.getProjectedTransformation(camera));
+		program.setUniform("worldMatrix", transform.getWorldMatrix());
+		program.setUniform("worldViewProjectionMatrix", transform.getWorldViewProjectionMatrix(camera));
 		program.setUniform("baseColor", material.getColor());
 		
 		// if (ambientLight != null) {

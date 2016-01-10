@@ -77,8 +77,8 @@ public class Legacy_PhongPipeline extends Legacy_RenderingPipeline {
 		
 		setUniform("eyePosition", camera.getPosition());
 		
-		setUniform("transform", transform.getTransformation());
-		setUniform("transformProjected", transform.getProjectedTransformation(camera));
+		setUniform("transform", transform.getWorldMatrix());
+		setUniform("transformProjected", transform.getWorldViewProjectionMatrix(camera));
 		setUniform("baseColor", material.getColor());
 		
 		setUniform("ambientLight", ambientLight);

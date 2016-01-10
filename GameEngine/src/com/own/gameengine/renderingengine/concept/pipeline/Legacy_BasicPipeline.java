@@ -25,7 +25,7 @@ public class Legacy_BasicPipeline extends Legacy_RenderingPipeline {
 	public void updateUniforms(final Transform transform, final Camera camera, final Material material) {
 		material.getTexture().bind();
 		
-		setUniform("transform", transform.getProjectedTransformation(camera));
+		setUniform("transform", transform.getWorldViewProjectionMatrix(camera));
 		setUniform("color", material.getColor());
 	}
 }

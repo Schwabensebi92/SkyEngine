@@ -1,13 +1,8 @@
 package com.own.gameengine.renderingengine.graphics;
 
 
-import com.own.gameengine.coreengine.math.Quaternion;
-import com.own.gameengine.coreengine.math.Vector3f;
-import com.own.gameengine.coreengine.math.matrix.Matrix4f;
-import com.own.gameengine.coreengine.math.matrix.OpenGLWrapperMatrix4f;
-import com.own.gameengine.coreengine.math.matrix.RotationMatrix4f;
-import com.own.gameengine.coreengine.math.matrix.ScaleMatrix4f;
-import com.own.gameengine.coreengine.math.matrix.TranslationMatrix4f;
+import com.own.gameengine.coreengine.math.*;
+import com.own.gameengine.coreengine.math.matrix.*;
 
 
 public class Transform {
@@ -28,28 +23,50 @@ public class Transform {
 		scale = new Vector3f(transform.getScale());
 	}
 	
-	public Matrix4f getTransformation() {
+	public Matrix4f getWorldMatrix() {
+		// Get object translation matrix
 		Matrix4f translationMatrix = new TranslationMatrix4f(translation);
-		Matrix4f rotationMatrix = new RotationMatrix4f(rotation);
-		Matrix4f scaleMatrix = new ScaleMatrix4f(scale);
-		// Get OpenGLWrapper matrix
-		Matrix4f openGLWrapperMatrix = new OpenGLWrapperMatrix4f();
 		
-		return openGLWrapperMatrix.mul(translationMatrix.mul(rotationMatrix.mul(scaleMatrix)));
+		// Get object rotation matrix
+		Matrix4f rotationMatrix = new RotationMatrix4f(rotation);
+		
+		// Get object scale matrix
+		Matrix4f scaleMatrix = new ScaleMatrix4f(scale);
+		
+		// Calculate world matrix and return it
+		Matrix4f worldMatrix = translationMatrix.mul(rotationMatrix.mul(scaleMatrix));
+		return worldMatrix;
 	}
 	
-	public Matrix4f getProjectedTransformation(final Camera camera) {
-		// Get object transformation matrix
-		Matrix4f transformationMatrix = getTransformation();
+	public Matrix4f getWorldViewMatrix(final Camera camera) {
+		// Get object world matrix
+		Matrix4f worldMatrix = getWorldMatrix();
+		
+		// Get camera rotation and negate it
+		Quaternion cameraRotation = new Quaternion(camera.getGameObject().getTransform().getRotation()).conjugate();
+		// Get camera rotation matrix
+		Matrix4f cameraRotationMatrix = new RotationMatrix4f(cameraRotation);
+		
+		// Get camera translation and negate it
+		Vector3f cameraTranslation = new Vector3f(camera.getGameObject().getTransform().getTranslation()).mul(-1);
+		// Get camera translation matrix
+		Matrix4f cameraTranslationMatrix = new TranslationMatrix4f(cameraTranslation);
+		
+		// Calculate worldView matrix and return it
+		Matrix4f worldViewMatrix = cameraRotationMatrix.mul(cameraTranslationMatrix.mul(worldMatrix));
+		return worldViewMatrix;
+	}
+	
+	public Matrix4f getWorldViewProjectionMatrix(final Camera camera) {
+		// Get world view matrix
+		Matrix4f worldViewMatrix = getWorldViewMatrix(camera);
+		
 		// Get camera projection matrix
 		Matrix4f projectionMatrix = camera.getProjection().getProjectionMatrix();
-		// Get camera rotation matrix and negate it
-		Matrix4f cameraRotationMatrix = new RotationMatrix4f(camera.getGameObject().getTransform().getRotation());
-		// Get camera translation matrix and negate it
-		Matrix4f cameraTranslationMatrix = new TranslationMatrix4f(
-				new Vector3f(camera.getGameObject().getTransform().getTranslation()).mul(-1));
-				
-		return projectionMatrix.mul(cameraRotationMatrix.mul(cameraTranslationMatrix.mul(transformationMatrix)));
+		
+		// Calculate worldViewProjection matrix and return it
+		Matrix4f worldViewProjectionMatrix = projectionMatrix.mul(worldViewMatrix);
+		return worldViewProjectionMatrix;
 	}
 	
 	public void translate(final Vector3f translationVector) {
@@ -61,6 +78,10 @@ public class Transform {
 		rotation = additionalRotation.mul(rotation);
 		// Invers:
 		// rotation.mul(additionalRotation);
+	}
+	
+	public void scale(final Vector3f scaleVector) {
+		scale.mul(scaleVector);
 	}
 	
 	/**
@@ -88,10 +109,6 @@ public class Transform {
 		float rotationAngle = (float) Math.acos(currentForwardNormalized.dot(destinationForwardNormalized));
 		
 		rotate(rotationAxis, rotationAngle);
-	}
-	
-	public void scale(final Vector3f scaleVector) {
-		scale.mul(scaleVector);
 	}
 	
 	public Vector3f getTranslation() {

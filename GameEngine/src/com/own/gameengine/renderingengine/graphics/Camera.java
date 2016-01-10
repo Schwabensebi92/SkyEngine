@@ -30,6 +30,10 @@ public class Camera extends GameComponent {
 		((CameraEngine) CoreObjectRegister.get(CoreObject.CAMERA_ENGINE)).deactivateCamera(this);
 	}
 	
+	public boolean isActive() {
+		return ((CameraEngine) CoreObjectRegister.get(CoreObject.CAMERA_ENGINE)).getActiveCamera().equals(this);
+	}
+	
 	@Override
 	public void input(final Mouse mouse, final Keyboard keyboard) {
 	

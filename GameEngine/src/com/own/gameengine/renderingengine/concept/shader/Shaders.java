@@ -6,6 +6,11 @@ import static org.lwjgl.opengl.GL32.GL_GEOMETRY_SHADER;
 import static org.lwjgl.opengl.GL40.*;
 
 
+/**
+ * 
+ * @author Sebastian Utz
+ * 		
+ */
 public enum Shaders {
 	
 	VERTEX_SHADER(GL_VERTEX_SHADER),
