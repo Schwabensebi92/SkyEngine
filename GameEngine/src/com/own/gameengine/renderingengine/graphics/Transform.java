@@ -76,8 +76,6 @@ public class Transform {
 	public void rotate(final Vector3f rotationAxis, final float angle) {
 		Quaternion additionalRotation = new Quaternion(rotationAxis, angle);
 		rotation = additionalRotation.mul(rotation);
-		// Invers:
-		// rotation.mul(additionalRotation);
 	}
 	
 	public void scale(final Vector3f scaleVector) {
@@ -92,7 +90,7 @@ public class Transform {
 	 *            The direction to look at.
 	 * @param up
 	 *            The upwards direction in which the transform should be oriented.
-	 * 			
+	 * 
 	 * @see <a href="http://lolengine.net/blog/2013/09/18/beautiful-maths-quaternion-from-vectors">lolengine.net/beautiful-maths-quaternion-
 	 *      from-vectors</a>
 	 * @see <a href="http://gamedev.stackexchange.com/a/15078">gamedev.stackexchange.com/15078</a>

@@ -225,16 +225,16 @@ public class TestGame extends Game {
 		freeAxis.addComponent(new DebugTransformComponent(KeyboardKeys.KEY_F));
 		
 		// Free Camera
-		GameObject freeCameraObject = new GameObject();
-		Camera freeCamera = new Camera(new PerspectiveProjection(getWindowSettings().getAspectRatio()));
-		freeCameraObject.addComponent(freeCamera);
-		freeCameraObject.addComponent(
-				new KeyboardTranslationComponent(KeyboardKeys.KEY_W, KeyboardKeys.KEY_S, KeyboardKeys.KEY_D, KeyboardKeys.KEY_A, 1.0f));
-		freeCameraObject.addComponent(new KeyboardRotationComponent(KeyboardKeys.KEY_UP, KeyboardKeys.KEY_DOWN, KeyboardKeys.KEY_RIGHT,
-				KeyboardKeys.KEY_LEFT, (float) Math.toRadians(60.0f)));
-		freeCameraObject.addComponent(new MeshRenderComponent(meshCamera, materialCamera));
-		freeCameraObject.addComponent(new CameraActivationComponent(freeCamera, KeyboardKeys.KEY_SPACE, KeyboardKeys.KEY_SPACE));
-		freeCameraObject.addComponent(new DebugTransformComponent(KeyboardKeys.KEY_C));
+		// GameObject freeCameraObject = new GameObject();
+		// Camera freeCamera = new Camera(new PerspectiveProjection(getWindowSettings().getAspectRatio()));
+		// freeCameraObject.addComponent(freeCamera);
+		// freeCameraObject.addComponent(
+		// new KeyboardTranslationComponent(KeyboardKeys.KEY_W, KeyboardKeys.KEY_S, KeyboardKeys.KEY_D, KeyboardKeys.KEY_A, 1.0f));
+		// freeCameraObject.addComponent(new KeyboardRotationComponent(KeyboardKeys.KEY_UP, KeyboardKeys.KEY_DOWN, KeyboardKeys.KEY_RIGHT,
+		// KeyboardKeys.KEY_LEFT, (float) Math.toRadians(60.0f)));
+		// freeCameraObject.addComponent(new MeshRenderComponent(meshCamera, materialCamera));
+		// freeCameraObject.addComponent(new CameraActivationComponent(freeCamera, KeyboardKeys.KEY_SPACE, KeyboardKeys.KEY_SPACE));
+		// freeCameraObject.addComponent(new DebugTransformComponent(KeyboardKeys.KEY_C));
 		
 		// Global Camera
 		GameObject globalCameraObject = new GameObject();
@@ -242,16 +242,16 @@ public class TestGame extends Game {
 		Camera globalCamera = new Camera(new PerspectiveProjection(getWindowSettings().getAspectRatio()));
 		globalCameraObject.addComponent(globalCamera);
 		globalCameraObject.addComponent(new DebugTransformComponent(KeyboardKeys.KEY_G));
-		// globalCameraObject.addComponent(
-		// new KeyboardTranslationComponent(KeyboardKeys.KEY_W, KeyboardKeys.KEY_S, KeyboardKeys.KEY_D, KeyboardKeys.KEY_A, 1.0f));
-		// globalCameraObject.addComponent(new KeyboardRotationComponent(KeyboardKeys.KEY_UP, KeyboardKeys.KEY_DOWN, KeyboardKeys.KEY_RIGHT,
-		// KeyboardKeys.KEY_LEFT, (float) Math.toRadians(60.0f)));
+		globalCameraObject.addComponent(
+				new KeyboardTranslationComponent(KeyboardKeys.KEY_W, KeyboardKeys.KEY_S, KeyboardKeys.KEY_D, KeyboardKeys.KEY_A, 1.0f));
+		globalCameraObject.addComponent(new KeyboardRotationComponent(KeyboardKeys.KEY_UP, KeyboardKeys.KEY_DOWN, KeyboardKeys.KEY_RIGHT,
+				KeyboardKeys.KEY_LEFT, (float) Math.toRadians(60.0f)));
 		globalCamera.activate();
 		
 		// Add objects to scene graph
 		addObject(referenceAxis);
 		addObject(freeAxis);
-		addObject(freeCameraObject);
+		// addObject(freeCameraObject);
 		addObject(globalCameraObject);
 	}
 	
