@@ -1,14 +1,32 @@
 package com.own.gameengine.renderingengine.concept.shader;
 
 
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL20.GL_LINK_STATUS;
+import static org.lwjgl.opengl.GL20.GL_VALIDATE_STATUS;
+import static org.lwjgl.opengl.GL20.glAttachShader;
+import static org.lwjgl.opengl.GL20.glBindAttribLocation;
+import static org.lwjgl.opengl.GL20.glCreateProgram;
+import static org.lwjgl.opengl.GL20.glGetProgramInfoLog;
+import static org.lwjgl.opengl.GL20.glGetProgrami;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glLinkProgram;
+import static org.lwjgl.opengl.GL20.glUniform1f;
+import static org.lwjgl.opengl.GL20.glUniform1i;
+import static org.lwjgl.opengl.GL20.glUniform3f;
+import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
+import static org.lwjgl.opengl.GL20.glUseProgram;
+import static org.lwjgl.opengl.GL20.glValidateProgram;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.own.gameengine.coreengine.math.Vector3f;
 import com.own.gameengine.coreengine.math.matrix.Matrix4f;
 import com.own.gameengine.renderingengine.RenderingEngineUtil;
-import com.own.gameengine.renderingengine.graphics.light.*;
+import com.own.gameengine.renderingengine.graphics.light.AmbientLight;
+import com.own.gameengine.renderingengine.graphics.light.DirectionalLight;
+import com.own.gameengine.renderingengine.graphics.light.PointLight;
+import com.own.gameengine.renderingengine.graphics.light.SpotLight;
 
 
 public class OpenGLProgram {

@@ -1,8 +1,6 @@
 #version 330
 
 in vec2 vsout_textureCoordinate;
-in vec3 vsout_normal;
-in vec3 vsout_worldPosition;
 
 out vec4 fsout_fragColor;
 
@@ -19,6 +17,5 @@ void main()
     if (useTexture == 1)
         color *= textureColor;
     
-//    fsout_fragColor = vec4(1.0, 0.0, 0.0, 1.0);
     fsout_fragColor = color;
 }
