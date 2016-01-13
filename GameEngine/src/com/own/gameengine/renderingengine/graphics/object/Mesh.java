@@ -1,13 +1,29 @@
 package com.own.gameengine.renderingengine.graphics.object;
 
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
+import static org.lwjgl.opengl.GL11.glDrawElements;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
+import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
+import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL30.glGenVertexArrays;
+
+import java.io.IOException;
 
 import com.own.gameengine.coreengine.math.Vector3f;
 import com.own.gameengine.renderingengine.RenderingEngineUtil;
+import com.own.gameengine.resource.MeshFileType;
+import com.own.gameengine.resource.MeshLoader;
+import com.own.gameengine.resource.MeshParser;
 
 
 public class Mesh {
@@ -17,9 +33,9 @@ public class Mesh {
 	private int	ibo;	// Index Buffer Object
 	private int	size;
 	
-	public Mesh(final String fileName) {
+	public Mesh(final String fileName, MeshFileType type) {
 		this();
-		loadMesh(fileName);
+		loadMesh(fileName, type);
 	}
 	
 	public Mesh(final Vertex[] vertices, final int[] indices, final boolean calculateNormals) {
@@ -32,6 +48,17 @@ public class Mesh {
 		vao = glGenVertexArrays();
 		ibo = glGenBuffers();
 		size = 0;
+	}
+	
+	private void loadMesh(final String fileName, MeshFileType type) {
+		String meshFileContent;
+		try {
+			meshFileContent = MeshLoader.loadMesh(fileName);
+			MeshParser.parse(meshFileContent, type, this);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 	
 	public void setVertices(final Vertex[] vertices, final int[] indices, final boolean calculateNormals) {
@@ -86,9 +113,5 @@ public class Mesh {
 		for (int i = 0; i < vertices.length; i++) {
 			vertices[i].getNormal().normalize();
 		}
-	}
-	
-	private void loadMesh(final String fileName) {
-		MeshLoader.loadMesh(fileName, this);
 	}
 }

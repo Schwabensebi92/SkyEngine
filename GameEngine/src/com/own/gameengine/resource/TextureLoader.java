@@ -1,10 +1,25 @@
-package com.own.gameengine.renderingengine.graphics.object;
+package com.own.gameengine.resource;
 
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
+import static org.lwjgl.opengl.GL11.GL_RGBA;
+import static org.lwjgl.opengl.GL11.GL_RGBA8;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_S;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_T;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glGenTextures;
+import static org.lwjgl.opengl.GL11.glTexImage2D;
+import static org.lwjgl.opengl.GL11.glTexParameteri;
 
-import java.io.*;
-import java.nio.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.nio.channels.FileChannel;
 
 import org.lwjgl.BufferUtils;
@@ -24,7 +39,7 @@ public class TextureLoader {
 	 * @return Returns the texture id for the newly created texture.
 	 * @throws IOException
 	 *             If loading the texture fails.
-	 * 
+	 * 			
 	 * @see <a href="http://stackoverflow.com/a/33858800">stackoverflow.com/33858800</a>
 	 */
 	public static int loadTexture(final String fileName) throws IOException {
@@ -41,8 +56,7 @@ public class TextureLoader {
 			
 		int imageWidth = imageWidthBuffer.get(0);
 		int imageHeight = imageHeightBuffer.get(0);
-		int numComponents = numComponentsBuffer.get(0);
-		System.out.println("Tex NumComp: " + numComponents);
+		// int numComponents = numComponentsBuffer.get(0);
 		
 		int textureID = glGenTextures();
 		glBindTexture(GL_TEXTURE_2D, textureID);

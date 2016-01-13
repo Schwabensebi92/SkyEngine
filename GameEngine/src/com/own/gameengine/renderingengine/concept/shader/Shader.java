@@ -1,9 +1,17 @@
 package com.own.gameengine.renderingengine.concept.shader;
 
 
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
+import static org.lwjgl.opengl.GL20.glCompileShader;
+import static org.lwjgl.opengl.GL20.glCreateShader;
+import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
+import static org.lwjgl.opengl.GL20.glGetShaderi;
+import static org.lwjgl.opengl.GL20.glShaderSource;
 
-import java.io.*;
+import java.io.IOException;
+
+import com.own.gameengine.resource.ShaderLoader;
+import com.own.gameengine.resource.ShaderParser;
 
 
 public abstract class Shader {
@@ -27,7 +35,14 @@ public abstract class Shader {
 	}
 	
 	public void load(final String fileName) {
-		sourceCode = loadSourceCode(fileName);
+		try {
+			String shaderFileContent = ShaderLoader.loadShader(fileName);
+			sourceCode = ShaderParser.parse(shaderFileContent);
+			compiled = false;
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 	
 	public void compile() {
@@ -51,26 +66,6 @@ public abstract class Shader {
 			e.printStackTrace();
 			System.exit(1);
 		}
-	}
-	
-	private static String loadSourceCode(final String fileName) {
-		StringBuilder shaderSource = new StringBuilder();
-		BufferedReader shaderReader = null;
-		try {
-			shaderReader = new BufferedReader(new FileReader("./res/shaders/" + fileName));
-			
-			String line;
-			while ((line = shaderReader.readLine()) != null) {
-				shaderSource.append(line).append("\n");
-			}
-			
-			shaderReader.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
-		
-		return shaderSource.toString();
 	}
 	
 	public int getID() {

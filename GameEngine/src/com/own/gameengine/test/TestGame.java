@@ -2,11 +2,19 @@ package com.own.gameengine.test;
 
 
 import com.own.gameengine.coreengine.math.Vector3f;
-import com.own.gameengine.coreengine.scenegraph.*;
+import com.own.gameengine.coreengine.scenegraph.GameObject;
+import com.own.gameengine.coreengine.scenegraph.KeyboardRotationComponent;
+import com.own.gameengine.coreengine.scenegraph.KeyboardTranslationComponent;
+import com.own.gameengine.coreengine.scenegraph.MeshRenderComponent;
 import com.own.gameengine.game.Game;
 import com.own.gameengine.inputengine.KeyboardKeys;
-import com.own.gameengine.renderingengine.graphics.*;
-import com.own.gameengine.renderingengine.graphics.object.*;
+import com.own.gameengine.renderingengine.graphics.Camera;
+import com.own.gameengine.renderingengine.graphics.FrameRate;
+import com.own.gameengine.renderingengine.graphics.Resolution;
+import com.own.gameengine.renderingengine.graphics.WindowSettings;
+import com.own.gameengine.renderingengine.graphics.object.Material;
+import com.own.gameengine.renderingengine.graphics.object.Mesh;
+import com.own.gameengine.renderingengine.graphics.object.Texture;
 import com.own.gameengine.renderingengine.graphics.projection.PerspectiveProjection;
 import com.own.gameengine.temp.CubeMesh;
 
@@ -14,7 +22,7 @@ import com.own.gameengine.temp.CubeMesh;
 public class TestGame extends Game {
 	
 	public TestGame() {
-		super("3D Game Engine", new WindowSettings("3D Game Engine", Resolution.RES_800x600, false, FrameRate.FPS_60, false));
+		super("3D Game Engine", new WindowSettings("3D Game Engine", Resolution.RES_360x240, false, FrameRate.FPS_60, false));
 	}
 	
 	@Override

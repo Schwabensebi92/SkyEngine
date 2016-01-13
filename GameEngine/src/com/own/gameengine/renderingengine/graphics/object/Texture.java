@@ -3,6 +3,8 @@ package com.own.gameengine.renderingengine.graphics.object;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import com.own.gameengine.resource.TextureLoader;
+
 
 public class Texture {
 	
