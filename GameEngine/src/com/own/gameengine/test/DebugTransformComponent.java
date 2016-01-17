@@ -3,7 +3,7 @@ package com.own.gameengine.test;
 
 import com.own.gameengine.coreengine.math.CoordinateSystem;
 import com.own.gameengine.coreengine.scenegraph.GameComponent;
-import com.own.gameengine.error.Debug;
+import com.own.gameengine.debug.Debug;
 import com.own.gameengine.inputengine.Keyboard;
 import com.own.gameengine.inputengine.KeyboardKeys;
 import com.own.gameengine.inputengine.Mouse;

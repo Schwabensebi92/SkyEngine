@@ -1,7 +1,7 @@
 package com.own.gameengine.renderingengine.concept.lightmodel;
 
 
-import com.own.gameengine.error.Error;
+import com.own.gameengine.debug.Error;
 
 
 public enum LightModels {

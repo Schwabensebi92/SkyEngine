@@ -1,4 +1,4 @@
-package com.own.gameengine.error;
+package com.own.gameengine.debug;
 
 
 public class Debug {

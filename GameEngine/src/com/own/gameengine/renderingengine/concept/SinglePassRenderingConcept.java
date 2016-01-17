@@ -30,10 +30,10 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 		program.compile();
 		
 		// program.addUniform("worldMatrix");
-		program.addUniform("worldViewProjectionMatrix");
+		program.getUniformLocation("worldViewProjectionMatrix");
 		
-		program.addUniform("baseColor");
-		program.addUniform("useTexture");
+		program.getUniformLocation("baseColor");
+		program.getUniformLocation("useTexture");
 		
 		// program.addUniform("eyePosition");
 		//

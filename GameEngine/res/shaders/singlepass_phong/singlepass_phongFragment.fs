@@ -134,7 +134,7 @@ void main()
 {
     vec4 color = vec4(baseColor, 1);
 
-    vec4 textureColor = texture(sampler, vsout_textureCoordinate.xy);
+    vec4 textureColor = texture(sampler, vsout_textureCoordinate);
     
     if (useTexture == 1)
         color *= textureColor;

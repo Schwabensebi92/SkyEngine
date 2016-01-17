@@ -9,7 +9,7 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
 import com.own.gameengine.coreengine.math.Vector3f;
-import com.own.gameengine.error.Debug;
+import com.own.gameengine.debug.Debug;
 
 
 public class OpenGL {

@@ -1,7 +1,7 @@
 package com.own.gameengine.coreengine;
 
 
-import com.own.gameengine.error.Debug;
+import com.own.gameengine.debug.Debug;
 import com.own.gameengine.game.Game;
 import com.own.gameengine.inputengine.InputEngine;
 import com.own.gameengine.physicsengine.physics.TimingEngine;

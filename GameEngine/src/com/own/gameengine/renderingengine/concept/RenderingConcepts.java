@@ -1,9 +1,6 @@
 package com.own.gameengine.renderingengine.concept;
 
 
-import com.own.gameengine.error.Error;
-
-
 public enum RenderingConcepts {
 	
 	NO_RENDERINGCONCEPT,
@@ -31,8 +28,7 @@ public enum RenderingConcepts {
 				renderingConcept = new DeferredRenderingConcept();
 				break;
 			default:
-				Error.throwRuntimeException("Can't handle RenderingConcept of type: " + this);
-				break;
+				throw new RuntimeException("Can't handle RenderingConcept of type: " + this);
 		}
 		return renderingConcept;
 	}

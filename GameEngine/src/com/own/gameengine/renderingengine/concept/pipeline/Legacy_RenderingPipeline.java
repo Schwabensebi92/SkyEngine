@@ -78,7 +78,7 @@ public abstract class Legacy_RenderingPipeline {
 	}
 	
 	private void addShader(final Shader shader) {
-		glAttachShader(id, shader.getID());
+		glAttachShader(id, shader.getIdentifier());
 	}
 	
 	public void compile() {

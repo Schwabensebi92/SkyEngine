@@ -1,24 +1,30 @@
 package com.own.gameengine.resource;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
+import java.util.ArrayList;
+
+import com.own.gameengine.renderingengine.concept.shader.uniform.Uniform;
 
 
 public class ShaderParser {
 	
-	public static String parse(final String shaderFileContent) throws IOException {
-		StringBuilder shaderSource = new StringBuilder();
-		BufferedReader shaderReader = new BufferedReader(new StringReader(shaderFileContent));
+	private final static String UNIFORM_KEYWORD = "Uniform";
+	
+	public static ArrayList<Uniform> parse(final String sourceCode) throws IOException {
+		ArrayList<Uniform> uniforms = new ArrayList<>();
+		BufferedReader shaderReader = new BufferedReader(new StringReader(sourceCode));
 		
 		String line;
 		while ((line = shaderReader.readLine()) != null) {
-			shaderSource.append(line).append("\n");
+			line.trim(); // Remove extra white space
+			if (line.startsWith(UNIFORM_KEYWORD)) {
+			
+			}
 		}
 		
 		shaderReader.close();
 		
-		return shaderSource.toString();
+		return uniforms;
 	}
 }

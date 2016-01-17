@@ -1,25 +1,24 @@
 package com.own.gameengine.renderingengine.concept.shader;
 
 
-import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
-import static org.lwjgl.opengl.GL20.glCompileShader;
-import static org.lwjgl.opengl.GL20.glCreateShader;
-import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
-import static org.lwjgl.opengl.GL20.glGetShaderi;
-import static org.lwjgl.opengl.GL20.glShaderSource;
+import static org.lwjgl.opengl.GL20.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-import com.own.gameengine.resource.ShaderLoader;
-import com.own.gameengine.resource.ShaderParser;
+import com.own.gameengine.renderingengine.concept.shader.uniform.Uniform;
+import com.own.gameengine.resource.*;
 
 
 public abstract class Shader {
 	
-	private int				id;
-	private final Shaders	type;
-	private String			sourceCode;
-	private boolean			compiled;
+	private int					identifier;
+	private final Shaders		type;
+	private String				rawSourceCode;
+	private String				linkedSourceCode;
+	private ArrayList<Uniform>	uniforms;
+	private boolean				parsed;
+	private boolean				compiled;
 	
 	public Shader(final Shaders type, final String fileName) {
 		this(type);
@@ -28,16 +27,20 @@ public abstract class Shader {
 	}
 	
 	public Shader(final Shaders type) {
-		id = 0;
+		identifier = 0;
 		this.type = type;
-		sourceCode = null;
+		rawSourceCode = null;
+		uniforms = new ArrayList<>();
+		parsed = false;
 		compiled = false;
 	}
 	
 	public void load(final String fileName) {
 		try {
 			String shaderFileContent = ShaderLoader.loadShader(fileName);
-			sourceCode = ShaderParser.parse(shaderFileContent);
+			rawSourceCode = ShaderLinker.link(shaderFileContent);
+			uniforms = ShaderParser.parse(shaderFileContent);
+			parsed = true;
 			compiled = false;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -47,19 +50,19 @@ public abstract class Shader {
 	
 	public void compile() {
 		try {
-			id = glCreateShader(type.getValue());
+			identifier = glCreateShader(type.getValue());
 			
-			if (id == 0)
+			if (identifier == 0)
 				throw new Exception("Shader creation failed: No valid memory location.");
 				
-			if (sourceCode == null)
+			if (rawSourceCode == null)
 				throw new Exception("Shader creation failed: No GLSL code loaded.");
 				
-			glShaderSource(id, sourceCode);
-			glCompileShader(id);
+			glShaderSource(identifier, rawSourceCode);
+			glCompileShader(identifier);
 			
-			if (glGetShaderi(id, GL_COMPILE_STATUS) == 0)
-				throw new Exception(glGetShaderInfoLog(id, 1024));
+			if (glGetShaderi(identifier, GL_COMPILE_STATUS) == 0)
+				throw new Exception(glGetShaderInfoLog(identifier, 1024));
 				
 			compiled = true;
 		} catch (Exception e) {
@@ -68,8 +71,16 @@ public abstract class Shader {
 		}
 	}
 	
-	public int getID() {
-		return id;
+	public int getIdentifier() {
+		return identifier;
+	}
+	
+	public ArrayList<Uniform> getUniforms() {
+		return uniforms;
+	}
+	
+	public boolean isParsed() {
+		return parsed;
 	}
 	
 	public boolean isCompiled() {
