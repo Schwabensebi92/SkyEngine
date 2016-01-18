@@ -1,9 +1,6 @@
 package com.own.gameengine.renderingengine.concept.lightmodel;
 
 
-import com.own.gameengine.debug.Error;
-
-
 public enum LightModels {
 	
 	NO_LIGHTMODEL,
@@ -31,8 +28,7 @@ public enum LightModels {
 				lightModel = new PhongLightModel();
 				break;
 			default:
-				Error.throwRuntimeException("Can't handle LightModel of type: " + this);
-				break;
+				throw new RuntimeException("Can't handle LightModel of type: " + this);
 		}
 		return lightModel;
 	}

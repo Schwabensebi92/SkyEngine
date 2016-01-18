@@ -1,44 +1,38 @@
 package com.own.gameengine.renderingengine.concept.shader.uniform;
 
 
-import static org.lwjgl.opengl.GL20.*;
-
-import com.own.gameengine.coreengine.math.Vector3f;
-import com.own.gameengine.coreengine.math.matrix.Matrix4f;
-import com.own.gameengine.renderingengine.RenderingEngineUtil;
-import com.own.gameengine.renderingengine.graphics.light.*;
+import com.own.gameengine.renderingengine.graphics.light.AmbientLight;
+import com.own.gameengine.renderingengine.graphics.light.DirectionalLight;
+import com.own.gameengine.renderingengine.graphics.light.PointLight;
+import com.own.gameengine.renderingengine.graphics.light.SpotLight;
 
 
 public abstract class Uniform<Type> {
 	
-	private String	identifier;
-	private Type	value;
+	private UniformType	type;
+	private String		identifier;
+	protected int		location;
+	protected Type		value;
 	
-	public Uniform(final String identifier) {
+	public Uniform(UniformType type, final String identifier) {
+		this.type = type;
 		this.identifier = identifier;
+		this.location = 0xFFFFFFFF;
 	}
 	
 	public String getIdentifier() {
 		return identifier;
 	}
 	
-	public abstract void setValue(final Type value);
-	
-	public void setUniformi(final String uniformName, final int value) {
-		glUniform1i(uniforms.get(uniformName), value);
+	public void setLocation(int location) {
+		this.location = location;
 	}
 	
-	public void setUniformf(final String uniformName, final float value) {
-		glUniform1f(uniforms.get(uniformName), value);
+	public void setValue(final Type value) {
+		this.value = value;
 	}
 	
-	public void setUniform(final String uniformName, final Vector3f value) {
-		glUniform3f(uniforms.get(uniformName), value.getX(), value.getY(), value.getZ());
-	}
-	
-	public void setUniform(final String uniformName, final Matrix4f value) {
-		glUniformMatrix4fv(uniforms.get(uniformName), true, RenderingEngineUtil.createFlippedBuffer(value));
-	}
+	public abstract void send();
 	
 	public void setUniform(final String uniformName, final AmbientLight ambientLight) {
 		setUniformf(uniformName, ambientLight.getIntensity());

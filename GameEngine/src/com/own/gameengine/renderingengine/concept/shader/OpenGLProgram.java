@@ -1,9 +1,20 @@
 package com.own.gameengine.renderingengine.concept.shader;
 
 
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL20.GL_LINK_STATUS;
+import static org.lwjgl.opengl.GL20.GL_VALIDATE_STATUS;
+import static org.lwjgl.opengl.GL20.glAttachShader;
+import static org.lwjgl.opengl.GL20.glBindAttribLocation;
+import static org.lwjgl.opengl.GL20.glCreateProgram;
+import static org.lwjgl.opengl.GL20.glGetProgramInfoLog;
+import static org.lwjgl.opengl.GL20.glGetProgrami;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glLinkProgram;
+import static org.lwjgl.opengl.GL20.glUseProgram;
+import static org.lwjgl.opengl.GL20.glValidateProgram;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.own.gameengine.renderingengine.concept.shader.uniform.Uniform;
 
@@ -37,16 +48,13 @@ public class OpenGLProgram {
 		glUseProgram(identifier);
 	}
 	
-	public void getUniformLocation(final String uniformName) {
-		try {
-			int uniformLocation = glGetUniformLocation(identifier, uniformName);
+	public int getUniformLocation(final String uniformName) throws Exception {
+		int uniformLocation = glGetUniformLocation(identifier, uniformName);
+		
+		if (uniformLocation == 0xFFFFFFFF)
+			throw new Exception("Uniform [" + uniformName + "] is not used.");
 			
-			if (uniformLocation == 0xFFFFFFFF)
-				throw new Exception("Uniform [" + uniformName + "] was not created.");
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
+		return uniformLocation;
 	}
 	
 	public void bindAttributeLocation(final String attributeName, final int location) {
