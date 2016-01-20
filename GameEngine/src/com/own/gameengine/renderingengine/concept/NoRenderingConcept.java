@@ -4,6 +4,7 @@ package com.own.gameengine.renderingengine.concept;
 import java.util.ArrayList;
 
 import com.own.gameengine.coreengine.scenegraph.GameComponent;
+import com.own.gameengine.renderingengine.cameraengine.Camera;
 import com.own.gameengine.renderingengine.graphics.*;
 import com.own.gameengine.renderingengine.graphics.object.*;
 

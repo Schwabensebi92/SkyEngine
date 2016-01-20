@@ -1,11 +1,13 @@
 package com.own.gameengine.renderingengine.concept.pipeline;
 
 
-import com.own.gameengine.coreengine.math.Vector3f;
+import com.own.gameengine.math.Vector3f;
+import com.own.gameengine.renderingengine.cameraengine.Camera;
 import com.own.gameengine.renderingengine.concept.shader.*;
 import com.own.gameengine.renderingengine.graphics.*;
-import com.own.gameengine.renderingengine.graphics.light.*;
 import com.own.gameengine.renderingengine.graphics.object.Material;
+import com.own.gameengine.renderingengine.graphics.object.Transform;
+import com.own.gameengine.renderingengine.lightengine.light.*;
 
 
 public class Legacy_PhongPipeline extends Legacy_RenderingPipeline {

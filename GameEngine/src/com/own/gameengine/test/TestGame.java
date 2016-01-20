@@ -1,14 +1,14 @@
 package com.own.gameengine.test;
 
 
-import com.own.gameengine.coreengine.math.Vector3f;
 import com.own.gameengine.coreengine.scenegraph.GameObject;
 import com.own.gameengine.coreengine.scenegraph.KeyboardRotationComponent;
 import com.own.gameengine.coreengine.scenegraph.KeyboardTranslationComponent;
 import com.own.gameengine.coreengine.scenegraph.MeshRenderComponent;
 import com.own.gameengine.game.Game;
 import com.own.gameengine.inputengine.KeyboardKeys;
-import com.own.gameengine.renderingengine.graphics.Camera;
+import com.own.gameengine.math.Vector3f;
+import com.own.gameengine.renderingengine.cameraengine.Camera;
 import com.own.gameengine.renderingengine.graphics.FrameRate;
 import com.own.gameengine.renderingengine.graphics.Resolution;
 import com.own.gameengine.renderingengine.graphics.WindowSettings;

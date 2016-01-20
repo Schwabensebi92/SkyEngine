@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 import com.own.gameengine.coreengine.scenegraph.SceneGraph;
 import com.own.gameengine.renderingengine.concept.RenderingConcepts;
-import com.own.gameengine.renderingengine.concept.lightmodel.LightModels;
-import com.own.gameengine.renderingengine.graphics.light.Light;
+import com.own.gameengine.renderingengine.lightengine.light.Light;
+import com.own.gameengine.renderingengine.lightengine.lightmodel.LightModels;
 
 
 public class RenderingEngine {

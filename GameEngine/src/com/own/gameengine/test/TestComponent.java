@@ -1,11 +1,11 @@
 package com.own.gameengine.test;
 
 
-import com.own.gameengine.coreengine.math.Quaternion;
 import com.own.gameengine.coreengine.scenegraph.GameComponent;
 import com.own.gameengine.inputengine.*;
+import com.own.gameengine.math.Quaternion;
 import com.own.gameengine.renderingengine.concept.RenderingConcept;
-import com.own.gameengine.renderingengine.graphics.Transform;
+import com.own.gameengine.renderingengine.graphics.object.Transform;
 
 
 public class TestComponent extends GameComponent {

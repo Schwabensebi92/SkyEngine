@@ -8,8 +8,8 @@ import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
-import com.own.gameengine.coreengine.math.Vector3f;
 import com.own.gameengine.debug.Debug;
+import com.own.gameengine.math.Vector3f;
 
 
 public class OpenGL {

@@ -1,8 +1,10 @@
 package com.own.gameengine.renderingengine.concept.pipeline;
 
+import com.own.gameengine.renderingengine.cameraengine.Camera;
 import com.own.gameengine.renderingengine.graphics.*;
-import com.own.gameengine.renderingengine.graphics.light.PointLight;
 import com.own.gameengine.renderingengine.graphics.object.Material;
+import com.own.gameengine.renderingengine.graphics.object.Transform;
+import com.own.gameengine.renderingengine.lightengine.light.PointLight;
 
 public class Legacy_ForwardPointShader extends Legacy_ForwardLightPipeline<PointLight> {
 

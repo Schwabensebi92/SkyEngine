@@ -3,8 +3,8 @@ package com.own.gameengine.test;
 
 import com.own.gameengine.coreengine.scenegraph.GameComponent;
 import com.own.gameengine.inputengine.*;
+import com.own.gameengine.renderingengine.cameraengine.Camera;
 import com.own.gameengine.renderingengine.concept.RenderingConcept;
-import com.own.gameengine.renderingengine.graphics.Camera;
 
 
 public class CameraActivationComponent extends GameComponent {

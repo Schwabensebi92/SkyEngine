@@ -1,7 +1,7 @@
 package com.own.gameengine.renderingengine.concept.pipeline;
 
 
-import com.own.gameengine.renderingengine.graphics.light.Light;
+import com.own.gameengine.renderingengine.lightengine.light.Light;
 
 
 public abstract class Legacy_ForwardLightPipeline<LightType extends Light> extends Legacy_RenderingPipeline {

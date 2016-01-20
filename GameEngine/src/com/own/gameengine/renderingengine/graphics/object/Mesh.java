@@ -19,7 +19,7 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 import java.io.IOException;
 
-import com.own.gameengine.coreengine.math.Vector3f;
+import com.own.gameengine.math.Vector3f;
 import com.own.gameengine.renderingengine.RenderingEngineUtil;
 import com.own.gameengine.resource.MeshFileType;
 import com.own.gameengine.resource.MeshLoader;

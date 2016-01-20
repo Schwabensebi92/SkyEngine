@@ -5,13 +5,14 @@ import static org.lwjgl.opengl.GL20.*;
 
 import java.util.HashMap;
 
-import com.own.gameengine.coreengine.math.Vector3f;
-import com.own.gameengine.coreengine.math.matrix.Matrix4f;
+import com.own.gameengine.math.Vector3f;
+import com.own.gameengine.math.matrix.Matrix4f;
 import com.own.gameengine.renderingengine.*;
+import com.own.gameengine.renderingengine.cameraengine.Camera;
 import com.own.gameengine.renderingengine.concept.shader.Shader;
 import com.own.gameengine.renderingengine.graphics.*;
-import com.own.gameengine.renderingengine.graphics.light.*;
 import com.own.gameengine.renderingengine.graphics.object.*;
+import com.own.gameengine.renderingengine.lightengine.light.*;
 
 
 public abstract class Legacy_RenderingPipeline {

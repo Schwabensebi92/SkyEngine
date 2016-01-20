@@ -1,24 +1,31 @@
 package com.own.gameengine.renderingengine.concept.shader;
 
 
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
+import static org.lwjgl.opengl.GL20.glCompileShader;
+import static org.lwjgl.opengl.GL20.glCreateShader;
+import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
+import static org.lwjgl.opengl.GL20.glGetShaderi;
+import static org.lwjgl.opengl.GL20.glShaderSource;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import com.own.gameengine.renderingengine.concept.shader.uniform.Uniform;
-import com.own.gameengine.resource.*;
+import com.own.gameengine.resource.ShaderLinker;
+import com.own.gameengine.resource.ShaderLoader;
+import com.own.gameengine.resource.ShaderParser;
 
 
 public abstract class Shader {
 	
-	private int					identifier;
-	private final Shaders		type;
-	private String				rawSourceCode;
-	private String				linkedSourceCode;
-	private ArrayList<Uniform>	uniforms;
-	private boolean				parsed;
-	private boolean				compiled;
+	private int						identifier;
+	private final Shaders			type;
+	private String					rawSourceCode;
+	private String					linkedSourceCode;
+	private ArrayList<Uniform<?>>	uniforms;
+	private boolean					parsed;
+	private boolean					compiled;
 	
 	public Shader(final Shaders type, final String fileName) {
 		this(type);
@@ -37,9 +44,9 @@ public abstract class Shader {
 	
 	public void load(final String fileName) {
 		try {
-			String shaderFileContent = ShaderLoader.loadShader(fileName);
-			rawSourceCode = ShaderLinker.link(shaderFileContent);
-			uniforms = ShaderParser.parse(shaderFileContent);
+			rawSourceCode = ShaderLoader.loadShader(fileName);
+			linkedSourceCode = ShaderLinker.link(rawSourceCode);
+			uniforms = ShaderParser.parse(linkedSourceCode);
 			parsed = true;
 			compiled = false;
 		} catch (IOException e) {
@@ -75,7 +82,7 @@ public abstract class Shader {
 		return identifier;
 	}
 	
-	public ArrayList<Uniform> getUniforms() {
+	public ArrayList<Uniform<?>> getUniforms() {
 		return uniforms;
 	}
 	

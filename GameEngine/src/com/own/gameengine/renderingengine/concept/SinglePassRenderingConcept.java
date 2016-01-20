@@ -4,13 +4,13 @@ package com.own.gameengine.renderingengine.concept;
 import java.util.ArrayList;
 
 import com.own.gameengine.coreengine.scenegraph.GameComponent;
+import com.own.gameengine.renderingengine.cameraengine.Camera;
 import com.own.gameengine.renderingengine.concept.shader.OpenGLProgram;
 import com.own.gameengine.renderingengine.concept.shader.singlepass.SinglePassNoFragmentShader;
 import com.own.gameengine.renderingengine.concept.shader.singlepass.SinglePassNoVertexShader;
-import com.own.gameengine.renderingengine.graphics.Camera;
-import com.own.gameengine.renderingengine.graphics.Transform;
 import com.own.gameengine.renderingengine.graphics.object.Material;
 import com.own.gameengine.renderingengine.graphics.object.Mesh;
+import com.own.gameengine.renderingengine.graphics.object.Transform;
 
 
 public class SinglePassRenderingConcept extends RenderingConcept {

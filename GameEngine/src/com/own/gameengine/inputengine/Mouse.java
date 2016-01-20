@@ -7,7 +7,7 @@ import java.nio.DoubleBuffer;
 
 import org.lwjgl.BufferUtils;
 
-import com.own.gameengine.coreengine.math.Vector2f;
+import com.own.gameengine.math.Vector2f;
 
 
 public class Mouse extends InputDevice {

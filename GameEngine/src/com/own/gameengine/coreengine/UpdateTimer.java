@@ -1,6 +1,6 @@
 package com.own.gameengine.coreengine;
 
-import com.own.gameengine.physicsengine.physics.Time;
+import com.own.gameengine.physicsengine.timingengine.Time;
 
 public class UpdateTimer {
 

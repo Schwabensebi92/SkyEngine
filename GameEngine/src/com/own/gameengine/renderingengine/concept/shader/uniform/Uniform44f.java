@@ -3,7 +3,7 @@ package com.own.gameengine.renderingengine.concept.shader.uniform;
 
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
-import com.own.gameengine.coreengine.math.matrix.Matrix4f;
+import com.own.gameengine.math.matrix.Matrix4f;
 import com.own.gameengine.renderingengine.RenderingEngineUtil;
 
 

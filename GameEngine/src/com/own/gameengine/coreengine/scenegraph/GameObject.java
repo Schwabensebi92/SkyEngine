@@ -3,7 +3,7 @@ package com.own.gameengine.coreengine.scenegraph;
 
 import java.util.ArrayList;
 
-import com.own.gameengine.renderingengine.graphics.Transform;
+import com.own.gameengine.renderingengine.graphics.object.Transform;
 
 
 public class GameObject {

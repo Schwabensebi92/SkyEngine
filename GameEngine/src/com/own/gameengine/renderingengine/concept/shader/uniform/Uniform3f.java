@@ -3,7 +3,7 @@ package com.own.gameengine.renderingengine.concept.shader.uniform;
 
 import static org.lwjgl.opengl.GL20.glUniform3f;
 
-import com.own.gameengine.coreengine.math.Vector3f;
+import com.own.gameengine.math.Vector3f;
 
 
 public class Uniform3f extends Uniform<Vector3f> {

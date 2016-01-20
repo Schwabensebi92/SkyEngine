@@ -1,10 +1,10 @@
 package com.own.gameengine.renderingengine.concept.shader.uniform;
 
 
-import com.own.gameengine.renderingengine.graphics.light.AmbientLight;
-import com.own.gameengine.renderingengine.graphics.light.DirectionalLight;
-import com.own.gameengine.renderingengine.graphics.light.PointLight;
-import com.own.gameengine.renderingengine.graphics.light.SpotLight;
+import com.own.gameengine.renderingengine.lightengine.light.AmbientLight;
+import com.own.gameengine.renderingengine.lightengine.light.DirectionalLight;
+import com.own.gameengine.renderingengine.lightengine.light.PointLight;
+import com.own.gameengine.renderingengine.lightengine.light.SpotLight;
 
 
 public abstract class Uniform<Type> {

@@ -1,6 +1,6 @@
 package com.own.gameengine.coreengine;
 
-import com.own.gameengine.physicsengine.physics.Timekeeper;
+import com.own.gameengine.physicsengine.timingengine.Timekeeper;
 
 public class FPSCounter {
 

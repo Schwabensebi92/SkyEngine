@@ -1,7 +1,7 @@
 package com.own.gameengine.temp;
 
 
-import com.own.gameengine.coreengine.math.*;
+import com.own.gameengine.math.*;
 import com.own.gameengine.renderingengine.graphics.object.*;
 
 

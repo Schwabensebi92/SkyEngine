@@ -3,8 +3,8 @@ package com.own.gameengine.coreengine.scenegraph;
 
 import com.own.gameengine.coreengine.*;
 import com.own.gameengine.inputengine.*;
+import com.own.gameengine.renderingengine.cameraengine.CameraEngine;
 import com.own.gameengine.renderingengine.concept.RenderingConcept;
-import com.own.gameengine.renderingengine.graphics.CameraEngine;
 import com.own.gameengine.renderingengine.graphics.object.*;
 
 

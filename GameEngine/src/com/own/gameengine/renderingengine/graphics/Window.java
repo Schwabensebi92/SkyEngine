@@ -9,7 +9,7 @@ import java.nio.ByteBuffer;
 
 import org.lwjgl.glfw.GLFWvidmode;
 
-import com.own.gameengine.coreengine.math.Vector2f;
+import com.own.gameengine.math.Vector2f;
 
 
 public class Window {

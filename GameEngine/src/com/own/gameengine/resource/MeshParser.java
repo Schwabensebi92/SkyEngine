@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 
-import com.own.gameengine.coreengine.math.Vector3f;
+import com.own.gameengine.math.Vector3f;
 import com.own.gameengine.renderingengine.RenderingEngineUtil;
 import com.own.gameengine.renderingengine.graphics.object.Mesh;
 import com.own.gameengine.renderingengine.graphics.object.Vertex;

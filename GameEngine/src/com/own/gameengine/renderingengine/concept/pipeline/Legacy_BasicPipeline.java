@@ -1,9 +1,11 @@
 package com.own.gameengine.renderingengine.concept.pipeline;
 
 
+import com.own.gameengine.renderingengine.cameraengine.Camera;
 import com.own.gameengine.renderingengine.concept.shader.*;
 import com.own.gameengine.renderingengine.graphics.*;
 import com.own.gameengine.renderingengine.graphics.object.Material;
+import com.own.gameengine.renderingengine.graphics.object.Transform;
 
 
 public class Legacy_BasicPipeline extends Legacy_RenderingPipeline {

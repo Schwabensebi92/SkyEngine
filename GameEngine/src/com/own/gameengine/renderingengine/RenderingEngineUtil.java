@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.BufferUtils;
 
-import com.own.gameengine.coreengine.math.matrix.Matrix4f;
+import com.own.gameengine.math.matrix.Matrix4f;
 import com.own.gameengine.renderingengine.graphics.object.Vertex;
 
 

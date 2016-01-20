@@ -2,11 +2,11 @@ package com.own.gameengine.coreengine.scenegraph;
 
 
 import com.own.gameengine.coreengine.*;
-import com.own.gameengine.coreengine.math.CoordinateSystem.CoordinateAxis;
-import com.own.gameengine.coreengine.math.Quaternion;
 import com.own.gameengine.inputengine.*;
+import com.own.gameengine.math.Quaternion;
+import com.own.gameengine.math.CoordinateSystem.CoordinateAxis;
 import com.own.gameengine.renderingengine.concept.RenderingConcept;
-import com.own.gameengine.renderingengine.graphics.Transform;
+import com.own.gameengine.renderingengine.graphics.object.Transform;
 
 
 public class KeyboardRotationComponent extends GameComponent {

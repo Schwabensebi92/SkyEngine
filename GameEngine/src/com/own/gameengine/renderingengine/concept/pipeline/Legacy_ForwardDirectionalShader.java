@@ -1,8 +1,10 @@
 package com.own.gameengine.renderingengine.concept.pipeline;
 
+import com.own.gameengine.renderingengine.cameraengine.Camera;
 import com.own.gameengine.renderingengine.graphics.*;
-import com.own.gameengine.renderingengine.graphics.light.DirectionalLight;
 import com.own.gameengine.renderingengine.graphics.object.Material;
+import com.own.gameengine.renderingengine.graphics.object.Transform;
+import com.own.gameengine.renderingengine.lightengine.light.DirectionalLight;
 
 public class Legacy_ForwardDirectionalShader extends Legacy_ForwardLightPipeline<DirectionalLight> {
 

@@ -1,7 +1,7 @@
 package com.own.gameengine.renderingengine.graphics.projection;
 
 
-import com.own.gameengine.coreengine.math.matrix.*;
+import com.own.gameengine.math.matrix.*;
 
 
 public class PerspectiveProjection extends Projection {

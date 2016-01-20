@@ -1,7 +1,7 @@
 package com.own.gameengine.renderingengine.graphics.object;
 
 
-import com.own.gameengine.coreengine.math.Vector3f;
+import com.own.gameengine.math.Vector3f;
 
 
 public class Material {
