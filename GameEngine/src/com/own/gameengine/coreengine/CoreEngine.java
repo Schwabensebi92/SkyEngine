@@ -7,7 +7,10 @@ import com.own.gameengine.inputengine.InputEngine;
 import com.own.gameengine.physicsengine.timingengine.TimingEngine;
 import com.own.gameengine.renderingengine.RenderingEngine;
 import com.own.gameengine.renderingengine.cameraengine.CameraEngine;
-import com.own.gameengine.renderingengine.graphics.*;
+import com.own.gameengine.renderingengine.graphics.LWJGLLibraryException;
+import com.own.gameengine.renderingengine.graphics.OpenGL;
+import com.own.gameengine.renderingengine.graphics.Window;
+import com.own.gameengine.renderingengine.lightengine.LightEngine;
 
 
 public class CoreEngine {
@@ -16,6 +19,7 @@ public class CoreEngine {
 	private CameraEngine	cameraEngine;
 	private RenderingEngine	renderingEngine;
 	private InputEngine		inputEngine;
+	private LightEngine		lightEngine;
 	
 	private final Game game;
 	
@@ -97,6 +101,11 @@ public class CoreEngine {
 		timingEngine = new TimingEngine();
 		timingEngine.initialize();
 		CoreObjectRegister.set(CoreObject.TIMING_ENGINE, timingEngine);
+		
+		// Initialize LightEngine
+		lightEngine = new LightEngine();
+		lightEngine.initialize();
+		CoreObjectRegister.set(CoreObject.LIGHT_ENGINE, lightEngine);
 		
 		// Initialize CameraEngine
 		cameraEngine = new CameraEngine();
