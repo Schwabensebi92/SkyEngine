@@ -21,61 +21,73 @@ public abstract class Shader {
 	
 	private int						identifier;
 	private final Shaders			type;
+	
+	private String 					fileName;
 	private String					rawSourceCode;
 	private String					linkedSourceCode;
+	
 	private ArrayList<Uniform<?>>	uniforms;
-	private boolean					parsed;
+	
+	private boolean					loaded;
+	private boolean					linked;
 	private boolean					compiled;
 	
 	public Shader(final Shaders type, final String fileName) {
-		this(type);
-		load(fileName);
-		compile();
+		this.type = type;
+		this.fileName = fileName;
+		reset();
 	}
 	
 	public Shader(final Shaders type) {
+		this(type, "");
+	}
+	
+	private void reset() {
 		identifier = 0;
-		this.type = type;
 		rawSourceCode = null;
+		linkedSourceCode = null;
 		uniforms = new ArrayList<>();
-		parsed = false;
+		loaded = false;
+		linked = false;
 		compiled = false;
 	}
 	
-	public void load(final String fileName) {
-		try {
-			rawSourceCode = ShaderLoader.loadShader(fileName);
-			linkedSourceCode = ShaderLinker.link(rawSourceCode);
-			uniforms = ShaderParser.parse(linkedSourceCode);
-			parsed = true;
-			compiled = false;
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
+	public void load() throws Exception { //TODO ShaderLoaderException
+		rawSourceCode = ShaderLoader.loadShader(fileName);
+		loaded = true;
+		linked = false;
+		compiled = false;
 	}
 	
-	public void compile() {
-		try {
-			identifier = glCreateShader(type.getValue());
+	public void link() throws Exception { //TODO ShaderLinkerException
+		linkedSourceCode = ShaderLinker.link(rawSourceCode);
+		linked = true;
+		compiled = false;
+	}
+	
+	public void compile() throws Exception { //TODO ShaderCompilerException	
+		if (linked == false)
+			throw new Exception("Shader creation failed: No GLSL code loaded.");
 			
-			if (identifier == 0)
-				throw new Exception("Shader creation failed: No valid memory location.");
-				
-			if (rawSourceCode == null)
-				throw new Exception("Shader creation failed: No GLSL code loaded.");
-				
-			glShaderSource(identifier, rawSourceCode);
-			glCompileShader(identifier);
+		identifier = glCreateShader(type.getValue());
+		
+		if (identifier == 0)
+			throw new Exception("Shader creation failed: No valid memory location.");
+
+		uniforms = ShaderParser.parse(linkedSourceCode);
+		
+		glShaderSource(identifier, rawSourceCode);
+		glCompileShader(identifier);
+		
+		if (glGetShaderi(identifier, GL_COMPILE_STATUS) == 0)
+			throw new Exception(glGetShaderInfoLog(identifier, 1024));
 			
-			if (glGetShaderi(identifier, GL_COMPILE_STATUS) == 0)
-				throw new Exception(glGetShaderInfoLog(identifier, 1024));
-				
-			compiled = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
+		compiled = true;
+	}
+	
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+		reset();
 	}
 	
 	public int getIdentifier() {
@@ -86,8 +98,12 @@ public abstract class Shader {
 		return uniforms;
 	}
 	
-	public boolean isParsed() {
-		return parsed;
+	public boolean isLoaded() {
+		return loaded;
+	}
+	
+	public boolean isLinked() {
+		return linked;
 	}
 	
 	public boolean isCompiled() {

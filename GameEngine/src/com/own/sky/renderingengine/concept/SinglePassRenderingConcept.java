@@ -20,13 +20,14 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 	
 	private OpenGLProgram program;
 	
-	public SinglePassRenderingConcept() {
+	public SinglePassRenderingConcept() throws Exception {
 		super(RenderingConcepts.SINGLE_PASS_RENDERINGCONCEPT);
 		
 		program = new OpenGLProgram();
 		program.addShader(new SinglePassNoVertexShader());
 		program.addShader(new SinglePassNoFragmentShader());
 		
+		program.load();
 		program.compile();
 		
 		// program.addUniform("worldMatrix");
@@ -70,24 +71,18 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 		// }
 	}
 	
-	@Override
-	public void renderMesh(final Transform transform, final Camera camera, final Material material, final Mesh mesh) {
-		updateUniforms(transform, camera, material);
-		mesh.draw();
-	}
-	
 	private void updateUniforms(final Transform transform, final Camera camera, final Material material) {
 		// program.setUniform("worldMatrix", transform.getWorldMatrix());
-		program.setUniform("worldViewProjectionMatrix", transform.getWorldViewProjectionMatrix(camera));
-		
-		program.setUniform("baseColor", material.getColor());
-		
-		if (material.getTexture() != null) {
-			material.getTexture().bind();
-			program.setUniformi("useTexture", 1);
-		} else {
-			program.setUniformi("useTexture", 0);
-		}
+//		program.setUniform("worldViewProjectionMatrix", transform.getWorldViewProjectionMatrix(camera));
+//		
+//		program.setUniform("baseColor", material.getColor());
+//		
+//		if (material.getTexture() != null) {
+//			material.getTexture().bind();
+//			program.setUniformi("useTexture", 1);
+//		} else {
+//			program.setUniformi("useTexture", 0);
+//		}
 		
 		// program.setUniform("eyePosition", camera.getGameObject().getTransform().getTranslation());
 		//
@@ -117,5 +112,27 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 			program.bind();
 			renderableGameComponent.render(this);
 		}
+	}
+	
+	@Override
+	public void renderMesh(final Transform transform, final Camera camera, final Material material, final Mesh mesh) {
+		updateUniforms(transform, camera, material);
+		mesh.draw();
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void link() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void compile() {
 	}
 }

@@ -54,7 +54,7 @@ public class CoreEngine {
 	private void runScheduler() {
 		try {
 			initialize();
-		} catch (final LWJGLLibraryException e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 			stop();
 		}
@@ -80,7 +80,12 @@ public class CoreEngine {
 			}
 			
 			if (coreTiming.didFrame()) {
-				render();
+				try {
+					render();
+				} catch (Exception e) {
+					e.printStackTrace();
+					stop();
+				}
 				if (window.isCloseRequested()) {
 					CoreFlagRegister.set(CoreFlag.CORE_ENGINE_STOP_REQUEST);
 				}
@@ -93,7 +98,7 @@ public class CoreEngine {
 		cleanUp();
 	}
 	
-	private void initialize() throws LWJGLLibraryException {
+	private void initialize() throws Exception {
 		// Initialization order is very important
 		// ProgramContext.setIcon("icon.jpg"); // TODO Correct Implementation
 		
@@ -147,7 +152,7 @@ public class CoreEngine {
 		game.update();
 	}
 	
-	private void render() {
+	private void render() throws Exception {
 		OpenGL.clearScreen();
 		renderingEngine.run(game.getSceneGraph());
 		window.refresh();

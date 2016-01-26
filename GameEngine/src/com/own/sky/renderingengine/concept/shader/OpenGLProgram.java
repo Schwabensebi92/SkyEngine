@@ -12,9 +12,12 @@ import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL20.glValidateProgram;
+import static org.lwjgl.opengl.GL20.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.jws.soap.SOAPBinding;
 
 import com.own.sky.renderingengine.concept.shader.uniform.Uniform;
 
@@ -27,17 +30,17 @@ public class OpenGLProgram {
 	
 	private int							identifier;
 	private ArrayList<Shader>			shaders;
-	private HashMap<String, Uniform>	uniforms;
+	private ArrayList<Uniform<?>>	uniforms;
 	
 	public OpenGLProgram() {
 		try {
 			identifier = glCreateProgram();
-			uniforms = new HashMap();
+			uniforms = new ArrayList<>();
 			
 			if (identifier == 0)
 				throw new Exception("OpenGLProgram creation failed: No valid memory location.");
 				
-			shaders = new ArrayList();
+			shaders = new ArrayList<>();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -61,39 +64,52 @@ public class OpenGLProgram {
 		glBindAttribLocation(identifier, location, attributeName);
 	}
 	
-	public void addShader(final Shader shader) throws Exception {
+	public void addShader(final Shader shader) {
 		shaders.add(shader);
-		for (Uniform uniform : shader.getUniforms()) {
-			if (uniforms.containsKey(uniform.getIdentifier()))
-				throw new Exception("Duplicate uniform declaration: Uniform " + uniform.getIdentifier() + " in shader "
-						+ shader.getIdentifier() + " already was declared.");
-			else {
-				uniforms.put(uniform.getIdentifier(), uniform);
-			}
-		}
 		glAttachShader(identifier, shader.getIdentifier());
 	}
 	
-	public void compile() {
+	public void removeShader(Shader shader) {
+		shaders.remove(shader);
+		glDetachShader(identifier, shader.getIdentifier());
+	}
+	
+	public void load() throws Exception { //TODO ShaderLoaderException
+		for (Shader shader : shaders) {
+			shader.load();
+		}
+	}
+	
+	public void link() throws Exception { //TODO ShaderLinkerException
+		for (Shader shader : shaders) {
+			shader.link();
+		}
+	}
+	
+	public void compile() throws Exception { //TODO ShaderCompilerException
 		for (Shader shader : shaders) {
 			if (!shader.isCompiled()) {
 				shader.compile();
 			}
+			
+			for (Uniform<?> uniform : shader.getUniforms()) {
+				if (uniforms.contains(uniform))
+					throw new Exception("Duplicate uniform declaration: Uniform " + uniform.getIdentifier() + " in shader "
+							+ shader.getIdentifier() + " already was declared.");
+				else {
+					uniforms.add(uniform);
+				}
+			}
 		}
+
+		glLinkProgram(identifier);
 		
-		try {
-			glLinkProgram(identifier);
+		if (glGetProgrami(identifier, GL_LINK_STATUS) == 0)
+			throw new Exception(glGetProgramInfoLog(identifier, 1024));
 			
-			if (glGetProgrami(identifier, GL_LINK_STATUS) == 0)
-				throw new Exception(glGetProgramInfoLog(identifier, 1024));
-				
-			glValidateProgram(identifier);
-			
-			if (glGetProgrami(identifier, GL_VALIDATE_STATUS) == 0)
-				throw new Exception(glGetProgramInfoLog(identifier, 1024));
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
+		glValidateProgram(identifier);
+		
+		if (glGetProgrami(identifier, GL_VALIDATE_STATUS) == 0)
+			throw new Exception(glGetProgramInfoLog(identifier, 1024));
 	}
 }

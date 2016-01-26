@@ -20,7 +20,7 @@ public class RenderingEngine {
 		// TODO Do some meaningful stuff
 	}
 	
-	public void initialize() {
+	public void initialize() throws Exception {
 		renderingConcept.getRenderingConcept();
 		lightModel.getLightModel();
 	}
@@ -29,7 +29,7 @@ public class RenderingEngine {
 	
 	}
 	
-	public void run(final SceneGraph sceneGraph) {
+	public void run(final SceneGraph sceneGraph) throws Exception {
 		renderingConcept.getRenderingConcept().render(sceneGraph.collectGameComponentsRenderEnabled());
 	}
 	

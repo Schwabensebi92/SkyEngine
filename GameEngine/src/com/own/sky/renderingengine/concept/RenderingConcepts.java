@@ -10,7 +10,7 @@ public enum RenderingConcepts {
 	
 	private RenderingConcept renderingConcept;
 	
-	public RenderingConcept getRenderingConcept() {
+	public RenderingConcept getRenderingConcept() throws Exception {
 		if (renderingConcept != null)
 			return renderingConcept;
 			
