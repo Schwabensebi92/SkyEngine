@@ -6,11 +6,8 @@ import java.util.ArrayList;
 import com.own.sky.coreengine.scenegraph.GameComponent;
 import com.own.sky.renderingengine.cameraengine.Camera;
 import com.own.sky.renderingengine.concept.shader.OpenGLProgram;
-import com.own.sky.renderingengine.concept.shader.singlepass.SinglePassNoFragmentShader;
-import com.own.sky.renderingengine.concept.shader.singlepass.SinglePassNoVertexShader;
-import com.own.sky.renderingengine.graphics.object.Material;
-import com.own.sky.renderingengine.graphics.object.Mesh;
-import com.own.sky.renderingengine.graphics.object.Transform;
+import com.own.sky.renderingengine.concept.shader.singlepass.*;
+import com.own.sky.renderingengine.graphics.object.*;
 
 
 public class SinglePassRenderingConcept extends RenderingConcept {
@@ -26,9 +23,6 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 		program = new OpenGLProgram();
 		program.addShader(new SinglePassNoVertexShader());
 		program.addShader(new SinglePassNoFragmentShader());
-		
-		program.load();
-		program.compile();
 		
 		// program.addUniform("worldMatrix");
 		program.getUniformLocation("worldViewProjectionMatrix");
@@ -71,41 +65,6 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 		// }
 	}
 	
-	private void updateUniforms(final Transform transform, final Camera camera, final Material material) {
-		// program.setUniform("worldMatrix", transform.getWorldMatrix());
-//		program.setUniform("worldViewProjectionMatrix", transform.getWorldViewProjectionMatrix(camera));
-//		
-//		program.setUniform("baseColor", material.getColor());
-//		
-//		if (material.getTexture() != null) {
-//			material.getTexture().bind();
-//			program.setUniformi("useTexture", 1);
-//		} else {
-//			program.setUniformi("useTexture", 0);
-//		}
-		
-		// program.setUniform("eyePosition", camera.getGameObject().getTransform().getTranslation());
-		//
-		// if (ambientLight != null) {
-		// program.setUniform("ambientLight", ambientLight);
-		// }
-		//
-		// program.setUniformf("specularIntensity", material.getSpecularIntensity());
-		// program.setUniformf("specularExponent", material.getSpecularExponent());
-		//
-		// if (directionalLight != null) {
-		// program.setUniform("directionalLight", directionalLight);
-		// }
-		//
-		// for (int i = 0; i < Math.min(pointLights.length, RENDERING_CONCEPT_SINGLE_MAX_POINT_LIGHTS); i++) {
-		// program.setUniform("pointLights[" + i + "]", pointLights[i]);
-		// }
-		//
-		// for (int i = 0; i < Math.min(spotLights.length, RENDERING_CONCEPT_SINGLE_MAX_SPOT_LIGHTS); i++) {
-		// program.setUniform("spotLights[" + i + "]", spotLights[i]);
-		// }
-	}
-	
 	@Override
 	public void render(final ArrayList<GameComponent> renderableGameComponents) {
 		for (GameComponent renderableGameComponent : renderableGameComponents) {
@@ -119,20 +78,60 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 		updateUniforms(transform, camera, material);
 		mesh.draw();
 	}
-
+	
+	// public void updateUniforms(final Transform transform, final Camera camera, final Material material) {
+	// program.setUniform("worldMatrix", transform.getWorldMatrix());
+	// program.setUniform("worldViewProjectionMatrix", transform.getWorldViewProjectionMatrix(camera));
+	//
+	// program.setUniform("baseColor", material.getColor());
+	//
+	// if (material.getTexture() != null) {
+	// material.getTexture().bind();
+	// program.setUniformi("useTexture", 1);
+	// } else {
+	// program.setUniformi("useTexture", 0);
+	// }
+	
+	// program.setUniform("eyePosition", camera.getGameObject().getTransform().getTranslation());
+	//
+	// if (ambientLight != null) {
+	// program.setUniform("ambientLight", ambientLight);
+	// }
+	//
+	// program.setUniformf("specularIntensity", material.getSpecularIntensity());
+	// program.setUniformf("specularExponent", material.getSpecularExponent());
+	//
+	// if (directionalLight != null) {
+	// program.setUniform("directionalLight", directionalLight);
+	// }
+	//
+	// for (int i = 0; i < Math.min(pointLights.length, RENDERING_CONCEPT_SINGLE_MAX_POINT_LIGHTS); i++) {
+	// program.setUniform("pointLights[" + i + "]", pointLights[i]);
+	// }
+	//
+	// for (int i = 0; i < Math.min(spotLights.length, RENDERING_CONCEPT_SINGLE_MAX_SPOT_LIGHTS); i++) {
+	// program.setUniform("spotLights[" + i + "]", spotLights[i]);
+	// }
+	// }
+	
 	@Override
-	public void load() {
+	public void updateCustomUniforms(final Transform transform, final Camera camera, final Material material) {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
-	public void link() {
-		// TODO Auto-generated method stub
-		
+	public void load() throws Exception {
+		program.load();
 	}
-
+	
 	@Override
-	public void compile() {
+	public void link() throws Exception {
+		program.link();
+	}
+	
+	@Override
+	public void compile() throws Exception {
+		program.compile();
 	}
 }
