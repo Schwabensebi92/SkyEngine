@@ -25,10 +25,10 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 		program.addShader(new SinglePassNoFragmentShader());
 		
 		// program.addUniform("worldMatrix");
-		program.getUniformLocation("worldViewProjectionMatrix");
+		// program.getUniformLocation("worldViewProjectionMatrix");
 		
-		program.getUniformLocation("baseColor");
-		program.getUniformLocation("useTexture");
+		// program.getUniformLocation("baseColor");
+		// program.getUniformLocation("useTexture");
 		
 		// program.addUniform("eyePosition");
 		//
@@ -116,8 +116,7 @@ public class SinglePassRenderingConcept extends RenderingConcept {
 	
 	@Override
 	public void updateCustomUniforms(final Transform transform, final Camera camera, final Material material) {
-		// TODO Auto-generated method stub
-		
+	
 	}
 	
 	@Override

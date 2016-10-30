@@ -1,40 +1,34 @@
 package com.own.sky.renderingengine.concept.shader;
 
 
-import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
-import static org.lwjgl.opengl.GL20.glCompileShader;
-import static org.lwjgl.opengl.GL20.glCreateShader;
-import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
-import static org.lwjgl.opengl.GL20.glGetShaderi;
-import static org.lwjgl.opengl.GL20.glShaderSource;
+import static org.lwjgl.opengl.GL20.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.own.sky.renderingengine.concept.shader.uniform.Uniform;
-import com.own.sky.resource.ShaderLinker;
-import com.own.sky.resource.ShaderLoader;
-import com.own.sky.resource.ShaderParser;
+import com.own.sky.resource.*;
 
 
 public abstract class Shader {
 	
-	private int						identifier;
-	private final Shaders			type;
+	private int				identifier;
+	private final Shaders	type;
 	
-	private String 					fileName;
-	private String					rawSourceCode;
-	private String					linkedSourceCode;
+	private String	fileName;
+	private String	rawSourceCode;
+	private String	linkedSourceCode;
 	
-	private ArrayList<Uniform<?>>	uniforms;
+	private ArrayList<Uniform<?>> uniforms;
 	
-	private boolean					loaded;
-	private boolean					linked;
-	private boolean					compiled;
+	private boolean	created;
+	private boolean	loaded;
+	private boolean	linked;
+	private boolean	compiled;
 	
 	public Shader(final Shaders type, final String fileName) {
 		this.type = type;
 		this.fileName = fileName;
+		created = false;
 		reset();
 	}
 	
@@ -43,7 +37,8 @@ public abstract class Shader {
 	}
 	
 	private void reset() {
-		identifier = 0;
+		delete();
+		create();
 		rawSourceCode = null;
 		linkedSourceCode = null;
 		uniforms = new ArrayList<>();
@@ -52,40 +47,53 @@ public abstract class Shader {
 		compiled = false;
 	}
 	
-	public void load() throws Exception { //TODO ShaderLoaderException
+	private void create() {
+		if (false == isCreated()) {
+			identifier = glCreateShader(type.getValue());
+			created = true;
+		}
+	}
+	
+	private void delete() {
+		if (true == isCreated()) {
+			glDeleteShader(identifier);
+			identifier = 0;
+			created = false;
+		}
+	}
+	
+	public void load() throws Exception { // TODO ShaderLoaderException
 		rawSourceCode = ShaderLoader.loadShader(fileName);
 		loaded = true;
 		linked = false;
 		compiled = false;
 	}
 	
-	public void link() throws Exception { //TODO ShaderLinkerException
+	public void link() throws Exception { // TODO ShaderLinkerException
 		linkedSourceCode = ShaderLinker.link(rawSourceCode);
 		linked = true;
 		compiled = false;
 	}
 	
-	public void compile() throws Exception { //TODO ShaderCompilerException	
-		if (linked == false)
+	public void compile() throws Exception { // TODO ShaderCompilerException
+		if (false == linked)
 			throw new Exception("Shader creation failed: No GLSL code loaded.");
 			
-		identifier = glCreateShader(type.getValue());
-		
-		if (identifier == 0)
+		if (0 == identifier)
 			throw new Exception("Shader creation failed: No valid memory location.");
-
+			
 		uniforms = ShaderParser.parse(linkedSourceCode);
 		
 		glShaderSource(identifier, rawSourceCode);
 		glCompileShader(identifier);
 		
-		if (glGetShaderi(identifier, GL_COMPILE_STATUS) == 0)
+		if (0 == glGetShaderi(identifier, GL_COMPILE_STATUS))
 			throw new Exception(glGetShaderInfoLog(identifier, 1024));
 			
 		compiled = true;
 	}
 	
-	public void setFileName(String fileName) {
+	public void setFileName(final String fileName) {
 		this.fileName = fileName;
 		reset();
 	}
@@ -96,6 +104,10 @@ public abstract class Shader {
 	
 	public ArrayList<Uniform<?>> getUniforms() {
 		return uniforms;
+	}
+	
+	public boolean isCreated() {
+		return created;
 	}
 	
 	public boolean isLoaded() {

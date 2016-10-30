@@ -29,7 +29,7 @@ public abstract class RenderingConcept {
 	}
 	
 	public void updateAutomaticUniforms(final Transform transform, final Camera camera, final Material material) {
-		throw new RuntimeException("Not implemented yet!");
+		// throw new RuntimeException("Not implemented yet!");
 	}
 	
 	public abstract void updateCustomUniforms(Transform transform, Camera camera, Material material);

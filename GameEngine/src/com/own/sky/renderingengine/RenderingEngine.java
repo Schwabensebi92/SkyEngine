@@ -22,6 +22,9 @@ public class RenderingEngine {
 	
 	public void initialize() throws Exception {
 		renderingConcept.getRenderingConcept();
+		renderingConcept.getRenderingConcept().load();
+		renderingConcept.getRenderingConcept().link();
+		renderingConcept.getRenderingConcept().compile();
 		lightModel.getLightModel();
 	}
 	
